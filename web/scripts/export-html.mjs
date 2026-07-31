@@ -124,17 +124,36 @@ for (const [i, route] of ROUTES.entries()) {
 
   try {
     await page.goto(`${BASE}${route}`, { waitUntil: 'load', timeout: 60000 })
-    // Let React paint and lazy images resolve their src.
+    // Let React paint before touching anything.
     await page.waitForTimeout(1200)
+
     await page.evaluate(async () => {
+      const pause = (ms) => new Promise((r) => setTimeout(r, ms))
+
       // Force every lazy image to load so the static file isn't blank.
       document.querySelectorAll('img[loading="lazy"]').forEach((el) => {
         el.setAttribute('loading', 'eager')
       })
-      await new Promise((r) => setTimeout(r, 400))
+
+      // Walk the full height so the scroll-reveal IntersectionObserver fires
+      // for content below the fold. Without this only the first screen ever
+      // gets its .is-visible class, and everything else exports at opacity 0.
+      for (let y = 0; y < document.body.scrollHeight; y += window.innerHeight) {
+        window.scrollTo(0, y)
+        await pause(120)
+      }
+      window.scrollTo(0, 0)
+      await pause(400)
     })
 
     const { full, fragment } = await page.evaluate((routeMap) => {
+      // Pin every reveal to its finished state. Scrolling above should have
+      // done this, but the observer is about to disappear with the bundle, so
+      // anything it missed would be stuck invisible forever.
+      document.querySelectorAll('.reveal, .reveal-image').forEach((el) => {
+        el.classList.add('is-visible')
+      })
+
       // Drop the SPA bundle — these pages are static from here on.
       document.querySelectorAll('script').forEach((s) => s.remove())
 
