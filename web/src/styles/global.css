@@ -228,8 +228,10 @@ ul {
 }
 
 .section-title {
-  font-size: clamp(2rem, 3.6vw, 3rem);
-  max-width: 22ch;
+  font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  max-width: 28ch;
 }
 
 .section-navy .section-title,
@@ -245,9 +247,10 @@ ul {
 
 .section-lead {
   margin-top: var(--space-2);
-  font-size: 1.0625rem;
+  font-size: 1rem;
+  line-height: 1.7;
   color: var(--text-muted);
-  max-width: 60ch;
+  max-width: 66ch;
 }
 
 .section-navy .section-lead {
@@ -656,12 +659,15 @@ ul {
 
 /* -- Business unit strip ------------------------------------- */
 
+/* Items share the row evenly and align to the header's content width, so the
+   first sits flush left and Tax lands flush right. */
 .biz-strip {
+  width: min(100% - clamp(2.5rem, 6vw, 5rem), var(--layout-content));
+  margin-inline: auto;
   height: var(--biz-strip-h);
   flex: none;
   display: flex;
   align-items: stretch;
-  justify-content: center;
   border-top: 1px solid rgba(255, 255, 255, 0.16);
   transition: border-color var(--duration-base) var(--ease-out);
   overflow-x: auto;
@@ -673,9 +679,11 @@ ul {
 }
 
 .biz-strip a {
+  flex: 1 1 auto;
   display: inline-flex;
   align-items: center;
-  padding: 0 clamp(12px, 1.6vw, 24px);
+  justify-content: center;
+  padding: 0 clamp(8px, 1.1vw, 16px);
   border-left: 1px solid rgba(255, 255, 255, 0.16);
   font-family: var(--font-display);
   font-size: 0.8125rem;
@@ -807,16 +815,19 @@ ul {
 
 .hero h1 {
   color: #fff;
-  font-size: clamp(2.5rem, 5.4vw, 4.5rem);
+  font-size: clamp(1.875rem, 3.6vw, 3.25rem);
   font-weight: 800;
-  max-width: 17ch;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  max-width: 20ch;
 }
 
 .hero-lead {
   margin-top: var(--space-3);
-  font-size: clamp(1rem, 1.4vw, 1.1875rem);
+  font-size: clamp(0.9375rem, 1.15vw, 1.0625rem);
+  line-height: 1.75;
   color: var(--text-inverse-soft);
-  max-width: 56ch;
+  max-width: 62ch;
 }
 
 .hero-actions {
@@ -1094,28 +1105,53 @@ ul {
   opacity: 1;
 }
 
+/* Inline "View Division" pill that slides up with the description on hover.
+   It sits in normal flow inside the card body so long labels never clip. */
 .biz-card .biz-card-arrow {
-  position: absolute;
-  top: var(--space-3);
-  right: var(--space-3);
-  z-index: 2;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  display: grid;
-  place-items: center;
-  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 0;
+  padding: 0 14px;
+  height: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-gold);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-navy);
   opacity: 0;
-  transform: translateY(6px);
+  overflow: hidden;
   transition:
-    opacity var(--duration-base) var(--ease-out),
-    transform var(--duration-base) var(--ease-out);
+    height var(--duration-base) var(--ease-out),
+    margin-top var(--duration-base) var(--ease-out),
+    opacity var(--duration-base) var(--ease-out);
+}
+
+.biz-card .biz-card-arrow span {
+  transition: transform var(--duration-base) var(--ease-out);
 }
 
 .biz-card:hover .biz-card-arrow {
+  height: 34px;
+  margin-top: var(--space-2);
   opacity: 1;
-  transform: none;
+}
+
+.biz-card:hover .biz-card-arrow span {
+  transform: translateX(3px);
+}
+
+/* Touch devices get no hover, so reveal the pill permanently. */
+@media (hover: none), (pointer: coarse) {
+  .biz-card .biz-card-arrow {
+    height: 34px;
+    margin-top: var(--space-2);
+    opacity: 1;
+  }
 }
 
 /* -- Business unit detail sections (homepage) ----------------- */
@@ -1729,6 +1765,67 @@ ul {
   color: var(--color-gold);
 }
 
+/* -- Footer · Get in Touch ------------------------------------ */
+
+.footer-contact-lead {
+  padding: 0 !important;
+  max-width: 34ch;
+  line-height: 1.7;
+}
+
+.footer-col a.footer-contact-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--space-3);
+  width: auto;
+  padding: 12px 22px;
+  text-align: center;
+  color: var(--color-navy);
+}
+
+.footer-col a.footer-contact-cta:hover {
+  color: #fff;
+}
+
+/* Label on the left, value on the right, one channel per row. */
+.footer-contact-list {
+  margin-top: var(--space-4);
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border-inverse);
+}
+
+.footer-contact-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--border-inverse);
+}
+
+.footer-contact-list span {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.footer-contact-list a {
+  padding: 0 !important;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #fff;
+  text-align: right;
+}
+
+.footer-contact-list a:hover {
+  color: var(--color-gold);
+}
+
 .newsletter {
   margin-top: var(--space-2);
   display: flex;
@@ -2150,9 +2247,219 @@ tbody tr:hover {
   pointer-events: none;
 }
 
+/* -- Colour variants ---------------------------------------------
+   Every destination in the nav gets its own background colour so
+   the inner pages stop reading as one identical navy slab. Opt in
+   with data-hero="<key>" on the section, or the `hero` prop on
+   <PageHero>. A variant sets three things:
+     --hero-a       top-left of the diagonal wash
+     --hero-b       bottom-right of the wash
+     --hero-accent  eyebrow, rule and breadcrumb highlight
+   ------------------------------------------------------------------ */
+
+.page-hero[data-hero] {
+  isolation: isolate;
+  background: linear-gradient(148deg, var(--hero-a) 0%, var(--hero-b) 100%);
+}
+
+/* Depth: a soft off-centre glow plus a fine diagonal weave, so the
+   panel has some life without competing with the headline. */
+.page-hero[data-hero]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    radial-gradient(
+      120% 90% at 82% 8%,
+      rgb(var(--hero-glow) / 0.34) 0%,
+      rgb(var(--hero-glow) / 0) 62%
+    ),
+    repeating-linear-gradient(
+      118deg,
+      rgba(255, 255, 255, 0.028) 0 1px,
+      transparent 1px 9px
+    );
+  pointer-events: none;
+}
+
+.page-hero[data-hero]::after {
+  border-color: rgb(var(--hero-glow) / 0.34);
+}
+
+/* --- The variants, one per nav destination --- */
+
+.page-hero[data-hero='about'] {
+  --hero-a: #0d223f;
+  --hero-b: #1c3f6b;
+  --hero-accent: #d9b768;
+  --hero-glow: 201 164 76;
+}
+
+.page-hero[data-hero='divisions'] {
+  --hero-a: #062730;
+  --hero-b: #0e4a54;
+  --hero-accent: #5fd3c4;
+  --hero-glow: 95 211 196;
+}
+
+.page-hero[data-hero='services'] {
+  --hero-a: #101a35;
+  --hero-b: #26356a;
+  --hero-accent: #8fb0f7;
+  --hero-glow: 143 176 247;
+}
+
+.page-hero[data-hero='pricing'] {
+  --hero-a: #1e1508;
+  --hero-b: #4a3210;
+  --hero-accent: #e8ad42;
+  --hero-glow: 232 173 66;
+}
+
+.page-hero[data-hero='contact'] {
+  --hero-a: #0b1f38;
+  --hero-b: #17456d;
+  --hero-accent: #7fd0ff;
+  --hero-glow: 127 208 255;
+}
+
+.page-hero[data-hero='storage'] {
+  --hero-a: #111f2a;
+  --hero-b: #274554;
+  --hero-accent: #a4c9dd;
+  --hero-glow: 164 201 221;
+}
+
+.page-hero[data-hero='international'] {
+  --hero-a: #071d38;
+  --hero-b: #10416f;
+  --hero-accent: #6cb4ec;
+  --hero-glow: 108 180 236;
+}
+
+.page-hero[data-hero='capital'] {
+  --hero-a: #14102a;
+  --hero-b: #322357;
+  --hero-accent: #c2aae8;
+  --hero-glow: 194 170 232;
+}
+
+.page-hero[data-hero='investor'] {
+  --hero-a: #0c1b2b;
+  --hero-b: #1e4152;
+  --hero-accent: #d9b768;
+  --hero-glow: 201 164 76;
+}
+
+.page-hero[data-hero='sustainability'] {
+  --hero-a: #05231a;
+  --hero-b: #12513a;
+  --hero-accent: #79e8ae;
+  --hero-glow: 121 232 174;
+}
+
+.page-hero[data-hero='stories'] {
+  --hero-a: #1d1024;
+  --hero-b: #452446;
+  --hero-accent: #eaa9c8;
+  --hero-glow: 234 169 200;
+}
+
+.page-hero[data-hero='news'] {
+  --hero-a: #0f1b2d;
+  --hero-b: #223a5b;
+  --hero-accent: #aac4e4;
+  --hero-glow: 170 196 228;
+}
+
+.page-hero[data-hero='subholding'] {
+  --hero-a: #08202e;
+  --hero-b: #114654;
+  --hero-accent: #6cccd1;
+  --hero-glow: 108 204 209;
+}
+
+.page-hero[data-hero='profile'] {
+  --hero-a: #1a1a22;
+  --hero-b: #383845;
+  --hero-accent: #d9b768;
+  --hero-glow: 201 164 76;
+}
+
+/* -- Layout of the hero copy -------------------------------------
+   Breadcrumb sits on its own rule at the top; the eyebrow, title
+   and lead form one left-aligned block with a fixed rhythm, so the
+   heading never floats loose from the text under it.
+   ------------------------------------------------------------------ */
+
+.page-hero-inner {
+  display: flex;
+  flex-direction: column;
+}
+
+.page-hero-copy {
+  max-width: 58ch;
+}
+
+.page-hero-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--hero-accent, var(--color-gold));
+}
+
+/* Short rule trailing the eyebrow, tying it to the page colour. */
+.page-hero-label::after {
+  content: '';
+  flex: 0 0 auto;
+  width: clamp(28px, 5vw, 56px);
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+.page-hero-copy h1 {
+  margin: 0;
+  max-width: 20ch;
+}
+
+.page-hero-lead {
+  margin-top: var(--space-3);
+  max-width: 56ch;
+  font-size: 1.0625rem;
+  line-height: 1.72;
+  color: var(--text-inverse-soft);
+}
+
+.page-hero[data-hero] .breadcrumb [aria-current] {
+  color: var(--hero-accent, var(--color-gold));
+}
+
+@media (max-width: 560px) {
+  .page-hero-copy h1 {
+    max-width: none;
+  }
+
+  .page-hero-lead {
+    font-size: 1rem;
+  }
+}
+
 .page-hero .section-label,
-.page-hero .section-label-light {
+.page-hero .section-label-light,
+.page-hero .eyebrow {
   color: var(--color-gold);
+}
+
+.page-hero .eyebrow {
+  margin-top: var(--space-2);
 }
 
 .page-hero .breadcrumb {
@@ -2177,8 +2484,10 @@ tbody tr:hover {
 
 .page-hero h1 {
   color: #fff;
-  font-size: clamp(2.25rem, 4.5vw, 3.5rem);
-  max-width: 20ch;
+  font-size: clamp(1.875rem, 3.4vw, 2.875rem);
+  line-height: 1.14;
+  letter-spacing: -0.025em;
+  max-width: 24ch;
 }
 
 .page-hero p {
@@ -2578,13 +2887,14 @@ tbody tr:hover {
 
 .team-grid {
   display: grid;
-  /* Cards capped at 320px so the ~800px portraits render dense and sharp. */
-  grid-template-columns: repeat(3, minmax(0, 320px));
-  justify-content: center;
-  gap: var(--space-3);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: var(--space-4);
 }
 
 .team-card {
+  display: flex;
+  flex-direction: column;
   background: #fff;
   border-radius: var(--radius);
   overflow: hidden;
@@ -2600,53 +2910,91 @@ tbody tr:hover {
   box-shadow: var(--shadow-md);
 }
 
+.team-card-media {
+  position: relative;
+  overflow: hidden;
+}
+
 .team-card img {
+  display: block;
   width: 100%;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 3 / 4;
   object-fit: cover;
-  /* Portraits are taller than 4:5 — anchor to the top so heads are never cropped. */
+  /* Portraits are taller than the frame — anchor to the top so heads are never cropped. */
   object-position: top center;
 }
 
-.team-note {
-  max-width: 62ch;
-  margin: var(--space-5) auto 0;
-  text-align: center;
-  font-size: 0.9375rem;
-  line-height: 1.8;
-  color: var(--text-muted);
+/* Bio reveals over the portrait on hover (Dr. Malek). */
+.team-card-bio {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: var(--space-3);
+  background: linear-gradient(
+    180deg,
+    rgba(13, 34, 63, 0.15) 0%,
+    rgba(13, 34, 63, 0.88) 55%,
+    rgba(13, 34, 63, 0.96) 100%
+  );
+  font-size: 0.8125rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.92);
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out);
+  overflow-y: auto;
 }
 
-.team-note span {
-  display: block;
-  margin-top: var(--space-1);
-  font-family: var(--font-display);
-  font-size: 0.8125rem;
-  font-weight: 700;
-  color: var(--color-gold-600);
+.team-card:hover .team-card-bio,
+.team-card:focus-within .team-card-bio {
+  opacity: 1;
+  transform: none;
 }
 
 .team-card-body {
-  padding: var(--space-2) var(--space-3) var(--space-3);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-4);
+  border-top: 3px solid var(--color-gold);
 }
 
+.team-card-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.1875rem;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--text-heading);
+}
+
+/* Role sits under the name as a quiet caption. */
 .team-card-body span {
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
+  display: block;
+  margin-top: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-gold-600);
 }
 
-.team-card-body h3 {
-  margin-top: 6px;
-  font-size: 1.125rem;
+@media (prefers-reduced-motion: reduce) {
+  .team-card-bio {
+    transition: none;
+  }
 }
 
-.team-card-body p {
-  margin-top: 8px;
-  font-size: 0.84375rem;
-  color: var(--text-muted);
+@media (hover: none) {
+  .team-card-bio {
+    opacity: 1;
+    transform: none;
+    position: static;
+    background: var(--color-navy);
+    max-height: 10rem;
+  }
 }
 
 .projects-list {
@@ -2943,6 +3291,1805 @@ tbody tr:hover {
 }
 
 /* ============================================================
+   BUTTON ROWS
+   One place that governs how groups of buttons wrap and align,
+   so every CTA cluster on the site lines up the same way.
+   ============================================================ */
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: var(--space-2);
+}
+
+.btn-row .btn {
+  flex: 0 1 auto;
+}
+
+.btn-row-center {
+  justify-content: center;
+}
+
+/* Equal-width buttons stacked in a column — used where labels differ wildly
+   in length (the three company-profile documents). */
+.btn-row-stack {
+  flex-direction: column;
+  align-items: stretch;
+  max-width: 420px;
+}
+
+/* Long document labels must wrap rather than overflow the button. */
+.btn-block {
+  width: 100%;
+  justify-content: flex-start;
+  text-align: left;
+  white-space: normal;
+  line-height: 1.35;
+}
+
+.btn-row-stack .btn {
+  flex: 1 1 auto;
+}
+
+/* ============================================================
+   HERO BADGES — three-point group descriptor
+   ============================================================ */
+
+.hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: var(--space-3);
+  padding: 0;
+  list-style: none;
+}
+
+.hero-badges li {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 16px;
+  border: 1px solid rgba(201, 164, 76, 0.55);
+  border-radius: var(--radius-pill);
+  background: rgba(13, 34, 63, 0.32);
+  backdrop-filter: var(--glass-blur);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+/* ============================================================
+   BIZ STRIP — Tax entry
+   ============================================================ */
+
+.biz-strip a.biz-strip-tax {
+  margin-left: auto;
+  color: var(--color-gold);
+  font-weight: 700;
+}
+
+.site-header.is-solid .biz-strip a.biz-strip-tax {
+  color: var(--color-gold-600);
+}
+
+/* ============================================================
+   CONTACT — plain information, no form
+   ============================================================ */
+
+.contact-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: var(--space-5);
+}
+
+.contact-block h2 {
+  padding-bottom: 10px;
+  margin-bottom: var(--space-2);
+  border-bottom: 2px solid var(--color-gold);
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-heading);
+}
+
+.contact-block p {
+  font-size: 0.9375rem;
+  line-height: 1.8;
+  color: var(--text-body);
+}
+
+.contact-block a {
+  color: var(--color-navy);
+  font-weight: 600;
+}
+
+.contact-block a:hover {
+  color: var(--color-gold-600);
+}
+
+/* ============================================================
+   SHARED EDITORIAL PATTERNS
+   Used by the About, Services and Business Divisions pages.
+   ============================================================ */
+
+/* Bracketed sequence number, e.g. [1] */
+.svc-num {
+  display: block;
+  margin-bottom: 10px;
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-gold-600);
+}
+
+.svc-copy,
+.ab-copy,
+.bd-intro-copy,
+.bd-entry-copy {
+  margin-top: var(--space-3);
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: var(--text-body);
+  max-width: 68ch;
+}
+
+/* Two-up media + copy row that flips on alternating sections. */
+.svc-overview,
+.svc-detail,
+.ab-intro,
+.bd-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: clamp(var(--space-4), 5vw, var(--space-10));
+  align-items: center;
+}
+
+.svc-detail.reverse .svc-detail-media,
+.bd-entry.reverse .bd-entry-media {
+  order: 2;
+}
+
+.svc-overview-media,
+.svc-detail-media,
+.ab-intro-media,
+.bd-entry-media {
+  margin: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  box-shadow: var(--shadow-lg);
+}
+
+.svc-overview-media img,
+.svc-detail-media img,
+.ab-intro-media img,
+.bd-entry-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---- Services ------------------------------------------------ */
+
+.svc-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+@media (max-width: 768px) {
+  .svc-summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.svc-summary {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-xs);
+  transition:
+    transform var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+}
+
+.svc-summary:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.svc-summary-media {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+.svc-summary-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.9s var(--ease-out);
+}
+
+.svc-summary:hover .svc-summary-media img {
+  transform: scale(1.05);
+}
+
+/* The [n] marker sits on the image so the card body stays pure text. */
+.svc-summary-media figcaption {
+  position: absolute;
+  left: var(--space-3);
+  bottom: var(--space-3);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--color-navy);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-gold);
+}
+
+.svc-summary-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--space-4);
+}
+
+.svc-summary h3 {
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  line-height: 1.35;
+  color: var(--text-heading);
+}
+
+.svc-summary p {
+  margin-top: 10px;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--text-body);
+}
+
+/* ---- GlobalBiz deck panels ----------------------------------- */
+
+.gb-capital-section {
+  background: #2f2348;
+}
+
+.gb-capital-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.gb-capital-graphic {
+  margin: 0;
+  width: min(100%, 320px);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+.gb-capital-graphic img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.gb-capital-hero h2 {
+  margin-top: var(--space-5);
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.gb-capital-copyright {
+  margin-top: var(--space-3);
+  max-width: 52ch;
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  color: #c9a44c;
+}
+
+.gb-capital-letter {
+  max-width: 72ch;
+  margin: var(--space-8) auto 0;
+  padding-top: var(--space-6);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.gb-capital-letter > p {
+  margin-top: var(--space-3);
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.gb-capital-letter .gb-signoff {
+  border-top-color: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.gb-capital-letter .gb-signoff span:nth-child(2) {
+  color: #fff;
+}
+
+.gb-panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: var(--space-4);
+}
+
+.gb-panel h3,
+.gb-slide h3 {
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  color: var(--text-heading);
+}
+
+.gb-panel h3 {
+  margin-bottom: var(--space-2);
+}
+
+.gb-slide h3 {
+  margin-top: 10px;
+  font-size: 0.9375rem;
+}
+
+.gb-deck {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: var(--space-3);
+}
+
+/* Placeholder frame for artwork that still has to be supplied. Its
+   `data-file` names the exact source image so the swap is unambiguous. */
+.gb-panel-slot {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius);
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      var(--color-surface),
+      var(--color-surface) 10px,
+      var(--color-surface-2) 10px,
+      var(--color-surface-2) 20px
+    );
+}
+
+.gb-panel-slot::after {
+  content: attr(data-file);
+  position: absolute;
+  inset: auto 8px 8px 8px;
+  font-size: 0.6875rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: var(--text-muted);
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.svc-list {
+  margin-top: var(--space-4);
+}
+
+.svc-list h4,
+.bd-entry-list-label {
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--text-heading);
+}
+
+.bd-entry-list-label {
+  margin-top: var(--space-4);
+}
+
+.svc-list ul,
+.bd-entry-list {
+  margin-top: 10px;
+  padding-left: 0;
+  list-style: none;
+}
+
+.svc-list li,
+.bd-entry-list li {
+  position: relative;
+  padding: 7px 0 7px 22px;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--text-body);
+}
+
+.svc-list li::before,
+.bd-entry-list li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 15px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-gold);
+}
+
+/* ---- Business Divisions -------------------------------------- */
+
+.bd-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: clamp(var(--space-5), 5vw, var(--space-10));
+  align-items: start;
+}
+
+/* Numbered index of the four divisions, pinned beside the intro copy. */
+.bd-list {
+  position: sticky;
+  top: calc(var(--header-h) + var(--space-3));
+  padding: var(--space-5);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-subtle);
+  border-top: 4px solid var(--color-gold);
+  background: var(--color-surface);
+}
+
+.bd-list h3 {
+  padding-bottom: var(--space-2);
+  margin-bottom: var(--space-1);
+  border-bottom: 1px solid var(--border-subtle);
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.bd-list ol {
+  padding-left: 0;
+  list-style: none;
+  counter-reset: bd;
+}
+
+.bd-list li {
+  counter-increment: bd;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 12px;
+  align-items: baseline;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--text-heading);
+}
+
+.bd-list li::before {
+  content: '0' counter(bd);
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-gold-600);
+}
+
+.bd-list li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* ---- About --------------------------------------------------- */
+
+.ab-label {
+  display: inline-block;
+  margin-bottom: var(--space-2);
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+.ab-vision {
+  max-width: 68ch;
+  padding-bottom: var(--space-6);
+  margin-bottom: var(--space-6);
+  border-bottom: 1px solid var(--border-inverse);
+}
+
+.ab-vision p {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.6vw, 1.875rem);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+  color: #fff;
+}
+
+.ab-mission-head {
+  max-width: 72ch;
+}
+
+/* Two across, so each pillar photo reads at a usable size. */
+.ab-pillars {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.ab-pillars article {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--border-inverse);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.ab-pillar-media {
+  margin: 0;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+.ab-pillar-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.45s ease;
+}
+
+.ab-pillars article:hover .ab-pillar-media img {
+  transform: scale(1.04);
+}
+
+.ab-pillars h3 {
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  color: #fff;
+  padding: var(--space-4) var(--space-4) 0;
+}
+
+.ab-pillars p {
+  margin-top: 10px;
+  padding: 0 var(--space-4) var(--space-4);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--text-inverse-soft);
+}
+
+.ab-values {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.ab-values article {
+  padding: var(--space-4) 0;
+  border-top: 3px solid var(--color-gold);
+}
+
+.ab-values h3 {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  color: var(--text-heading);
+}
+
+.ab-values p {
+  margin-top: 8px;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--text-body);
+}
+
+.ab-numbered {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.ab-numbered article {
+  padding: var(--space-4);
+  background: #fff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius);
+}
+
+.ab-numbered h3 {
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  line-height: 1.35;
+  color: var(--text-heading);
+}
+
+.ab-numbered p {
+  margin-top: 10px;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--text-body);
+}
+
+/* ============================================================
+   DIVISION PAGES
+   Two sections only: a full-bleed cover, then description + photo.
+   The accent colour per unit comes from [data-division].
+   ============================================================ */
+
+.division-page {
+  --div-from: #1a3a64;
+  --div-to: #0d223f;
+  --div-tint: rgba(26, 58, 100, 0.06);
+}
+
+.division-page[data-division='energy'] {
+  --div-from: #7a2e0e;
+  --div-to: #c2410c;
+  --div-tint: rgba(194, 65, 12, 0.06);
+}
+.division-page[data-division='marine'] {
+  --div-from: #0b3a5c;
+  --div-to: #0e7490;
+  --div-tint: rgba(14, 116, 144, 0.06);
+}
+.division-page[data-division='storage'] {
+  --div-from: #1e293b;
+  --div-to: #475569;
+  --div-tint: rgba(71, 85, 105, 0.06);
+}
+.division-page[data-division='technology'] {
+  --div-from: #312e81;
+  --div-to: #6d28d9;
+  --div-tint: rgba(109, 40, 217, 0.06);
+}
+.division-page[data-division='capital'] {
+  --div-from: #064e3b;
+  --div-to: #047857;
+  --div-tint: rgba(4, 120, 87, 0.06);
+}
+.division-page[data-division='hotels'] {
+  --div-from: #4c1d24;
+  --div-to: #9f1239;
+  --div-tint: rgba(159, 18, 57, 0.06);
+}
+.division-page[data-division='bullion'] {
+  --div-from: #5c4310;
+  --div-to: #b08d3b;
+  --div-tint: rgba(176, 141, 59, 0.08);
+}
+.division-page[data-division='food'] {
+  --div-from: #134e4a;
+  --div-to: #0d9488;
+  --div-tint: rgba(13, 148, 136, 0.06);
+}
+.division-page[data-division='international'] {
+  --div-from: #1e3a8a;
+  --div-to: #2563eb;
+  --div-tint: rgba(37, 99, 235, 0.06);
+}
+.division-page[data-division='plantation'] {
+  --div-from: #1a4d1a;
+  --div-to: #4d7c0f;
+  --div-tint: rgba(77, 124, 15, 0.06);
+}
+.division-page[data-division='pharmaceutical'] {
+  --div-from: #134e6b;
+  --div-to: #0891b2;
+  --div-tint: rgba(8, 145, 178, 0.06);
+}
+
+/* -- Section 1 · full-bleed cover ------------------------------ */
+
+.division-cover {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: flex-end;
+  min-height: min(78svh, 660px);
+  padding: calc(var(--header-h) + var(--space-8)) 0 var(--space-8);
+  background: var(--div-from);
+  overflow: hidden;
+}
+
+.division-cover > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.division-cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--div-from) 62%, transparent) 0%,
+    color-mix(in srgb, var(--div-from) 24%, transparent) 45%,
+    color-mix(in srgb, var(--div-from) 92%, transparent) 100%
+  );
+}
+
+.division-cover-inner {
+  position: relative;
+  z-index: 2;
+}
+
+.division-cover-inner .breadcrumb {
+  margin-bottom: var(--space-3);
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.division-cover-inner .breadcrumb a {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.division-cover-inner .breadcrumb a:hover {
+  color: #fff;
+}
+
+.division-cover-inner .breadcrumb [aria-current] {
+  color: #fff;
+}
+
+.division-cover h1 {
+  color: #fff;
+  font-size: clamp(2.25rem, 5vw, 4rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+}
+
+/* -- Section 2 · description + photo --------------------------- */
+
+.division-about {
+  padding: clamp(var(--space-8), 8vw, var(--space-15)) 0;
+  background: var(--div-tint);
+}
+
+.division-about-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(var(--space-4), 5vw, var(--space-10));
+  align-items: center;
+}
+
+.division-about-tagline {
+  font-family: var(--font-display);
+  font-size: clamp(1.375rem, 2.6vw, 2rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--text-heading);
+  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-3);
+  border-bottom: 3px solid var(--div-to);
+}
+
+.division-about-copy > p:last-child {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: var(--text-body);
+  max-width: 60ch;
+}
+
+.division-about-photo {
+  margin: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  box-shadow: var(--shadow-lg);
+}
+
+.division-about-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ============================================================
+   PROFILE PAGES — company profile, GlobalBiz
+   ============================================================ */
+
+.profile-cover {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: flex-end;
+  min-height: min(64svh, 540px);
+  padding: calc(var(--header-h) + var(--space-8)) 0 var(--space-8);
+  background: var(--color-navy);
+  overflow: hidden;
+}
+
+.profile-cover > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+}
+
+.profile-cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(13, 34, 63, 0.6), rgba(13, 34, 63, 0.92));
+}
+
+.profile-cover-inner {
+  position: relative;
+  z-index: 2;
+}
+
+.profile-cover-inner .breadcrumb {
+  margin-bottom: var(--space-3);
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.profile-cover-inner .breadcrumb a {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.profile-cover-inner .breadcrumb [aria-current] {
+  color: var(--color-gold);
+}
+
+.profile-eyebrow {
+  display: inline-block;
+  margin-bottom: var(--space-2);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--color-gold);
+}
+
+.profile-cover h1 {
+  color: #fff;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  max-width: 22ch;
+}
+
+.profile-cover p {
+  margin-top: var(--space-3);
+  max-width: 68ch;
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* -- Terminal project cards ------------------------------------ */
+
+/* Full-width presentation slides (company profile + GlobalBiz decks). */
+.deck-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.deck-slide {
+  margin: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  background: #fff;
+  box-shadow: var(--shadow-xs);
+}
+
+.deck-slide img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* GlobalBiz: slides read as one continuous presentation, not separate blocks. */
+.gb-deck-section {
+  padding-top: var(--space-6);
+}
+
+.deck-stack-flush {
+  gap: 0;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #fff;
+  box-shadow: var(--shadow-xs);
+}
+
+.deck-stack-flush .deck-slide {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.deck-stack-flush .deck-slide + .deck-slide {
+  border-top: 1px solid var(--border-subtle);
+}
+
+.terminal-deck {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.terminal-deck-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.2vw, 1.625rem);
+  color: var(--text-heading);
+}
+
+.terminal-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+}
+
+.terminal-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.terminal-card img {
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  object-fit: cover;
+}
+
+.terminal-card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+}
+
+.terminal-card-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--text-heading);
+}
+
+.terminal-sheets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+  gap: 10px;
+  width: 100%;
+}
+
+/* -- GlobalBiz ------------------------------------------------- */
+
+.gb-counters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: var(--space-4);
+  align-items: center;
+  margin-top: var(--space-5);
+}
+
+.gb-counter strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 6vw, 4rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--color-navy);
+}
+
+.gb-counter strong span {
+  color: var(--color-gold);
+}
+
+.gb-counter > span {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.gb-counter-note {
+  grid-column: span 2;
+  padding-left: var(--space-4);
+  border-left: 3px solid var(--color-gold);
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text-body);
+}
+
+.gb-expertise {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.gb-expertise > div {
+  padding: var(--space-4);
+  border-top: 3px solid var(--color-gold);
+  background: #fff;
+  box-shadow: var(--shadow-xs);
+}
+
+.gb-expertise strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--color-navy);
+}
+
+.gb-expertise span {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.9375rem;
+  color: var(--text-body);
+}
+
+.gb-services {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+}
+
+.gb-services article {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  background: #fff;
+}
+
+.gb-services img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.gb-services article > div {
+  padding: var(--space-4);
+}
+
+.gb-services h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--text-heading);
+}
+
+.gb-services p {
+  margin-top: 10px;
+  line-height: 1.7;
+  color: var(--text-body);
+}
+
+.gb-process {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+  counter-reset: gb-step;
+}
+
+.gb-process article {
+  padding: var(--space-4);
+  background: #fff;
+  border-left: 3px solid var(--color-gold);
+}
+
+.gb-process h3 {
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  color: var(--text-heading);
+}
+
+.gb-process p {
+  margin-top: 8px;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--text-body);
+}
+
+.gb-why {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+  padding: 0;
+  list-style: none;
+}
+
+.gb-why li {
+  position: relative;
+  padding: var(--space-3) var(--space-3) var(--space-3) 44px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius);
+  font-weight: 600;
+  color: var(--text-heading);
+}
+
+.gb-why li::before {
+  content: '';
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  margin-top: -5px;
+  border-radius: 50%;
+  background: var(--color-gold);
+}
+
+.gb-capital {
+  display: grid;
+  grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr);
+  gap: var(--space-8);
+  align-items: start;
+}
+
+.gb-capital p {
+  margin-top: var(--space-3);
+  line-height: 1.8;
+  color: var(--text-body);
+}
+
+.gb-signoff {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: var(--space-5) !important;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.gb-signoff span:nth-child(2) {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--text-heading);
+}
+
+.gb-capital-links {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.gb-capital-links span {
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--border-subtle);
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--text-heading);
+}
+
+/* ============================================================
+   DOCUMENT (PDF) PAGES
+   ============================================================ */
+
+.doc-switcher {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: var(--space-4);
+}
+
+.doc-switcher a {
+  padding: 9px 16px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-body);
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.doc-switcher a:hover {
+  border-color: var(--color-gold);
+  color: var(--color-navy);
+}
+
+.doc-switcher a.is-active {
+  background: var(--color-navy);
+  border-color: var(--color-navy);
+  color: #fff;
+}
+
+.doc-viewer {
+  position: relative;
+  height: min(85svh, 1000px);
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  background: var(--color-surface-2);
+  box-shadow: var(--shadow-md);
+}
+
+.doc-viewer object,
+.doc-viewer iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.doc-fallback {
+  display: grid;
+  place-content: center;
+  gap: var(--space-3);
+  height: 100%;
+  padding: var(--space-6);
+  text-align: center;
+  color: var(--text-body);
+}
+
+/* ============================================================
+   TAX PAGE — PT Aswangga Konsultan Semesta
+   Blue palette taken from the Aswangga mark.
+   ============================================================ */
+
+.tax-page {
+  --asw-navy: #17385c;
+  --asw-navy-900: #0f2540;
+  --asw-blue: #5fa8dc;
+  --asw-blue-600: #3f8ec6;
+  --asw-tint: #f3f8fc;
+  --asw-ink: #23303d;
+  background: #fff;
+}
+
+.tax-h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--asw-navy);
+}
+
+.tax-section-lead {
+  margin-top: var(--space-2);
+  max-width: 68ch;
+  line-height: 1.75;
+  color: #4a5763;
+}
+
+/* -- Hero ------------------------------------------------------ */
+
+.tax-hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: flex-end;
+  min-height: min(70svh, 600px);
+  padding: calc(var(--header-h) + var(--space-8)) 0 var(--space-8);
+  background: var(--asw-navy-900);
+  overflow: hidden;
+}
+
+.tax-hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.55;
+}
+
+.tax-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    rgba(15, 37, 64, 0.94) 0%,
+    rgba(23, 56, 92, 0.78) 48%,
+    rgba(23, 56, 92, 0.32) 100%
+  );
+}
+
+.tax-hero-inner {
+  position: relative;
+  z-index: 2;
+}
+
+.tax-hero-inner .breadcrumb {
+  margin-bottom: var(--space-4);
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.tax-hero-inner .breadcrumb a {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.tax-hero-inner .breadcrumb [aria-current] {
+  color: var(--asw-blue);
+}
+
+.tax-hero-quote {
+  max-width: 46ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.0625rem, 1.9vw, 1.4375rem);
+  font-weight: 500;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.tax-hero h1 {
+  margin-top: var(--space-3);
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 11vw, 7rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  color: #fff;
+}
+
+/* Aswangga's mark leads; the PetroTwo parent name sits beside it. */
+.tax-hero-marks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.tax-hero-logo {
+  width: 108px;
+  height: 108px;
+  object-fit: contain;
+  padding: 10px;
+  border-radius: var(--radius);
+  background: #fff;
+  box-shadow: var(--shadow-md);
+}
+
+.tax-hero-divider {
+  width: 1px;
+  height: 52px;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.tax-hero-parent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tax-hero-parent small {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--asw-blue);
+}
+
+.tax-hero-parent strong {
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* -- Prose + contact rail -------------------------------------- */
+
+.tax-body-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.9fr) minmax(0, 1fr);
+  gap: clamp(var(--space-5), 5vw, var(--space-10));
+  align-items: start;
+}
+
+.tax-prose article + article {
+  margin-top: var(--space-6);
+}
+
+.tax-prose h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.2vw, 1.625rem);
+  font-weight: 700;
+  color: var(--asw-navy);
+}
+
+.tax-prose p {
+  margin-top: var(--space-2);
+  max-width: 70ch;
+  line-height: 1.8;
+  color: #4a5763;
+}
+
+.tax-explore-heading {
+  margin-top: var(--space-8);
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.2vw, 1.625rem);
+  font-weight: 700;
+  color: var(--asw-navy);
+}
+
+.tax-explore {
+  margin-top: var(--space-3);
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid rgba(23, 56, 92, 0.12);
+}
+
+.tax-explore li {
+  border-bottom: 1px solid rgba(23, 56, 92, 0.12);
+}
+
+.tax-explore a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: 15px 4px;
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--asw-navy);
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    padding-left var(--duration-fast) var(--ease-out);
+}
+
+.tax-explore a span {
+  font-size: 1.375rem;
+  line-height: 1;
+  color: var(--asw-blue);
+}
+
+.tax-explore a:hover {
+  padding-left: 12px;
+  color: var(--asw-blue-600);
+}
+
+.tax-contact-card {
+  position: sticky;
+  top: calc(var(--header-h) + var(--space-3));
+  padding: var(--space-4);
+  border-top: 5px solid var(--asw-blue);
+  background: var(--asw-tint);
+}
+
+.tax-contact-card > img {
+  width: 84px;
+  height: 84px;
+  object-fit: contain;
+  margin-bottom: var(--space-2);
+}
+
+.tax-contact-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  color: var(--asw-navy);
+}
+
+.tax-contact-name {
+  margin-top: var(--space-2);
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--asw-ink);
+}
+
+.tax-contact-role {
+  margin-top: 4px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #5c6a77;
+}
+
+.tax-contact-card dl {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid rgba(23, 56, 92, 0.14);
+}
+
+.tax-contact-card dt {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #7a8794;
+}
+
+.tax-contact-card dd {
+  margin: 4px 0 var(--space-3);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--asw-ink);
+}
+
+.tax-contact-card dd:last-child {
+  margin-bottom: 0;
+}
+
+.tax-contact-card a {
+  font-weight: 600;
+  color: var(--asw-blue-600);
+}
+
+.tax-contact-card a:hover {
+  text-decoration: underline;
+}
+
+.tax-contact-wa {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tax-contact-wa svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* -- Service teams --------------------------------------------- */
+
+.tax-teams-section {
+  background: var(--asw-tint);
+}
+
+.tax-team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+  align-items: start;
+}
+
+.tax-team {
+  padding: var(--space-4);
+  background: #fff;
+  border-top: 4px solid var(--asw-blue);
+  box-shadow: var(--shadow-xs);
+}
+
+.tax-team[data-tone='green'] {
+  border-top-color: #2e8b57;
+}
+.tax-team[data-tone='blue'] {
+  border-top-color: var(--asw-blue);
+}
+.tax-team[data-tone='orange'] {
+  border-top-color: #e08a1e;
+}
+
+.tax-team h3 {
+  font-family: var(--font-display);
+  font-size: 1.1875rem;
+  color: var(--asw-navy);
+}
+
+.tax-team-scope {
+  margin-top: 4px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--asw-blue-600);
+}
+
+.tax-team-theme {
+  margin-top: var(--space-2);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--asw-navy);
+}
+
+/* Four disciplines listed inside each team card. */
+.tax-team-lines {
+  margin: var(--space-3) 0 0;
+  padding-top: var(--space-3);
+  border-top: 1px solid rgba(23, 56, 92, 0.12);
+}
+
+.tax-team-lines > div + div {
+  margin-top: var(--space-3);
+}
+
+.tax-team-lines dt {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--asw-blue-600);
+}
+
+.tax-team[data-tone='green'] .tax-team-lines dt {
+  color: #2e8b57;
+}
+.tax-team[data-tone='orange'] .tax-team-lines dt {
+  color: #b76b09;
+}
+
+.tax-team-lines dd {
+  margin: 4px 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: #4a5763;
+}
+
+/* -- Experience by sector --------------------------------------- */
+
+.tax-exp-list {
+  margin-top: var(--space-4);
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid rgba(23, 56, 92, 0.12);
+}
+
+.tax-exp-list li {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid rgba(23, 56, 92, 0.12);
+}
+
+.tax-exp-list strong {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--asw-navy);
+}
+
+.tax-exp-list p {
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: #4a5763;
+}
+
+/* -- Professional team panel ------------------------------------ */
+
+.tax-publication {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: clamp(var(--space-4), 5vw, var(--space-8));
+  align-items: center;
+  padding: clamp(var(--space-4), 4vw, var(--space-6));
+  background: var(--asw-navy);
+  border-radius: var(--radius);
+}
+
+.tax-publication img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+
+.tax-publication h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.375rem, 2.6vw, 2rem);
+  color: #fff;
+}
+
+.tax-publication p {
+  margin-top: var(--space-2);
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.tax-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--space-4);
+  padding: 13px 26px;
+  border-radius: var(--radius);
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.tax-btn-solid {
+  background: var(--asw-blue);
+  color: #0f2540;
+}
+
+.tax-btn-solid:hover {
+  background: #fff;
+}
+
+/* -- Industries / Services directory (PwC-style) -------------- */
+
+.tax-directory {
+  background: var(--asw-navy-900);
+  padding: clamp(var(--space-8), 8vw, var(--space-12)) 0;
+}
+
+.tax-directory-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(var(--space-6), 6vw, var(--space-10));
+}
+
+.tax-directory h2 {
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.tax-directory ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tax-directory li + li {
+  margin-top: 2px;
+}
+
+.tax-directory a {
+  display: block;
+  padding: 10px 0;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.78);
+  border-bottom: 1px solid transparent;
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    padding-left var(--duration-fast) var(--ease-out);
+}
+
+.tax-directory a:hover {
+  color: #fff;
+  padding-left: 6px;
+}
+
+@media (max-width: 768px) {
+  .tax-directory-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+}
+
+/* ============================================================
    RESPONSIVE
    Breakpoints: 1200 / 1024 / 768 / 560 · plus touch & short-viewport
    ============================================================ */
@@ -3093,6 +5240,42 @@ tbody tr:hover {
     aspect-ratio: 16 / 9;
   }
 
+  .ab-pillars,
+  .division-about-grid,
+  .gb-capital,
+  .terminal-card,
+  .tax-body-grid,
+  .tax-publication,
+  .svc-overview,
+  .svc-detail,
+  .ab-intro,
+  .bd-intro,
+  .bd-entry {
+    grid-template-columns: 1fr;
+  }
+
+  .svc-detail.reverse .svc-detail-media,
+  .bd-entry.reverse .bd-entry-media {
+    order: 0;
+  }
+
+  .tax-contact-card,
+  .bd-list {
+    position: static;
+  }
+
+  .team-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .gb-counter-note {
+    grid-column: 1 / -1;
+  }
+
+  .doc-viewer {
+    height: min(75svh, 780px);
+  }
+
   .overview-grid,
   .globe-grid,
   .split-2,
@@ -3202,6 +5385,11 @@ tbody tr:hover {
   .page-hero::after {
     display: none;
   }
+
+  .tax-hero-logo {
+    width: 84px;
+    height: 84px;
+  }
 }
 
 /* -- ≤ 560px — single column, full-width actions ------------- */
@@ -3234,6 +5422,24 @@ tbody tr:hover {
 
   .biz-card {
     aspect-ratio: 16 / 11;
+  }
+
+  .hero-badges li {
+    padding: 6px 12px;
+    font-size: 0.6875rem;
+  }
+
+  .doc-viewer {
+    height: 70svh;
+  }
+
+  .tax-exp-list li {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .biz-strip a {
+    flex: 0 0 auto;
   }
 
   .stats-band {

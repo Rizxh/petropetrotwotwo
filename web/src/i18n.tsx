@@ -36,12 +36,16 @@ export function useLang() {
 
 const strings = {
   /* Header / nav */
-  navHome: { en: 'Home', id: 'Beranda' },
-  navAbout: { en: 'About', id: 'Tentang Kami' },
+  navHome: { en: 'Home', id: 'Home' },
+  navAbout: { en: 'About', id: 'About' },
+  navDivisions: { en: 'Business Division', id: 'Business Division' },
+  navServices: { en: 'Services', id: 'Services' },
+  navPricing: { en: 'Oil & Gas Price', id: 'Oil & Gas Price' },
+  navContact: { en: 'Contact', id: 'Contact' },
   navProjects: { en: 'Projects', id: 'Proyek' },
   navInvestors: { en: 'Investors', id: 'Investor' },
   navNews: { en: 'News', id: 'Berita' },
-  navTax: { en: 'Taxation', id: 'Perpajakan' },
+  navTax: { en: 'Tax', id: 'Tax' },
   navBusinesses: { en: 'Businesses', id: 'Bisnis Kami' },
   contactUs: { en: 'Contact Us', id: 'Hubungi Kami' },
   featuredDivision: { en: 'Featured Division', id: 'Divisi Unggulan' },
@@ -49,18 +53,20 @@ const strings = {
   groupInvest: { en: 'Investment & Lifestyle', id: 'Investasi & Gaya Hidup' },
   groupGlobal: { en: 'Global Ventures', id: 'Ventura Global' },
 
-  /* Hero */
-  heroKicker: { en: 'PetroTwo Group · Jakarta, Indonesia', id: 'PetroTwo Group · Jakarta, Indonesia' },
+  /* Hero — copy reproduced verbatim from petrotwogroup.com */
+  heroBadge1: { en: 'Energy', id: 'Energy' },
+  heroBadge2: { en: 'Investment', id: 'Investment' },
+  heroBadge3: { en: 'Strategic Resources', id: 'Strategic Resources' },
   heroTitle: {
-    en: 'Building Tomorrow’s Global Energy Ecosystem',
-    id: 'Membangun Ekosistem Energi Global Masa Depan',
+    en: 'Empowering Global Business Through Energy, Investment & Strategic Resources',
+    id: 'Empowering Global Business Through Energy, Investment & Strategic Resources',
   },
   heroLead: {
-    en: 'An integrated holding company operating across energy, marine, storage, capital, and eight further business pillars. We serve investors, governments, and international partners with integrity and precision.',
-    id: 'Perusahaan induk terintegrasi yang bergerak di sektor energi, maritim, penyimpanan, permodalan, serta delapan pilar bisnis lainnya. Kami melayani investor, pemerintah, dan mitra internasional dengan integritas dan presisi.',
+    en: 'PetroTwo Group is a global business entity committed to delivering excellence across the energy, logistics, and investment sectors. With an expansive international network, reliable operational capabilities, and strong governance, we serve clients worldwide with integrity, speed, and precision.',
+    id: 'PetroTwo Group adalah entitas bisnis global yang berkomitmen menghadirkan keunggulan di sektor energi, logistik, dan investasi. Dengan jaringan internasional yang luas, kapabilitas operasional yang andal, dan tata kelola yang kuat, kami melayani klien di seluruh dunia dengan integritas, kecepatan, dan presisi.',
   },
   heroCta1: { en: 'Discover PetroTwo', id: 'Jelajahi PetroTwo' },
-  heroCta2: { en: 'Partner With Us', id: 'Bermitra dengan Kami' },
+  heroCta2: { en: 'Contact Us', id: 'Hubungi Kami' },
 
   /* Partners */
   partnersTitle: {
@@ -68,12 +74,18 @@ const strings = {
     id: 'Dipercaya oleh Mitra Strategis di Seluruh Dunia',
   },
 
-  /* Overview */
-  overviewEyebrow: { en: 'Company Overview', id: 'Profil Perusahaan' },
+  /* Overview — copy reproduced verbatim from petrotwogroup.com */
+  overviewEyebrow: { en: 'About', id: 'About' },
   overviewTitle: {
-    en: 'A Trusted Partner Across the Global Energy Value Chain',
-    id: 'Mitra Terpercaya di Sepanjang Rantai Nilai Energi Global',
+    en: 'A Trusted Global Partner in Energy and Infrastructure',
+    id: 'A Trusted Global Partner in Energy and Infrastructure',
   },
+  profileDoc1: { en: 'PetroTwo Group Company Profile', id: 'PetroTwo Group Company Profile' },
+  profileDoc2: {
+    en: 'PetroTwo Group Company Profile (PDF)',
+    id: 'PetroTwo Group Company Profile (PDF)',
+  },
+  profileDoc3: { en: 'PetroTwo GlobalBiz', id: 'PetroTwo GlobalBiz' },
   companyAbout: {
     en: 'PetroTwo Group is an integrated holding company providing end-to-end solutions across the oil & gas supply chain. From sourcing and trading to logistics, storage, and financial structuring, we ensure seamless execution for partners and clients worldwide.',
     id: 'PetroTwo Group adalah perusahaan induk terintegrasi yang menyediakan solusi menyeluruh di sepanjang rantai pasok minyak dan gas. Mulai dari pengadaan dan perdagangan hingga logistik, penyimpanan, dan penataan keuangan, kami memastikan eksekusi yang mulus bagi mitra dan klien di seluruh dunia.',
@@ -102,13 +114,23 @@ const strings = {
     id: 'Enam tahap terintegrasi menghubungkan kawasan sumber energi dengan pasar permintaan utama, dengan Indonesia sebagai hub strategis.',
   },
 
-  /* Ecosystem */
-  ecoEyebrow: { en: 'Business Ecosystem', id: 'Ekosistem Bisnis' },
-  ecoTitle: { en: 'Eleven Pillars, One Group', id: 'Sebelas Pilar, Satu Grup' },
-  ecoLead: {
-    en: 'Diversified operations that reinforce one another, with energy at the core and capital and trade extending our reach.',
-    id: 'Operasi terdiversifikasi yang saling memperkuat, dengan energi sebagai inti serta permodalan dan perdagangan yang memperluas jangkauan kami.',
+  /* Ecosystem — copy reproduced verbatim from petrotwogroup.com/business-divisions */
+  ecoEyebrow: { en: 'Business Divisions', id: 'Business Divisions' },
+  ecoTitle: {
+    en: 'Synergized divisions shaping the future of global energy and development',
+    id: 'Synergized divisions shaping the future of global energy and development',
   },
+  ecoLead: {
+    en: 'A cohesive structure enabling efficient trading, strong investments, and resilient infrastructure',
+    id: 'A cohesive structure enabling efficient trading, strong investments, and resilient infrastructure',
+  },
+  ecoCta: { en: 'View Division', id: 'Lihat Divisi' },
+
+  /* Division pages */
+  divisionEyebrow: { en: 'Business Division', id: 'Divisi Bisnis' },
+  divisionOverview: { en: 'Division Overview', id: 'Ikhtisar Divisi' },
+  divisionDetail: { en: 'In Detail', id: 'Rincian' },
+  divisionAll: { en: 'All Business Divisions', id: 'Semua Divisi Bisnis' },
 
   /* Global presence */
   globalEyebrow: { en: 'Global Presence', id: 'Jejak Global' },
@@ -128,28 +150,23 @@ const strings = {
   newsTitle: { en: 'Latest From the Group', id: 'Kabar Terbaru dari Grup' },
   newsCta: { en: 'All News', id: 'Semua Berita' },
 
-  /* CTA band */
-  ctaEyebrow: { en: 'Become Our Partner', id: 'Jadilah Mitra Kami' },
-  ctaTitle: {
-    en: 'Let’s Build the Next Generation of Energy, Together',
-    id: 'Mari Bangun Generasi Energi Berikutnya, Bersama',
-  },
+  /* CTA band — copy reproduced verbatim from petrotwogroup.com */
+  ctaTitle: { en: 'Let’s Work Together', id: 'Let’s Work Together' },
   ctaText: {
-    en: 'Whether you need reliable energy supply, logistics solutions, infrastructure cooperation, or long-term investment opportunities, our team is ready to support you with precision and speed.',
-    id: 'Baik Anda membutuhkan pasokan energi yang andal, solusi logistik, kerja sama infrastruktur, maupun peluang investasi jangka panjang, tim kami siap mendukung Anda dengan presisi dan kecepatan.',
+    en: 'Whether you’re looking for reliable energy supply, logistics solutions, infrastructure cooperation, or long-term investment opportunities, our team is ready to support your needs with professionalism and speed.',
+    id: 'Whether you’re looking for reliable energy supply, logistics solutions, infrastructure cooperation, or long-term investment opportunities, our team is ready to support your needs with professionalism and speed.',
   },
-  ctaButton: { en: 'Get in Touch', id: 'Hubungi Kami' },
+  ctaButton: { en: 'Get in Touch', id: 'Get in Touch' },
 
   /* Footer */
   footBusinesses: { en: 'Businesses', id: 'Bisnis' },
   footQuickLinks: { en: 'Quick Links', id: 'Tautan Cepat' },
-  footStayInformed: { en: 'Stay Informed', id: 'Tetap Terinformasi' },
-  footNewsletter: {
-    en: 'Corporate updates and market insights, delivered quarterly.',
-    id: 'Informasi korporasi dan wawasan pasar, dikirim setiap kuartal.',
+  footGetInTouch: { en: 'Get in Touch', id: 'Hubungi Kami' },
+  footContactLead: {
+    en: 'Reach our team for inquiries, partnerships, or tailored solutions.',
+    id: 'Hubungi tim kami untuk pertanyaan, kemitraan, atau solusi yang disesuaikan.',
   },
-  footEmailPlaceholder: { en: 'Business email', id: 'Email bisnis' },
-  footSubscribe: { en: 'Subscribe', id: 'Berlangganan' },
+  footContactCta: { en: 'Contact Us', id: 'Hubungi Kami' },
   footAbout: { en: 'About Us', id: 'Tentang Kami' },
   footProjects: { en: 'Projects & Services', id: 'Proyek & Layanan' },
   footInvestor: { en: 'Investor Relations', id: 'Hubungan Investor' },

@@ -1,15 +1,10 @@
-import { useState } from 'react'
-import type { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
-import { CtaBand, PageHero, SubPageIntro, WaIcon } from '../components/Layout'
+import { Breadcrumb, CtaBand, PageHero, SubPageIntro } from '../components/Layout'
 import {
   capitalUnits,
   company,
-  globalBiz,
   locations,
   newsItems,
-  sectorDetails,
-  sectors,
   subholdings,
   tankFarms,
   waContacts,
@@ -22,133 +17,54 @@ import { pick, useLang, useT } from '../i18n'
 /* ------------------------------------------------------------------ */
 
 export function ContactPage() {
-  const { lang } = useLang()
   const t = useT()
-  const id = lang === 'id'
-  const [sent, setSent] = useState(false)
-
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    const form = e.currentTarget
-    const data = new FormData(form)
-    const name = String(data.get('name') || '').trim()
-    const email = String(data.get('email') || '').trim()
-    const message = String(data.get('message') || '').trim()
-    if (!name || !email || !message) return
-    const subject = encodeURIComponent(`Inquiry from ${name}`)
-    const body = encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\nCompany: ${data.get('company') || '-'}\n\n${message}`,
-    )
-    window.location.href = `mailto:${company.email}?subject=${subject}&body=${body}`
-    setSent(true)
-    form.reset()
-  }
 
   return (
     <>
-      <PageHero
-        label={t('contactUs')}
-        title={id ? 'Terhubung dengan PetroTwo' : 'Connect With PetroTwo'}
-        lead={
-          id
-            ? 'Hubungi kantor pusat kami di Jakarta atau meja regional untuk kebutuhan perdagangan, logistik, dan investasi.'
-            : 'Reach our Jakarta headquarters or regional desks for trading, logistics, and investment inquiries.'
-        }
-        crumbs={[{ label: t('contactUs') }]}
-      />
+      <section className="page-hero" data-hero="contact">
+        <div className="container">
+          <Breadcrumb trail={[{ label: t('navContact') }]} />
+          <div className="eyebrow">We're Here</div>
+          <h1 style={{ maxWidth: '28ch' }}>Get in Touch With PetroTwo Group</h1>
+          <p>
+            Partner with us to explore collaboration opportunities and learn how our divisions can
+            support your goals.
+          </p>
+          <p>
+            Reach out to our team for inquiries, partnerships, or tailored solutions that move
+            your business forward.
+          </p>
+        </div>
+      </section>
 
       <section className="section">
-        <div className="container contact-grid">
-          <div className="contact-card">
-            <h3>{id ? 'Kantor Pusat' : 'Headquarters'}</h3>
-            <ul className="contact-list">
-              <li>
-                <strong>{id ? 'Alamat' : 'Office'}</strong>
-                <br />
-                {company.address.line1}
-                <br />
-                {company.address.line2}
-                <br />
-                {company.address.line3}
-              </li>
-              <li>
-                <strong>Email</strong>
-                <br />
-                <a href={`mailto:${company.email}`}>{company.email}</a>
-                <br />
-                <a href={`mailto:${company.orderEmail}`}>{company.orderEmail}</a>
-              </li>
-              <li>
-                <strong>WhatsApp</strong>
-                <div className="wa-buttons">
-                  <a
-                    href={waHref(waContacts.order, lang)}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="btn btn-wa"
-                  >
-                    <WaIcon /> Order Oil · {waContacts.order.display}
-                  </a>
-                  <a
-                    href={waHref(waContacts.info, lang)}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="btn btn-wa"
-                  >
-                    <WaIcon /> Info Oil · {waContacts.info.display}
-                  </a>
-                </div>
-                <span className="wa-note">
-                  {id
-                    ? 'Klik untuk langsung terhubung ke WhatsApp kami dengan pesan otomatis.'
-                    : 'Tap to open WhatsApp directly with a prefilled message.'}
-                </span>
-              </li>
-              <li>
-                <strong>Web</strong>
-                <br />
-                {company.web}
-              </li>
-            </ul>
+        <div className="container contact-info">
+          <div className="contact-block">
+            <h2>Head Office</h2>
+            <p>
+              Wisma BNI 50th Floor (Konsorsium Hijau) Jl. Karet Pasar Baru Timur III No.Kav. 1,
+              RT.1/RW.8, Karet Tengsin, Kecamatan Tanah Abang, Kota Jakarta Pusat, Daerah Khusus
+              Ibukota Jakarta 10220
+            </p>
           </div>
 
-          <div className="form-card">
-            <h3>{id ? 'Kirim Permintaan' : 'Send an Inquiry'}</h3>
-            <form className="form-grid" onSubmit={onSubmit}>
-              <div className="field">
-                <label htmlFor="c-name">{id ? 'Nama Lengkap' : 'Full Name'}</label>
-                <input id="c-name" className="input" name="name" required autoComplete="name" />
-              </div>
-              <div className="field">
-                <label htmlFor="c-email">Email</label>
-                <input id="c-email" className="input" name="email" type="email" required autoComplete="email" />
-              </div>
-              <div className="field" style={{ gridColumn: '1 / -1' }}>
-                <label htmlFor="c-company">{id ? 'Perusahaan' : 'Company'}</label>
-                <input id="c-company" className="input" name="company" autoComplete="organization" />
-              </div>
-              <div className="field" style={{ gridColumn: '1 / -1' }}>
-                <label htmlFor="c-message">{id ? 'Pesan' : 'Message'}</label>
-                <textarea id="c-message" name="message" required />
-              </div>
-              <button className="btn btn-primary" type="submit">
-                {id ? 'Kirim Permintaan' : 'Submit Inquiry'}
-              </button>
-            </form>
-            <p className="form-note">
-              {sent
-                ? id
-                  ? 'Aplikasi email Anda akan terbuka dengan draf permintaan yang sudah terisi.'
-                  : 'Your mail client should open with the inquiry drafted.'
-                : id
-                  ? 'Formulir membuka aplikasi email Anda secara aman. Tidak ada data yang disimpan di situs ini.'
-                  : 'Form opens your email client securely. No data is stored on this site.'}
+          <div className="contact-block">
+            <h2>Official Website</h2>
+            <p>
+              <a href="https://www.petrotwogroup.com" target="_blank" rel="noreferrer">
+                www.petrotwogroup.com
+              </a>
+            </p>
+          </div>
+
+          <div className="contact-block">
+            <h2>Business Email</h2>
+            <p>
+              <a href="mailto:info@petrotwogroup.com">info@petrotwogroup.com</a>
             </p>
           </div>
         </div>
       </section>
-
-      <CtaBand />
     </>
   )
 }
@@ -171,6 +87,7 @@ export function StoragePage() {
   return (
     <>
       <PageHero
+        hero="storage"
         label={id ? 'Penyimpanan' : 'Storage'}
         title={id ? 'Jaringan Tank Farm & Penyimpanan' : 'Tank Farm & Storage Network'}
         lead={
@@ -207,6 +124,7 @@ export function InternationalPage() {
   return (
     <>
       <PageHero
+        hero="international"
         label={id ? 'Internasional' : 'International'}
         title={id ? 'Jejak Global' : 'Global Presence'}
         lead={
@@ -243,6 +161,7 @@ export function CapitalPage() {
   return (
     <>
       <PageHero
+        hero="capital"
         label={id ? 'Permodalan' : 'Capital'}
         title={id ? 'Platform PetroTwo Capital' : 'PetroTwo Capital Platforms'}
         lead={
@@ -273,118 +192,6 @@ export function CapitalPage() {
 /* GlobalBiz                                                            */
 /* ------------------------------------------------------------------ */
 
-export function GlobalBizPage() {
-  const { lang } = useLang()
-  const id = lang === 'id'
-  return (
-    <>
-      <PageHero
-        label="GlobalBiz"
-        title="PetroTwo GlobalBiz — The Power Elite Global Biz"
-        lead={pick(globalBiz.tagline, lang)}
-        crumbs={[{ label: 'GlobalBiz' }]}
-      />
-
-      {/* Tradition & track record */}
-      <section className="section">
-        <div className="container">
-          <div className="section-head section-head-center">
-            <h2 className="section-title">{pick(globalBiz.heading, lang)}</h2>
-            <p className="section-lead">{pick(globalBiz.intro, lang)}</p>
-          </div>
-          <div className="stats-band">
-            {globalBiz.stats.map((s) => (
-              <div className="stat" key={s.label.en}>
-                <span className="stat-value">
-                  {s.value.toLocaleString('en-US')}
-                  <span className="suffix">{s.suffix}</span>
-                </span>
-                <div className="stat-label">{pick(s.label, lang)}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Services & why us */}
-      <section className="section section-surface">
-        <div className="container">
-          <div className="section-head section-head-center">
-            <h2 className="section-title">
-              {id ? 'Layanan Terbaik Kami' : 'We Provide Best Services'}
-            </h2>
-          </div>
-          <div className="split-2">
-            {globalBiz.services.map((s) => (
-              <div className="info-panel light" style={{ background: '#fff' }} key={s.title.en}>
-                <h3>{pick(s.title, lang)}</h3>
-                <p>{pick(s.text, lang)}</p>
-              </div>
-            ))}
-          </div>
-          <div
-            className="info-panel light"
-            style={{ background: '#fff', marginTop: 'var(--space-3)' }}
-          >
-            <h3>{id ? 'Mengapa Memilih Kami' : 'Why Choose Us'}</h3>
-            <ul>
-              {globalBiz.whyUs.map((point) => (
-                <li key={point.en}>{pick(point, lang)}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* Terminal projects */}
-      <section className="section section-navy">
-        <div className="container">
-          <div className="section-head section-head-center">
-            <h2 className="section-title" style={{ color: '#fff' }}>
-              {id ? 'Proyek Terminal' : 'Terminal Projects'}
-            </h2>
-          </div>
-          <div className="locations-grid">
-            {globalBiz.terminals.map((terminal) => (
-              <article className="location-card" key={terminal.name}>
-                <span>{pick(terminal.location, lang)}</span>
-                <h3>{terminal.name}</h3>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Group network */}
-      <section className="section section-navy" style={{ paddingTop: 0 }}>
-        <div className="container">
-          <div className="section-head section-head-center">
-            <h2 className="section-title" style={{ color: '#fff' }}>
-              {id ? 'Jaringan Grup' : 'Group Network'}
-            </h2>
-          </div>
-          <div className="locations-grid">
-            {[
-              'PetroTwo Capital',
-              'PetroTwo Energy',
-              'PetroTwo International',
-              'PetroTwo Marine',
-              'PetroTwo Trading',
-              'PetroTwo GlobalBiz',
-            ].map((name) => (
-              <article className="location-card" key={name}>
-                <span>{id ? 'Jaringan' : 'Network'}</span>
-                <h3>{name}</h3>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-      <CtaBand />
-    </>
-  )
-}
-
 /* ------------------------------------------------------------------ */
 /* News                                                                 */
 /* ------------------------------------------------------------------ */
@@ -396,6 +203,7 @@ export function NewsPage() {
   return (
     <>
       <PageHero
+        hero="news"
         label={t('newsEyebrow')}
         title={id ? 'Kabar Korporasi Terkini' : 'Latest Corporate Updates'}
         lead={
@@ -440,6 +248,7 @@ export function SubholdingPage() {
   return (
     <>
       <PageHero
+        hero="subholding"
         label="SubHolding"
         title={id ? 'Struktur SubHolding' : 'SubHolding Structure'}
         lead={
@@ -477,6 +286,7 @@ export function InvestorPage() {
   return (
     <>
       <PageHero
+        hero="investor"
         label={t('footInvestor')}
         title={id ? 'Pertumbuhan Berbasis Aset' : 'Asset-Backed Growth'}
         lead={
@@ -529,6 +339,7 @@ export function SustainabilityPage() {
   return (
     <>
       <PageHero
+        hero="sustainability"
         label={t('footSustainability')}
         title={id ? 'Pertumbuhan Energi yang Bertanggung Jawab' : 'Responsible Energy Growth'}
         lead={
@@ -576,6 +387,7 @@ export function StoriesPage() {
   return (
     <>
       <PageHero
+        hero="stories"
         label={id ? 'Kisah Kami' : 'Our Stories'}
         title={id ? 'Merajut Perjalanan PetroTwo' : 'Building the PetroTwo Journey'}
         lead={
@@ -606,81 +418,7 @@ export function StoriesPage() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Sector detail                                                        */
-/* ------------------------------------------------------------------ */
-
-export function SectorPage({ slug }: { slug: string }) {
-  const { lang } = useLang()
-  const t = useT()
-  const sector = sectors.find((s) => s.to.endsWith(slug)) ?? sectors[0]
-  const label = pick(sector.label, lang)
-  const description = pick(sector.description, lang)
-  const id = lang === 'id'
-  const detail = sectorDetails[slug]
-
-  return (
-    <>
-      <SubPageIntro
-        label={id ? 'Divisi Bisnis' : 'Business Division'}
-        title={label}
-        desc={description}
-        image={sector.image}
-        crumbs={[{ label: t('navBusinesses') }, { label }]}
-      />
-
-      {detail && (
-        <section className="section section-surface">
-          <div className="container">
-            <div className="section-head section-head-center">
-              <h2 className="section-title">{pick(detail.heading, lang)}</h2>
-              {detail.intro && <p className="section-lead">{pick(detail.intro, lang)}</p>}
-            </div>
-            <div className="split-2">
-              {detail.groups.map((group) => (
-                <div className="info-panel light" style={{ background: '#fff' }} key={group.title.en}>
-                  <h3>{pick(group.title, lang)}</h3>
-                  <ul>
-                    {group.points.map((point) => (
-                      <li key={point.en}>{pick(point, lang)}</li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-            {detail.note && (
-              <p
-                className="section-lead"
-                style={{ textAlign: 'center', marginInline: 'auto', marginTop: 'var(--space-4)' }}
-              >
-                {pick(detail.note, lang)}
-              </p>
-            )}
-          </div>
-        </section>
-      )}
-
-      <section className={`section ${detail ? '' : 'section-surface'}`}>
-        <div className="container">
-          <div
-            className="info-panel light"
-            style={{ background: detail ? 'var(--color-surface)' : '#fff', maxWidth: 720, marginInline: 'auto', textAlign: 'center' }}
-          >
-            <h3>{id ? 'Peluang Kerja Sama' : 'Partnership Opportunities'}</h3>
-            <p>
-              {id
-                ? `Jelajahi peluang kemitraan, permintaan komersial, dan kolaborasi proyek dalam portofolio ${label}.`
-                : `Explore partnership opportunities, commercial inquiries, and project collaboration under the ${label} portfolio.`}
-            </p>
-          </div>
-        </div>
-      </section>
-      <CtaBand />
-    </>
-  )
-}
-
-/* ------------------------------------------------------------------ */
-/* Legal                                                                */
+/* News detail                                                          */
 /* ------------------------------------------------------------------ */
 
 export function NewsDetailPage({ slug }: { slug: string }) {
@@ -713,7 +451,7 @@ export function NewsDetailPage({ slug }: { slug: string }) {
               ? `Untuk pertanyaan media atau informasi lebih lanjut mengenai kabar ini, silakan hubungi tim komunikasi korporat kami di ${company.email}.`
               : `For media inquiries or further information regarding this update, please contact our corporate communications team at ${company.email}.`}
           </p>
-          <div className="profile-actions" style={{ justifyContent: 'center' }}>
+          <div className="btn-row btn-row-center profile-actions">
             <Link to="/news" className="btn btn-outline-navy">
               {id ? '← Semua Berita' : '← All News'}
             </Link>

@@ -1,27 +1,31 @@
 import { useEffect } from 'react'
-import { Route, Routes, useLocation, useParams } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom'
 import { Footer, Header, ScrollTopButton } from './components/Layout'
 import { AboutPage } from './pages/AboutPage'
 import { DesignSystemPage } from './pages/DesignSystemPage'
+import { DivisionPage, DivisionsIndexPage } from './pages/DivisionPage'
 import { HomePage } from './pages/HomePage'
 import { NotFoundPage } from './pages/NotFoundPage'
 import {
+  CompanyProfilePage,
+  CompanyProfilePdfPage,
+  GlobalBizPage,
+} from './pages/ProfilePages'
+import {
   CapitalPage,
   ContactPage,
-  GlobalBizPage,
   InternationalPage,
   InvestorPage,
   LegalPage,
   NewsDetailPage,
   NewsPage,
-  SectorPage,
   StoragePage,
   StoriesPage,
   SubholdingPage,
   SustainabilityPage,
 } from './pages/MorePages'
 import { PricingPage, ServicesPage } from './pages/ServicesPage'
-import { TaxationPage } from './pages/TaxationPage'
+import { TaxPage } from './pages/TaxPage'
 
 /**
  * React Router doesn't scroll to #hash targets on navigation; the business
@@ -44,9 +48,9 @@ function ScrollManager() {
   return null
 }
 
-function SectorRoute() {
+function DivisionRoute() {
   const { slug = 'energy' } = useParams()
-  return <SectorPage slug={slug} />
+  return <DivisionPage slug={slug} />
 }
 
 function NewsDetailRoute() {
@@ -66,18 +70,29 @@ export default function App() {
           <Route path="/stories" element={<StoriesPage />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/pricing" element={<PricingPage />} />
-          <Route path="/taxation" element={<TaxationPage />} />
+          <Route path="/oil-gas-price" element={<Navigate to="/pricing" replace />} />
+          <Route path="/tax" element={<TaxPage />} />
+          <Route path="/taxation" element={<Navigate to="/tax" replace />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/storage" element={<StoragePage />} />
           <Route path="/international" element={<InternationalPage />} />
           <Route path="/capital" element={<CapitalPage />} />
-          <Route path="/globalbiz" element={<GlobalBizPage />} />
           <Route path="/news" element={<NewsPage />} />
           <Route path="/news/:slug" element={<NewsDetailRoute />} />
           <Route path="/subholding" element={<SubholdingPage />} />
           <Route path="/investor-relations" element={<InvestorPage />} />
           <Route path="/sustainability" element={<SustainabilityPage />} />
-          <Route path="/sectors/:slug" element={<SectorRoute />} />
+
+          {/* Business divisions — one page per unit. */}
+          <Route path="/business-divisions" element={<DivisionsIndexPage />} />
+          <Route path="/divisions/:slug" element={<DivisionRoute />} />
+          <Route path="/sectors/:slug" element={<DivisionRoute />} />
+
+          {/* Company profile documents linked from the homepage About block. */}
+          <Route path="/petrotwo-group" element={<CompanyProfilePage />} />
+          <Route path="/company-profile-pdf" element={<CompanyProfilePdfPage />} />
+          <Route path="/globalbiz" element={<GlobalBizPage />} />
+
           <Route path="/design-system" element={<DesignSystemPage />} />
           <Route path="/privacy" element={<LegalPage page="privacy" />} />
           <Route path="/scam-alert" element={<LegalPage page="scam" />} />

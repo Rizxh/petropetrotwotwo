@@ -1,19 +1,18 @@
 import { Link } from 'react-router-dom'
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useRef, type ReactNode } from 'react'
 import { CtaBand } from '../components/Layout'
 import {
   businesses,
-  featuredProjects,
-  globalPresence,
-  newsItems,
-  partners,
-  sectorDetails,
-  stats,
-  visionTimeline,
-  waContacts,
-  waHref,
+  companyDocs,
+  pricingDocs,
+  pricingOrigin,
+  pricingRows,
+  projects,
+  services,
+  team,
   type BusinessGroup,
 } from '../data/content'
+import { divisionPath } from '../data/divisions'
 import { pick, useLang, useT, type StringKey } from '../i18n'
 
 /* ---------------------------------------------------------- */
@@ -46,53 +45,6 @@ function useRevealAll<T extends HTMLElement>(rerunKey?: unknown) {
   }, [rerunKey])
 
   return ref
-}
-
-/* ---------------------------------------------------------- */
-/* Animated counter                                            */
-/* ---------------------------------------------------------- */
-
-function Counter({ value, suffix }: { value: number; suffix: string }) {
-  const ref = useRef<HTMLSpanElement>(null)
-  const [display, setDisplay] = useState(0)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    let raf = 0
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return
-        observer.disconnect()
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          setDisplay(value)
-          return
-        }
-        const duration = 1600
-        const start = performance.now()
-        const tick = (now: number) => {
-          const t = Math.min((now - start) / duration, 1)
-          const eased = 1 - Math.pow(1 - t, 3)
-          setDisplay(Math.round(value * eased))
-          if (t < 1) raf = requestAnimationFrame(tick)
-        }
-        raf = requestAnimationFrame(tick)
-      },
-      { threshold: 0.6 },
-    )
-    observer.observe(el)
-    return () => {
-      observer.disconnect()
-      cancelAnimationFrame(raf)
-    }
-  }, [value])
-
-  return (
-    <span ref={ref} className="stat-value">
-      {display.toLocaleString('en-US')}
-      <span className="suffix">{suffix}</span>
-    </span>
-  )
 }
 
 /* ---------------------------------------------------------- */
@@ -173,7 +125,11 @@ const bizGroups: { key: BusinessGroup; labelKey: StringKey }[] = [
   { key: 'global', labelKey: 'groupGlobal' },
 ]
 
-function BusinessSections() {
+/**
+ * Business unit cards. The full write-up for each unit now lives on its own
+ * page (/divisions/<slug>), so the homepage only teases them.
+ */
+export function BusinessCards() {
   const { lang } = useLang()
   const t = useT()
 
@@ -185,55 +141,30 @@ function BusinessSections() {
             <span>{t(group.labelKey)}</span>
           </div>
 
-          {businesses
-            .filter((b) => b.group === group.key)
-            .map((b) => {
-              const slug = b.to.split('/').pop() ?? ''
-              const detail = sectorDetails[slug]
-              const reverse = businesses.indexOf(b) % 2 === 1
-
-              return (
-                <article className={`biz-detail ${reverse ? 'reverse' : ''}`} id={slug} key={b.to}>
-                  <div className="biz-detail-media reveal reveal-image">
-                    <img src={b.image} alt={pick(b.label, lang)} loading="lazy" />
-                  </div>
-
-                  <div className="biz-detail-body">
-                    <div className="biz-detail-head reveal">
-                      <div className="biz-card-icon">
-                        <BizIcon name={b.label.en} />
-                      </div>
-                      <h3>{pick(b.label, lang)}</h3>
+          <div className="biz-grid">
+            {businesses
+              .filter((b) => b.group === group.key)
+              .map((b, i) => (
+                <Link
+                  to={divisionPath(b.slug)}
+                  className={`biz-card reveal biz-theme-${b.slug}`}
+                  key={b.slug}
+                  style={{ ['--reveal-delay' as string]: `${(i % 4) * 80}ms` }}
+                >
+                  <img src={b.image} alt="" loading="lazy" />
+                  <div className="biz-card-body">
+                    <div className="biz-card-icon">
+                      <BizIcon name={b.label.en} />
                     </div>
-                    <p className="biz-detail-desc reveal" style={{ ['--reveal-delay' as string]: '80ms' }}>
-                      {pick(b.description, lang)}
-                    </p>
-
-                    {detail && (
-                      <div className="reveal" style={{ ['--reveal-delay' as string]: '160ms' }}>
-                        <h4 className="biz-detail-heading">{pick(detail.heading, lang)}</h4>
-                        {detail.intro && <p className="biz-detail-intro">{pick(detail.intro, lang)}</p>}
-
-                        <div className="biz-detail-points">
-                          {detail.groups.map((pointGroup) => (
-                            <div className="biz-detail-panel" key={pointGroup.title.en}>
-                              <h5>{pick(pointGroup.title, lang)}</h5>
-                              <ul>
-                                {pointGroup.points.map((point) => (
-                                  <li key={point.en}>{pick(point, lang)}</li>
-                                ))}
-                              </ul>
-                            </div>
-                          ))}
-                        </div>
-
-                        {detail.note && <p className="biz-detail-note">{pick(detail.note, lang)}</p>}
-                      </div>
-                    )}
+                    <h3>{pick(b.label, lang)}</h3>
+                    <p>{pick(b.description, lang)}</p>
+                    <span className="biz-card-arrow">
+                      {t('ecoCta')} <span aria-hidden>→</span>
+                    </span>
                   </div>
-                </article>
-              )
-            })}
+                </Link>
+              ))}
+          </div>
         </div>
       ))}
     </>
@@ -247,68 +178,50 @@ function BusinessSections() {
 export function HomePage() {
   const { lang } = useLang()
   const t = useT()
+  const id = lang === 'id'
   const pageRef = useRevealAll<HTMLDivElement>(lang)
 
   return (
     <div ref={pageRef} key={lang}>
-      {/* 2 — HERO */}
+      {/* 1 — HERO */}
       <section className="hero">
+        {/* Upstream extraction rather than a vessel — the hero should lead
+            with what the group produces, not how it ships. */}
         <div className="hero-media" aria-hidden>
-          <img src="/assets/master/marine-lng.jpeg" alt="" fetchPriority="high" />
+          <img src="/assets/div/energy-cover.jpg" alt="" fetchPriority="high" />
         </div>
         <div className="hero-content">
-          <div className="hero-kicker reveal">{t('heroKicker')}</div>
+          <ul className="hero-badges reveal">
+            <li>{t('heroBadge1')}</li>
+            <li>{t('heroBadge2')}</li>
+            <li>{t('heroBadge3')}</li>
+          </ul>
           <h1 className="reveal" style={{ ['--reveal-delay' as string]: '120ms' }}>
             {t('heroTitle')}
           </h1>
           <p className="hero-lead reveal" style={{ ['--reveal-delay' as string]: '240ms' }}>
             {t('heroLead')}
           </p>
-          <div className="hero-actions reveal" style={{ ['--reveal-delay' as string]: '360ms' }}>
+          <div
+            className="btn-row hero-actions reveal"
+            style={{ ['--reveal-delay' as string]: '360ms' }}
+          >
             <Link to="/about" className="btn btn-gold btn-lg">
               {t('heroCta1')}
             </Link>
-            <a
-              href={waHref(waContacts.info, lang)}
-              target="_blank"
-              rel="noreferrer"
-              className="btn btn-outline btn-lg"
-            >
+            <Link to="/contact" className="btn btn-outline btn-lg">
               {t('heroCta2')}
-            </a>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* 3 — STRATEGIC PARTNERS */}
-      <section className="partners-band" aria-label={t('partnersTitle')}>
-        <p className="partners-title">{t('partnersTitle')}</p>
-        <div className="marquee">
-          {[0, 1].map((dup) => (
-            <div className="marquee-track" key={dup} aria-hidden={dup === 1}>
-              {partners.map((name) => (
-                <span className="partner-mark" key={`${dup}-${name}`}>
-                  {name}
-                </span>
-              ))}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 3 — COMPANY OVERVIEW */}
-      <section className="section" id="overview">
+      {/* 2 — ABOUT */}
+      <section className="section" id="about">
         <div className="container overview-grid">
           <div className="overview-media reveal">
             <div className="photo-main reveal-image">
-              <img src="/assets/master/news-signing.jpeg" alt="PetroTwo Group NDA & MOU signing ceremony" />
-            </div>
-            <div className="photo-float">
-              <img src="/assets/master/hotels-hq.jpeg" alt="PetroTwo headquarters development" />
-            </div>
-            <div className="experience-chip">
-              <strong>25</strong>
-              <span>{t('experienceLabel')}</span>
+              <img src="/assets/div/home-about.jpg" alt="Oil Rig" />
             </div>
           </div>
 
@@ -319,55 +232,61 @@ export function HomePage() {
               {t('companyAbout')}
             </p>
 
-            <div className="mv-grid">
-              <div className="mv-item reveal" style={{ ['--reveal-delay' as string]: '160ms' }}>
-                <h4>{t('missionTitle')}</h4>
-                <p>{t('missionText')}</p>
-              </div>
-              <div className="mv-item reveal" style={{ ['--reveal-delay' as string]: '240ms' }}>
-                <h4>{t('visionTitle')}</h4>
-                <p>{t('visionText')}</p>
-              </div>
-            </div>
-
-            <div className="overview-actions reveal" style={{ ['--reveal-delay' as string]: '320ms' }}>
-              <Link to="/about" className="btn btn-primary">
-                {t('readMore')}
-              </Link>
+            {/* Three company-profile documents, exactly as on petrotwogroup.com. */}
+            <div
+              className="btn-row btn-row-stack overview-actions reveal"
+              style={{ ['--reveal-delay' as string]: '200ms' }}
+            >
+              {companyDocs.map((doc) => (
+                <Link key={doc.slug} to={`/${doc.slug}`} className="btn btn-primary btn-block">
+                  {doc.label}
+                </Link>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* 4 — VISION 2040 */}
-      <section className="section section-navy">
+      {/* 3 — OUR SERVICES */}
+      <section className="section section-surface" id="services">
         <div className="container">
-          <div className="section-head">
-            <div className="eyebrow reveal">{t('v2040Eyebrow')}</div>
-            <h2 className="section-title reveal">{t('v2040Title')}</h2>
-            <p className="section-lead reveal" style={{ ['--reveal-delay' as string]: '100ms' }}>
-              {t('v2040Lead')}
-            </p>
+          <div className="section-head-row">
+            <div className="section-head">
+              <div className="eyebrow reveal">{id ? 'Layanan Kami' : 'Our Services'}</div>
+              <h2 className="section-title reveal">{id ? 'Apa yang Kami Lakukan' : 'What We Do'}</h2>
+              <p className="section-lead reveal" style={{ ['--reveal-delay' as string]: '100ms' }}>
+                Integrated Energy, Logistics, and Strategic Investments for a Connected World
+              </p>
+            </div>
+            <Link to="/services" className="btn btn-outline-navy reveal">
+              All Services
+            </Link>
           </div>
 
-          <div className="timeline">
-            {visionTimeline.map((item, i) => (
-              <div
-                key={item.year}
-                className={`timeline-item reveal ${item.milestone ? 'is-milestone' : ''}`}
-                style={{ ['--reveal-delay' as string]: `${i * 90}ms` }}
+          <div className="services-grid">
+            {services.map((service, i) => (
+              <Link
+                to={divisionPath(service.division)}
+                className="service-card reveal"
+                key={service.id}
+                style={{ ['--reveal-delay' as string]: `${(i % 2) * 90}ms` }}
               >
-                <div className="timeline-year">{item.year}</div>
-                <h4>{pick(item.title, lang)}</h4>
-                <p>{pick(item.text, lang)}</p>
-              </div>
+                <img src={service.image} alt="" loading="lazy" />
+                <div className="service-card-body">
+                  <div className="num">[{service.id}]</div>
+                  <h3>{service.title}</h3>
+                  <p style={{ marginTop: '0.45rem', color: 'rgba(255,255,255,0.72)' }}>
+                    {service.description}
+                  </p>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 5 — BUSINESS ECOSYSTEM */}
-      <section className="section section-surface">
+      {/* 4 — BUSINESS DIVISIONS */}
+      <section className="section" id="business-divisions">
         <div className="container">
           <div className="section-head-row">
             <div className="section-head">
@@ -377,119 +296,38 @@ export function HomePage() {
                 {t('ecoLead')}
               </p>
             </div>
-          </div>
-
-          <BusinessSections />
-        </div>
-      </section>
-
-      {/* 6 — GLOBAL PRESENCE */}
-      <section className="section section-navy">
-        <div className="container globe-grid">
-          <div className="globe-map reveal reveal-image">
-            <img src="/assets/master/world-map.jpeg" alt="PetroTwo Group global network map" />
-          </div>
-
-          <div>
-            <div className="eyebrow reveal">{t('globalEyebrow')}</div>
-            <h2 className="section-title reveal">{t('globalTitle')}</h2>
-            <p className="section-lead reveal" style={{ ['--reveal-delay' as string]: '100ms' }}>
-              {t('globalLead')}
-            </p>
-
-            <div className="globe-list" style={{ marginTop: 'var(--space-4)' }}>
-              {globalPresence.map((loc, i) => (
-                <div
-                  key={loc.name.en}
-                  className="globe-row reveal"
-                  style={{ ['--reveal-delay' as string]: `${i * 60}ms` }}
-                >
-                  <strong>{pick(loc.name, lang)}</strong>
-                  <span>{pick(loc.role, lang)}</span>
-                  {loc.hq && <span className="badge badge-inverse">HQ</span>}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 7 — STATISTICS */}
-      <section className="section">
-        <div className="container">
-          <div className="stats-band">
-            {stats.map((s, i) => (
-              <div key={s.label.en} className="stat reveal" style={{ ['--reveal-delay' as string]: `${i * 80}ms` }}>
-                <Counter value={s.value} suffix={s.suffix} />
-                <div className="stat-label">{pick(s.label, lang)}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 8 — FEATURED PROJECTS */}
-      <section className="section section-surface">
-        <div className="container">
-          <div className="section-head-row">
-            <div className="section-head">
-              <div className="eyebrow reveal">{t('projectsEyebrow')}</div>
-              <h2 className="section-title reveal">{t('projectsTitle')}</h2>
-            </div>
-            <Link to="/services" className="btn btn-outline-navy reveal">
-              {t('projectsCta')}
+            <Link to="/business-divisions" className="btn btn-outline-navy reveal">
+              {t('divisionAll')}
             </Link>
           </div>
 
-          <div className="projects-grid">
-            {featuredProjects.map((p, i) => {
-              const span = i === 0 ? 'span-7' : i === 1 ? 'span-5' : 'span-4'
-              return (
-                <Link
-                  key={p.title.en}
-                  to="/services"
-                  className={`project-card ${span} reveal`}
-                  style={{ ['--reveal-delay' as string]: `${(i % 3) * 90}ms` }}
-                >
-                  <img src={p.image} alt="" loading="lazy" />
-                  <div className="project-card-body">
-                    <small>{pick(p.location, lang)}</small>
-                    <h3>{pick(p.title, lang)}</h3>
-                    <p>{pick(p.summary, lang)}</p>
-                  </div>
-                </Link>
-              )
-            })}
-          </div>
+          <BusinessCards />
         </div>
       </section>
 
-      {/* 9 — LATEST NEWS */}
-      <section className="section">
+      {/* 5 — OUR TEAM */}
+      <section className="section section-surface team-section" id="team">
         <div className="container">
-          <div className="section-head-row">
-            <div className="section-head">
-              <div className="eyebrow reveal">{t('newsEyebrow')}</div>
-              <h2 className="section-title reveal">{t('newsTitle')}</h2>
-            </div>
-            <Link to="/news" className="btn btn-outline-navy reveal">
-              {t('newsCta')}
-            </Link>
+          <div className="section-head">
+            <div className="eyebrow reveal">{id ? 'Tim Kami' : 'Our Team'}</div>
+            <h2 className="section-title reveal">PetroTwo Energy International Team</h2>
           </div>
-
-          <div className="news-grid">
-            {newsItems.slice(0, 3).map((item, i) => (
+          <div className="team-grid">
+            {team.map((member, i) => (
               <article
-                className="news-card reveal"
-                key={item.title.en}
+                className="team-card reveal"
+                key={member.name}
                 style={{ ['--reveal-delay' as string]: `${i * 90}ms` }}
               >
-                <img src={item.image} alt="" loading="lazy" />
-                <div className="news-card-body">
-                  <small>{pick(item.category, lang)}</small>
-                  <h3>{pick(item.title, lang)}</h3>
-                  <p>{pick(item.excerpt, lang)}</p>
-                  <time>{pick(item.date, lang)}</time>
+                <div className="team-card-media">
+                  <img src={member.image} alt={member.name} loading="lazy" />
+                  {member.bio.en ? (
+                    <p className="team-card-bio">{pick(member.bio, lang)}</p>
+                  ) : null}
+                </div>
+                <div className="team-card-body">
+                  <h3>{member.name}</h3>
+                  <span>{pick(member.role, lang)}</span>
                 </div>
               </article>
             ))}
@@ -497,7 +335,87 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* 10 — CTA */}
+      {/* 6 — PROJECT EXPERIENCES */}
+      <section className="section" id="projects">
+        <div className="container">
+          <div className="section-head">
+            <h2 className="section-title reveal">Project Experiences</h2>
+          </div>
+          <ul className="projects-list">
+            {projects.map((item, i) => (
+              <li
+                className="reveal"
+                key={item.en}
+                style={{ ['--reveal-delay' as string]: `${i * 60}ms` }}
+              >
+                {pick(item, lang)}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* 7 — MARKET & PRICING SNAPSHOT */}
+      <section className="section section-surface pricing-section" id="pricing">
+        <div className="container">
+          <div className="section-head">
+            <h2 className="section-title reveal">Market &amp; Pricing Snapshot</h2>
+            <p className="section-lead reveal">Full Corporate Offer (FCO)</p>
+            <p className="section-lead reveal" style={{ color: '#c62828' }}>Expired December 2026</p>
+          </div>
+
+          <div className="table-wrap reveal">
+            <table>
+              <thead>
+                <tr>
+                  <th>Items</th>
+                  <th>CIF Price</th>
+                  <th>FOB Price</th>
+                  <th>Note</th>
+                </tr>
+              </thead>
+              <tbody>
+                {pricingRows.map((row) => (
+                  <tr key={row.item}>
+                    <td>
+                      <strong>{row.item}</strong>
+                    </td>
+                    <td>{row.cif}</td>
+                    <td>{row.fob}</td>
+                    <td>
+                      <span className="muted">
+                        {row.note}
+                        <br />
+                        {row.contract}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <p className="form-note" style={{ marginTop: 'var(--space-2)', fontSize: '1.125rem' }}>
+            Country of Origin: {pricingOrigin}
+          </p>
+
+          <div className="btn-row" style={{ marginTop: 'var(--space-3)' }}>
+            {pricingDocs.map((doc) => (
+              <a
+                key={doc.label}
+                className="btn btn-outline-navy"
+                href={doc.href}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {doc.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 8 — LET'S WORK TOGETHER */}
       <CtaBand />
     </div>
   )

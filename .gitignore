@@ -31,3 +31,7 @@ Thumbs.db
 
 # Claude / local tooling
 .claude/
+
+# Local reference dumps (not for deploy)
+web/File/
+

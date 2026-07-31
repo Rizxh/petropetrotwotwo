@@ -1,6 +1,7 @@
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { bizAnchor, businesses, company, waContacts, waHref } from '../data/content'
+import { businesses, company, waContacts, waHref } from '../data/content'
+import { divisionPath } from '../data/divisions'
 import { pick, useLang, useT } from '../i18n'
 
 const LOGO = '/assets/master/logo-emblem.jpeg'
@@ -24,10 +25,10 @@ export function Header() {
 
   const navLinks = [
     { label: t('navAbout'), to: '/about' },
-    { label: t('navProjects'), to: '/services' },
-    { label: t('navInvestors'), to: '/investor-relations' },
-    { label: t('navTax'), to: '/taxation' },
-    { label: t('navNews'), to: '/news' },
+    { label: t('navDivisions'), to: '/business-divisions' },
+    { label: t('navServices'), to: '/services' },
+    { label: t('navPricing'), to: '/pricing' },
+    { label: t('navContact'), to: '/contact' },
   ]
 
   useEffect(() => {
@@ -73,6 +74,9 @@ export function Header() {
         </Link>
 
         <nav className="header-nav" aria-label="Primary">
+          <NavLink to="/" end>
+            {t('navHome')}
+          </NavLink>
           {navLinks.map((item) => (
             <NavLink key={item.to} to={item.to}>
               {item.label}
@@ -121,10 +125,14 @@ export function Header() {
 
       <nav className="biz-strip" aria-label={t('navBusinesses')}>
         {businesses.map((b) => (
-          <Link key={b.to} to={bizAnchor(b.to)}>
+          <Link key={b.slug} to={divisionPath(b.slug)}>
             {pick(b.label, lang)}
           </Link>
         ))}
+        {/* Tax sits last in the strip and links to its own coloured page. */}
+        <Link to="/tax" className="biz-strip-tax">
+          {t('navTax')}
+        </Link>
       </nav>
 
       <div className={`mobile-nav ${mobileOpen ? 'open' : ''}`}>
@@ -140,10 +148,13 @@ export function Header() {
         <p className="mobile-group-label">{t('navBusinesses')}</p>
         <div className="mobile-biz">
           {businesses.map((b) => (
-            <Link key={b.to} to={bizAnchor(b.to)} onClick={() => setMobileOpen(false)}>
+            <Link key={b.slug} to={divisionPath(b.slug)} onClick={() => setMobileOpen(false)}>
               {pick(b.label, lang)}
             </Link>
           ))}
+          <Link to="/tax" onClick={() => setMobileOpen(false)}>
+            {t('navTax')}
+          </Link>
         </div>
 
         <p className="mobile-group-label">WhatsApp</p>
@@ -230,7 +241,7 @@ export function Footer() {
           <div className="footer-col">
             <h4>{t('footBusinesses')}</h4>
             {businesses.slice(0, 6).map((b) => (
-              <Link key={b.to} to={bizAnchor(b.to)}>
+              <Link key={b.slug} to={divisionPath(b.slug)}>
                 {pick(b.label, lang)}
               </Link>
             ))}
@@ -239,47 +250,44 @@ export function Footer() {
           <div className="footer-col">
             <h4>{t('footQuickLinks')}</h4>
             <Link to="/about">{t('footAbout')}</Link>
+            <Link to="/business-divisions">{t('navDivisions')}</Link>
+            <Link to="/pricing">{t('navPricing')}</Link>
             <Link to="/services">{t('footProjects')}</Link>
-            <Link to="/investor-relations">{t('footInvestor')}</Link>
-            <Link to="/sustainability">{t('footSustainability')}</Link>
-            <Link to="/taxation">{t('navTax')}</Link>
+            <Link to="/tax">{t('navTax')}</Link>
             <Link to="/news">{t('footNews')}</Link>
             <a href={waHref(waContacts.info, lang)} target="_blank" rel="noreferrer">
               {t('footContact')}
             </a>
           </div>
 
-          <div className="footer-col">
-            <h4>{t('footStayInformed')}</h4>
-            <p>{t('footNewsletter')}</p>
-            <form
-              className="newsletter"
-              onSubmit={(e) => {
-                e.preventDefault()
-                window.location.href = `mailto:${company.email}?subject=Newsletter Subscription`
-              }}
-            >
-              <input
-                type="email"
-                placeholder={t('footEmailPlaceholder')}
-                aria-label={t('footEmailPlaceholder')}
-                required
-              />
-              <button type="submit" className="btn btn-gold">
-                {t('footSubscribe')}
-              </button>
-            </form>
-            <p style={{ marginTop: 16 }}>
-              <a href={`mailto:${company.email}`}>{company.email}</a>
-              <br />
-              <a href={waHref(waContacts.order, lang)} target="_blank" rel="noreferrer">
-                Order Oil · {waContacts.order.display}
-              </a>
-              <br />
-              <a href={waHref(waContacts.info, lang)} target="_blank" rel="noreferrer">
-                Info Oil · {waContacts.info.display}
-              </a>
-            </p>
+          <div className="footer-col footer-contact">
+            <h4>{t('footGetInTouch')}</h4>
+            <p className="footer-contact-lead">{t('footContactLead')}</p>
+
+            <Link to="/contact" className="btn btn-gold footer-contact-cta">
+              {t('footContactCta')}
+            </Link>
+
+            {/* Each channel gets its own labelled row so the addresses and
+                numbers stay scannable instead of running together. */}
+            <ul className="footer-contact-list">
+              <li>
+                <span>Email</span>
+                <a href={`mailto:${company.email}`}>{company.email}</a>
+              </li>
+              <li>
+                <span>Order Oil</span>
+                <a href={waHref(waContacts.order, lang)} target="_blank" rel="noreferrer">
+                  {waContacts.order.display}
+                </a>
+              </li>
+              <li>
+                <span>Info Oil</span>
+                <a href={waHref(waContacts.info, lang)} target="_blank" rel="noreferrer">
+                  {waContacts.info.display}
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
 
@@ -322,21 +330,28 @@ export function Breadcrumb({ trail }: { trail: Crumb[] }) {
 }
 
 export function PageHero({
+  label,
   title,
   lead,
   crumbs,
+  hero,
 }: {
   label?: string
   title: string
   lead: string
   crumbs?: Crumb[]
+  /** Colour variant key — see `.page-hero[data-hero]` in global.css. */
+  hero?: string
 }) {
   return (
-    <section className="page-hero">
-      <div className="container">
+    <section className="page-hero" data-hero={hero}>
+      <div className="container page-hero-inner">
         {crumbs && <Breadcrumb trail={crumbs} />}
-        <h1>{title}</h1>
-        <p>{lead}</p>
+        <div className="page-hero-copy">
+          {label && <p className="page-hero-label">{label}</p>}
+          <h1>{title}</h1>
+          <p className="page-hero-lead">{lead}</p>
+        </div>
       </div>
     </section>
   )
@@ -409,14 +424,14 @@ export function CtaBand() {
   const t = useT()
   return (
     <section className="cta-band">
-      <img src="/assets/master/cta-refinery.jpeg" alt="" loading="lazy" />
+      <img src="/assets/news/cta-band.jpg" alt="" loading="lazy" />
       <div className="container">
-        <div className="eyebrow" style={{ marginBottom: 0 }}>
-          {t('ctaEyebrow')}
-        </div>
         <h2>{t('ctaTitle')}</h2>
         <p>{t('ctaText')}</p>
-        <div className="cta-band-actions">
+        <div className="btn-row btn-row-center cta-band-actions">
+          <Link to="/contact" className="btn btn-gold btn-lg">
+            {t('ctaButton')}
+          </Link>
           <a
             href={waHref(waContacts.order, lang)}
             target="_blank"
@@ -424,14 +439,6 @@ export function CtaBand() {
             className="btn btn-wa btn-lg"
           >
             <WaIcon /> Order Oil
-          </a>
-          <a
-            href={waHref(waContacts.info, lang)}
-            target="_blank"
-            rel="noreferrer"
-            className="btn btn-gold btn-lg"
-          >
-            {t('ctaButton')}
           </a>
         </div>
       </div>

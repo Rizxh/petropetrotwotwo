@@ -55,7 +55,7 @@ export type Business = {
   description: LS
 }
 
-export const businesses: Business[] = [
+const businessList: Business[] = [
   {
     label: { en: 'Energy', id: 'Energi' },
     to: '/sectors/energy',
@@ -168,11 +168,451 @@ export const businesses: Business[] = [
   },
 ]
 
-// Backwards-compatible alias used by SectorPage and legacy views.
+/** Each business unit now has its own page, so carry the slug on the record. */
+export const businesses = businessList.map((b) => ({
+  ...b,
+  slug: b.to.split('/').pop() ?? '',
+}))
+
+// Backwards-compatible alias used by legacy views.
 export const sectors = businesses
 
-/** Anchor on the homepage where each business unit's content lives. */
-export const bizAnchor = (to: string) => `/#${to.split('/').pop()}`
+/* ------------------------------------------------------------------ */
+/* Company profile documents — the three buttons in the homepage About  */
+/* section, mirroring petrotwogroup.com. Each opens its own page that   */
+/* renders the document inline.                                         */
+/* ------------------------------------------------------------------ */
+
+/** The three buttons under the homepage About block, labels verbatim. */
+export const companyDocs = [
+  { slug: 'petrotwo-group', label: 'PetroTwo Group Company Profile' },
+  { slug: 'company-profile-pdf', label: 'PetroTwo Group Company Profile (PDF)' },
+  { slug: 'globalbiz', label: 'PetroTwo GlobalBiz' },
+]
+
+/** The company profile PDF published on petrotwogroup.com. */
+export const companyProfilePdf = '/assets/Company-Profile-2024.pdf'
+
+/* ------------------------------------------------------------------ */
+/* Business Divisions page — copy transcribed from                      */
+/* petrotwogroup.com/business-divisions/                                */
+/* ------------------------------------------------------------------ */
+
+export const businessDivisionsPage = {
+  title: 'Business Divisions',
+  tagline: 'Synergized divisions shaping the future of global energy and development',
+  introEyebrow: 'Introduction to Our Business Ecosystem',
+  introHeading:
+    'A cohesive structure enabling efficient trading, strong investments, and resilient infrastructure',
+  introBody: [
+    'PetroTwo Group operates through a fully integrated ecosystem consisting of a global holding entity, investment arm, infrastructure companies, and a dedicated oil trading division.',
+    'Each division plays a critical role in supporting our mission to deliver reliable energy, world-class infrastructure, and sustainable long-term value for partners around the world.',
+  ],
+  listHeading: 'Our Business Divisions',
+  list: [
+    'PetroTwo International (Holding Company)',
+    'PetroTwo Capital (Investment Division)',
+    'Infrastructure & Tank Farm Division',
+    'Oil Trading Division',
+  ],
+  entries: [
+    {
+      eyebrow: 'Holding COmpany',
+      name: 'PetroTwo International',
+      image: '/assets/svc/invest-detail.jpg',
+      body: [
+        'PetroTwo International serves as the parent and strategic command center of all PetroTwo Group operations. The holding company oversees governance, corporate finance, compliance, and global strategic partnerships across multiple regions.',
+        'With strong leadership and a global network, PetroTwo International ensures that every subsidiary and business unit operates with excellence, transparency, and alignment to long-term corporate objectives.',
+      ],
+      listLabel: 'Core Functions:',
+      items: [
+        'Corporate governance & strategic direction',
+        'Global partnerships & investor relations',
+        'Compliance, risk, and group financial oversight',
+        'Expansion into new markets and sectors',
+        'Coordination across all business divisions',
+      ],
+    },
+    {
+      eyebrow: 'Investment division',
+      name: 'PetroTwo Capital',
+      image: '/assets/highlight-city.jpeg',
+      body: [
+        'PetroTwo Capital focuses on high-impact investments in the fields of energy, commodities, infrastructure, food & water security, and strategic development projects.',
+        'The division provides capital structuring, project financing, and advisory services to support long-term sustainable ventures.',
+        'PetroTwo Capital focuses on high-impact investments in the fields of energy, commodities, infrastructure, food & water security, and strategic development projects. The division provides capital structuring, project financing, and advisory services to support long-term sustainable ventures.',
+      ],
+      listLabel: 'Core Activities:',
+      items: [
+        'Project financing & structured investment',
+        'Energy & commodity investment strategies',
+        'Infrastructure and terminal development funding',
+        'Acquisitions & joint venture structuring',
+        'Portfolio management for long-term value creation',
+      ],
+    },
+  ],
+}
+
+/* ------------------------------------------------------------------ */
+/* Services page — copy transcribed from petrotwogroup.com/services/    */
+/* ------------------------------------------------------------------ */
+
+export const servicesPage = {
+  title: 'Services',
+  tagline: 'Energy. Infrastructure. Investment. Logistics. Excellence.',
+  overviewEyebrow: 'Service Overview',
+  overviewHeading: 'Integrated Services for Global Energy & Infrastructure',
+  overviewImage: '/assets/svc/overview.jpg',
+  overviewBody: [
+    'PetroTwo Group provides a comprehensive suite of services designed to support global energy trading, logistics, infrastructure development, and strategic investments. Our divisions work collaboratively to ensure seamless execution from sourcing to delivery, from investment planning to large-scale infrastructure development.',
+    'We combine operational capability, financial expertise, and international partnerships to deliver professional, reliable, and high-value services to governments, corporations, refineries, and private sector clients worldwide.',
+  ],
+  listEyebrow: 'Our Services',
+  listHeading: 'Integrated Services for Global Energy & Infrastructure',
+  listLead:
+    'We combine decades of experience with modern technology to provide services that keep industries moving forward.',
+  summary: [
+    {
+      num: '1',
+      image: '/assets/svc/trading-card.jpg',
+      title: 'Oil & Gas Supply, Trading & Market Solutions',
+      text: 'Through PT Motiolabs Energi Indonesia, PetroTwo Group provides full-spectrum oil and refined petroleum product trading services. Supported by global suppliers, refinery partners, and logistics operators, we ensure transparent, compliant, and timely delivery.',
+    },
+    {
+      num: '2',
+      image: '/assets/svc/logistics-card.jpg',
+      title: 'Fuel Transport, Logistics & Distribution',
+      text: 'PetroTwo Group coordinates logistics and transportation for petroleum products through trusted shipping partners, vessel operators, and port facilities. Our logistics team ensures safe, timely, and compliant movement of cargo across international routes.',
+    },
+    {
+      num: '3',
+      image: '/assets/svc/infra-card.jpg',
+      title: 'Tank Farm & Infrastructure Development Services',
+      text: 'Through its infrastructure subsidiaries, PetroTwo Group develops strategic energy infrastructure including tank farms, terminals, and regional storage hubs. These projects play a vital role in national and international energy security.',
+    },
+    {
+      num: '4',
+      image: '/assets/svc/invest-card.jpg',
+      title: 'Investment, Financing & Project Structuring Services',
+      text: 'PetroTwo Capital leads our investment and funding initiatives across energy, infrastructure, and strategic commodity projects. The division partners with global investors to support multi-million-dollar ventures and provide structured financial solutions.',
+    },
+  ],
+  detail: [
+    {
+      eyebrow: 'Oil & Gas Supply and Trading Services',
+      heading: 'Oil & Gas Supply, Trading & Market Solutions',
+      image: '/assets/svc/trading-detail.jpg',
+      body: 'Through PT Motiolabs Energi Indonesia, PetroTwo Group provides full-spectrum oil and refined petroleum product trading services. Supported by global suppliers, refinery partners, and logistics operators, we ensure transparent, compliant, and timely delivery.',
+      lists: [
+        {
+          label: 'Our Trading Services Include:',
+          items: [
+            'Supply of EN590 Diesel, Gasoline (RON 91/92/95), Jet Fuel, Crude Oil',
+            'LNG, LPG, LCO, and other petroleum derivatives',
+            'CIF and FOB delivery terms (ASWP)',
+            'Spot and long-term contract structures',
+            'FCO issuance, contract documentation & compliance',
+            'Buyer–seller coordination & communication',
+            'MT799 / MT760 bank instrument procedures (high-level only)',
+          ],
+        },
+        {
+          label: 'Value Delivered:',
+          items: [
+            'Competitive pricing',
+            'Strong documentation process',
+            'Reliable shipment coordination',
+            'International compliance & anti-fraud standards',
+          ],
+        },
+      ],
+    },
+    {
+      eyebrow: 'Fuel Transport & Logistics Services',
+      heading: 'Fuel Transport, Logistics & Distribution',
+      image: '/assets/svc/logistics-detail.jpg',
+      body: 'PetroTwo Group coordinates logistics and transportation for petroleum products through trusted shipping partners, vessel operators, and port facilities. Our logistics team ensures safe, timely, and compliant movement of cargo across international routes.',
+      lists: [
+        {
+          label: 'Our Logistics Capabilities:',
+          items: [
+            'Marine fuel transportation (tanker vessels, chartering, coordination)',
+            'Port handling, ship-to-ship (STS) operations & documentation',
+            'Terminal & storage access through infrastructure division',
+            'Cargo scheduling, tracking, and delivery assurance',
+            'Integrated supply chain & risk management',
+          ],
+        },
+        {
+          label: 'Benefits:',
+          items: [
+            'Safe & efficient logistics execution',
+            'Coordination with terminal operators',
+            'Reduced delays & optimized shipping routes',
+            'Professional compliance with maritime regulations',
+          ],
+        },
+      ],
+    },
+    {
+      eyebrow: 'Tank Farm & Infrastructure Development Services',
+      heading: 'Infrastructure Development & Terminal Engineering',
+      image: '/assets/svc/infra-detail.jpg',
+      body: 'Through its infrastructure subsidiaries, PetroTwo Group develops strategic energy infrastructure including tank farms, terminals, and regional storage hubs. These projects play a vital role in national and international energy security.',
+      lists: [
+        {
+          label: 'Our Development Services:',
+          items: [
+            'Feasibility studies & master planning',
+            'Engineering, construction & procurement',
+            'Land development & regulatory compliance',
+            'Terminal layout, tank design & safety systems',
+            'Operational planning & long-term management',
+          ],
+        },
+        {
+          label: 'Strategic Advantages:',
+          items: [
+            'Strengthening regional energy distribution',
+            'Enabling large-volume storage & logistics',
+            'Supporting refinery and trading partners',
+            'Enhancing national energy resilience',
+          ],
+        },
+      ],
+    },
+    {
+      eyebrow: 'Investment, Financing & Project Structuring Services',
+      heading: 'Investment, Financing & Strategic Project Structuring',
+      image: '/assets/master/capital-city.jpeg',
+      body: 'PetroTwo Capital leads our investment and funding initiatives across energy, infrastructure, and strategic commodity projects. The division partners with global investors to support multi-million-dollar ventures and provide structured financial solutions.',
+      lists: [
+        {
+          label: 'Investment Services:',
+          items: [
+            'Project financing (equity & debt structures)',
+            'Joint venture creation & strategic partnerships',
+            'Commodity-backed transaction structuring',
+            'Acquisition support & portfolio management',
+            'Energy and resource sector investment strategies',
+          ],
+        },
+        {
+          label: 'Who We Serve:',
+          items: [
+            'Institutional investors',
+            'Private equity groups',
+            'Refineries & producers',
+            'Government and private sector clients',
+          ],
+        },
+        {
+          label: 'Value Proposition:',
+          items: [
+            'Strong financial modeling & risk management',
+            'Access to international capital networks',
+            'Sustainable long-term growth strategies',
+            'Partnerships that create measurable impact',
+          ],
+        },
+      ],
+    },
+  ],
+}
+
+/* ------------------------------------------------------------------ */
+/* About page — copy transcribed from petrotwogroup.com/about/          */
+/* ------------------------------------------------------------------ */
+
+export const aboutPage = {
+  title: 'About',
+  tagline:
+    'PetroTwoGroup delivering reliable energy solutions and long-term strategic value worldwide',
+  introEyebrow: 'About',
+  introHeading: 'Advancing Global Energy and Infrastructure Through Integrity and Partnership',
+  introBody: [
+    'PetroTwo Group is a global corporate entity operating across energy trading, fuel transportation, infrastructure development, and strategic investments. Built on strong governance, international partnerships, and reliable operational capability, we serve clients across Asia, the Middle East, Europe, and global markets with professionalism and integrity.',
+    'Our mission is to provide comprehensive and reliable solutions that support global energy supply, sustainable infrastructure, and long-term value creation for our partners.',
+  ],
+  introCta: 'Contact Us',
+  visionLabel: 'Vision',
+  vision:
+    'To become a trusted global partner that delivers sustainable energy, strategic resources, and world-class infrastructure solutions for the future economy.',
+  missionLabel: 'Mission',
+  missionHeading: 'Deliver reliable, transparent energy solutions',
+  missionLead:
+    'Our mission is to deliver reliable, transparent energy solutions and create long-term value through strong governance, integrated supply chains, and strategic investments.',
+  missionPillars: [
+    {
+      title: 'Logistics Solutions',
+      text: 'To provide reliable, transparent energy trading and logistics solutions that support our partners and strengthen global supply continuity.',
+      image: '/assets/mission/logistics.jpg',
+    },
+    {
+      title: 'Global Partners Support',
+      text: 'To support global partners through integrated supply chain and infrastructure development.',
+      image: '/assets/mission/partners.jpg',
+    },
+    {
+      title: 'Strategic Investments',
+      text: 'To create lasting value through strategic investments in high-impact sectors that drive growth, innovation, and long-term sustainability.',
+      image: '/assets/mission/investments.jpg',
+    },
+    {
+      title: 'International Compliance Standards',
+      text: 'To uphold strong governance, transparency, and international compliance to ensure responsible and trusted operations.',
+      image: '/assets/mission/compliance.jpg',
+    },
+  ],
+  valuesLabel: 'Core Values',
+  valuesLead:
+    'Our core values define how we operate, make decisions, and build trust with partners around the world.',
+  valuesLead2:
+    'We combine decades of expertise with innovation, safety, and precision to deliver results that last.',
+  values: [
+    {
+      title: 'Integrity',
+      text: '30+ years in industrial engineering with hundreds of successful projects.',
+    },
+    {
+      title: 'Excellence',
+      text: 'Strict adherence to international standards and safety-first culture.',
+    },
+    {
+      title: 'Reliability',
+      text: 'On-time, on-budget delivery backed by strong client relationships.',
+    },
+    { title: 'Innovation', text: 'Modern technologies and smarter processes that improve results.' },
+    {
+      title: 'Collaboration',
+      text: 'Modern technologies and smarter processes that improve results.',
+    },
+  ],
+  entitiesHeading: 'Corporate Structures & Business Entities',
+  entities: [
+    {
+      num: '1',
+      title: 'PetroTwo GlobalBiz',
+      text: 'Handles global oil & gas trading, fuel transport coordination, and logistics operations.',
+    },
+    {
+      num: '2',
+      title: 'PetroTwo Capital',
+      text: 'Focuses on investment strategies across energy, commodities, infrastructure, and high-value projects.',
+    },
+    {
+      num: '3',
+      title: 'Infrastructure & Terminal Development Unit',
+      text: 'Develops and manages strategic energy facilities such as tank farms, terminals, and storage systems.',
+    },
+    {
+      num: '4',
+      title: 'Digital & Settlement Services',
+      text: 'Provides digital support, contract settlement, and administrative systems for corporate transactions.',
+    },
+  ],
+  expertiseEyebrow: 'Our Expertise & Capabilities',
+  expertiseHeading: 'What Sets Us Apart',
+  expertiseLead:
+    'We combine industry expertise, strong governance, and trusted global networks to ensure consistent results for our partners.',
+  expertise: [
+    {
+      num: '1',
+      title: 'Global Supply Network',
+      text: 'Access to refineries, producers, and suppliers across multiple continents.',
+    },
+    {
+      num: '2',
+      title: 'End-to-End Energy Trading Services',
+      text: 'From compliance, documentation, and logistics to settlement and delivery.',
+    },
+    {
+      num: '3',
+      title: 'Experienced Operations Team',
+      text: 'Skilled professionals handling major international trading and shipping activities.',
+    },
+    {
+      num: '4',
+      title: 'Infrastructure Development Expertise',
+      text: 'Capabilities in planning, managing, and delivering terminal projects.',
+    },
+  ],
+}
+
+/* ------------------------------------------------------------------ */
+/* Terminal projects shown on petrotwogroup.com/petrotwo-group          */
+/* ------------------------------------------------------------------ */
+
+export const terminalProjects: { name: string; cta?: string; image: string; sheets: string[] }[] = [
+  {
+    name: 'PetroTwo Aceh Terminal Project',
+    cta: 'More About PetroTwo Aceh Terminal Project',
+    image: '/assets/profile/terminals/PT2-Energi-Aceh-Terminal-Project-Brief-x.jpg',
+    sheets: [
+      '/assets/profile/terminals/PT2-Energi-Aceh-Terminal-Project-Brief-x.jpg',
+      '/assets/profile/terminals/PT2-Energi-Aceh-Terminal-Project-Brief-Sept-2025_page-0002-x.jpg',
+      '/assets/profile/terminals/PT2-Energi-Aceh-Terminal-Conclusion.jpg',
+    ],
+  },
+  {
+    name: 'PetroTwo Pidie Terminal Energi',
+    image: '/assets/profile/terminals/Petrotwo-Pidie-Terminal-Energi.jpg',
+    sheets: [
+      '/assets/profile/terminals/Petrotwo-Pidie-Terminal-Energi.jpg',
+      '/assets/profile/terminals/BPT-Terminal-Concept-x.jpg',
+      '/assets/profile/terminals/Pidie-Terminal-Energi-Loc-x.jpg',
+      '/assets/profile/terminals/Pidie-Terminal-Energi-LocB-x.jpg',
+    ],
+  },
+  {
+    name: 'PetroTwo Karimun Terminal',
+    image: '/assets/profile/terminals/PetroTwo-Karimun-Terminal.jpg',
+    sheets: [
+      '/assets/profile/terminals/PetroTwo-Karimun-Terminal.jpg',
+      '/assets/profile/terminals/Land-Allocation-Karimun-Terminal.jpg',
+      '/assets/profile/terminals/Land-Proposal-ALL-2_page-0005-scaled.jpg',
+      '/assets/profile/terminals/Land-Proposal-ALL-2_page-0006-scaled.jpg',
+      '/assets/profile/terminals/Land-Proposal-ALL-2_page-0007-scaled.jpg',
+      '/assets/profile/terminals/Land-Proposal-ALL-2_page-0011-scaled.jpg',
+      '/assets/profile/terminals/Land-Proposal-ALL-2_page-0012-scaled.jpg',
+      '/assets/profile/terminals/Land-Proposal-ALL-2_page-0013-scaled.jpg',
+      '/assets/profile/terminals/Land-Proposal-ALL-2_page-0014-scaled.jpg',
+      '/assets/profile/terminals/Land-Proposal-ALL-2_page-0015-scaled.jpg',
+    ],
+  },
+  {
+    name: 'PetroTwo Karawang Oil Terminal',
+    cta: 'More About PetroTwo Karawang Terminal Project',
+    image: '/assets/cta-tanks.jpeg',
+    sheets: [],
+  },
+]
+
+/** Heading above the terminal gallery on /petrotwo-group. */
+export const tankFarmStrategy = 'Indonesia Tank Farm Strategy'
+
+/* The reference page publishes the profile deck as page images either side of
+   the terminal section. The deck is rendered locally from the source PDF. */
+export const profilePages = Array.from(
+  { length: 38 },
+  (_, i) => `/assets/profile/page-${String(i + 1).padStart(2, '0')}.jpg`,
+)
+export const profilePagesBefore = profilePages.slice(0, 7)
+export const profilePagesAfter = profilePages.slice(7)
+
+/* ------------------------------------------------------------------ */
+/* Tax — handled by the group's tax consultancy                         */
+/* ------------------------------------------------------------------ */
+
+export const taxFirm = {
+  name: 'PT Aswangga Konsultan Semesta',
+  logo: '/assets/aswangga/logo-aswangga.png',
+  tagline: 'Excellence in Financial Integrity and Business Growth',
+  address: 'AD Premier Lantai 17 Suite 04 B, Jl. TB. Simatupang No. 5, Jakarta',
+  phoneDisplay: '+62 858-8247-9895',
+  phoneDial: '6285882479895',
+}
 
 /* ------------------------------------------------------------------ */
 /* WhatsApp contacts                                                    */
@@ -651,6 +1091,116 @@ export const sectorDetails: Record<string, SectorDetail> = {
 /* petrotwogroup.com/petrotwo-group                                     */
 /* ------------------------------------------------------------------ */
 
+/* ------------------------------------------------------------------ */
+/* GlobalBiz page — every string below is transcribed character-for-    */
+/* character from petrotwogroup.com/globalbiz/, including its original  */
+/* typos ("deliverin", "ocus", "combination on").                       */
+/* ------------------------------------------------------------------ */
+
+export const globalBizPage = {
+  eyebrow: 'OUR GLOBALBIZ',
+  heading: 'We Have a Proud Tradition of Service as Fuel Transporter Since 2012',
+  intro:
+    'Running since 12+ years ago in Asia Pacific by young professionals with experience in Energy Trading and Investment. The knowledge they have gained from previous companies makes them full of good and bad experiences and can achieve business targets with precision.',
+  counters: [
+    { value: '12', suffix: '+', label: 'Years Of Experience' },
+    { value: '600', suffix: '+', label: 'Completed Deliveries' },
+  ],
+  deliveryNote:
+    'We use an integrated delivery system on our project to create a better environment for our employees and partners, and deliver better to our customers.',
+  expertiseHeading: 'This is Our Expertise',
+  expertise: [
+    { value: '100%', label: 'Equipment Used' },
+    { value: '100%', label: 'Allocation Guarantee' },
+    { value: '100%', label: 'Management & Services' },
+    { value: '100%', label: 'Modern Technology' },
+  ],
+  serviceEyebrow: 'Our Service',
+  serviceHeading: 'We Provide Best Services',
+  services: [
+    {
+      title: 'Oil & Gas',
+      text: 'PetroTwo Group engaging in oil and gas trade based in Dubai - United Arab Emirates. These region are the largest trading source for petroleum refine products such as Diesel, Gasoline, Jet A1, Crude, LPG, LNG and so on.',
+      image: '/assets/globalbiz/Oil-Rig-Offshore.jpg',
+    },
+    {
+      title: 'Fuel Transporting',
+      text: 'Consisting of 2 aframax, we are ready to deliver your fuel needs to every port that can be reached by our fleet throughout ASWP (Any Safe World Port).',
+      image: '/assets/globalbiz/Oil-Transport-.jpg',
+    },
+  ],
+  processHeading: 'We Constructed Secure Experience For You',
+  process: [
+    {
+      title: '1. Select Your Service',
+      text: 'Please choose our service, we will provide an extraordinary experience for you',
+    },
+    {
+      title: '2. Make Appointment',
+      text: 'Schedule a meeting to discuss what you want to achieve in your business, we will provide the best solution.',
+    },
+    {
+      title: '3. Complete Your Data',
+      text: 'After your service is selected, complete your company information data.',
+    },
+    {
+      title: '4. Amazing Services',
+      text: 'Our professional services are ready to make your dreams come true.',
+    },
+  ],
+  whyEyebrow: 'Why Choose Us',
+  whyHeading: 'Experience Work With Global Industries',
+  why: [
+    'WE ARE ALWAYS READY TO SERVE',
+    'We Have Professional Workers',
+    'Friendly To Serve Customers',
+    'On Time in Progress',
+    'Give The Best & Fair',
+  ],
+  capitalHeading: 'PetroTwo Capital',
+  capitalGraphic: '/assets/globalbiz/PetroTwoCapital-Graphic.png',
+  capitalCopyright:
+    'All rights reserved. Any information or materials are proprietary of PetroTwo Capital. No part of this document may be reproduced, utilised, stored in a retrieval system, or transmitted in any form or by any means, (electronic, mechanical, photocopying, recording or otherwise) without the permission in writing of the copyright owner.',
+  capitalBody: [
+    'At PetroTwo Capital, we believe that a clear vision, commitment to excellence, and strong values are the keys to achieving long-term success. Since its establishment, we have solidified our reputation as a reliable and innovative solution provider.',
+    'As a value-oriented company, we understand the importance of deliverin outstanding services to our customers. With a ocus on customer satisfaction, we continuously strive to address complex challenges and meet diverse needs.',
+    'Our excellence lies in the combination on talented human resources and continuously improved processes. Our team consists of the best professionals in their fields, driven by a passion to deliver the best results and create positive impacts in every project we undertake.',
+    'We invite you to join us on our journey towards sustainable success. Let’s together create a bright future and make a real positive impact on the world around us.',
+    'Thank you for your support and enthusiasm.',
+  ],
+  signOff: ['Regards,', 'Mr. Yanvi Alex', 'Chief Executive Officer'],
+  /* The reference page renders these as full-width deck slides. The source
+     images sit behind the site's bot protection, so each panel carries the
+     original filename to make swapping in the real artwork unambiguous. */
+  capitalPanels: [
+    { title: 'Our Services', image: '/assets/globalbiz/PetroTwoCapital-Services.jpg' },
+    { title: 'Company Experiences', image: '/assets/globalbiz/PetroTwoCapital-Experience.jpg' },
+    { title: 'Company Value', image: '/assets/globalbiz/Company-Value.jpg' },
+  ],
+  deck: [
+    { title: 'Business Area', image: '/assets/globalbiz/Business-Area.jpg' },
+    { title: 'Industri 1', image: '/assets/globalbiz/Industri1.jpg' },
+    { title: 'Industri 2', image: '/assets/globalbiz/Industri2.jpg' },
+    { title: 'Industri 3', image: '/assets/globalbiz/Industri-3.jpg' },
+    { title: 'Network 1', image: '/assets/globalbiz/Network1.jpg' },
+    { title: 'Network 2', image: '/assets/globalbiz/Network2.jpg' },
+    { title: 'Network 3', image: '/assets/globalbiz/Network3.jpg' },
+    { title: 'GSA · PSA · Shop', image: '/assets/globalbiz/GSA-PSA-SHOP.jpg' },
+    { title: 'Portfolio Project — Emas Batangan', image: '/assets/globalbiz/PortfolioProject-EmasBatangan.jpg' },
+    { title: 'Portfolio Project — Pos', image: '/assets/globalbiz/PortfolioProject-Pos.jpg' },
+    { title: 'GlobalBiz', image: '/assets/globalbiz/GlobalBiz1.jpg' },
+    { title: 'GlobalBiz — Kingsford', image: '/assets/globalbiz/GlobalBiz-Kingsford.jpg' },
+    { title: 'Product Examples', image: '/assets/globalbiz/Product-Examples1.jpg' },
+    { title: 'Top Portfolio Project — Aksesoris Emas', image: '/assets/globalbiz/Top-Portfolio-Project-AksesorisEmas.jpg' },
+    { title: 'Top Portfolio Project — Private Jet', image: '/assets/globalbiz/Top-Portfolio-Project-PrivateJet.jpg' },
+    { title: 'Top Portfolio Project — Network UMKM', image: '/assets/globalbiz/Top-Portfolio-Project-NetworkUMKM.jpg' },
+    { title: 'Top Portfolio Project — UMKM', image: '/assets/globalbiz/Top-Portfolio-Project-UMKM.jpg' },
+    { title: 'Top Portfolio Project — Event Organizer', image: '/assets/globalbiz/Top-Portfolio-Project-EventOrganizer.jpg' },
+    { title: 'Top Portfolio Project — Rice Thailand', image: '/assets/globalbiz/Top-Portfolio-Project-Rice-Thailand.jpg' },
+    { title: 'Top Business Project — Jawa Barat', image: '/assets/globalbiz/Top-Business-Project-JawaBarat.jpg' },
+  ],
+}
+
 export const globalBiz = {
   heading: {
     en: 'A Proud Tradition of Service as Fuel Transporter Since 2012',
@@ -879,34 +1429,40 @@ export const globalPresence: { name: LS; role: LS; hq: boolean }[] = [
   },
 ]
 
+/* Titles and descriptions reproduced verbatim from petrotwogroup.com. Each
+   card deep-links to the matching business division page. */
 export const services = [
   {
     id: '01',
     title: 'Oil & Gas Trading',
     description:
-      'Physical, delivery-based oil trading with long-term and spot contracts across crude and refined products.',
-    image: '/assets/master/energy-refinery.jpeg',
+      'From design to execution, SteelCore provides end-to-end engineering solutions that keep industries moving forward.',
+    image: '/assets/svc/home-01-trading.jpg',
+    division: 'energy',
   },
   {
     id: '02',
-    title: 'Fuel Transport & Logistics',
+    title: 'Fuel Transport & Logistic',
     description:
-      'Reliable coordination of fuel cargo through trusted shipping partners, STS operations, and fleet support.',
-    image: '/assets/master/marine-lng.jpeg',
+      'Reliable coordination and movement of fuel cargo through trusted shipping partners and fleet operations.',
+    image: '/assets/svc/home-02-transport.jpg',
+    division: 'marine',
   },
   {
     id: '03',
-    title: 'Terminal & Infrastructure',
+    title: 'Terminal & Infrastructure Projects',
     description:
-      'Development of tank farms, terminals, and storage facilities to strengthen regional energy networks.',
-    image: '/assets/master/storage-tankfarm.jpeg',
+      'Development of tank farms, terminals, and storage facilities to strengthen regional and international energy networks',
+    image: '/assets/svc/home-03-terminal.jpg',
+    division: 'storage',
   },
   {
     id: '04',
     title: 'Investments & Strategic Resources',
     description:
       'Participation in high-value investment projects across energy, metals, food & water security, and infrastructure.',
-    image: '/assets/master/capital-city.jpeg',
+    image: '/assets/svc/home-04-investment.jpg',
+    division: 'capital',
   },
 ]
 
@@ -921,7 +1477,10 @@ export const team: { name: string; role: LS; image: string; bio: LS }[] = [
     name: 'Dr. Abdul Malek',
     role: { en: 'Commissioner', id: 'Komisaris' },
     image: '/assets/master/team-abdul.jpeg',
-    bio: { en: '', id: '' },
+    bio: {
+      en: 'Dr. Malek brings more than 25 years of experience in the Energy industry, particularly in offshore, upstream projects as well as downstream hydrocarbon processing, storage & distribution. He as extended and broad expertise in various state-of-the-art technologies related to the Energy industry, having published numerous applied research papers spanning the hydrocarbon, power and water industries. He has led numerous fast-track, highly-technical MOPEX projects worldwide.',
+      id: 'Dr. Malek brings more than 25 years of experience in the Energy industry, particularly in offshore, upstream projects as well as downstream hydrocarbon processing, storage & distribution. He as extended and broad expertise in various state-of-the-art technologies related to the Energy industry, having published numerous applied research papers spanning the hydrocarbon, power and water industries. He has led numerous fast-track, highly-technical MOPEX projects worldwide.',
+    },
   },
   {
     name: 'Dr. Nanprapha Kawinrutaipreeda',
@@ -931,23 +1490,33 @@ export const team: { name: string; role: LS; image: string; bio: LS }[] = [
   },
 ]
 
+/* Reproduced verbatim from the Project Experiences list on petrotwogroup.com. */
 export const projects: LS[] = [
   {
-    en: 'Saudi Aramco / Total Refinery Project (SATORP), Saudi Arabia: 70 Atmospheric & Bullet Tanks',
-    id: 'Proyek Kilang Saudi Aramco / Total (SATORP), Arab Saudi: 70 Tangki Atmosferik & Bullet',
+    en: 'Saudi Aramco / Total Refinery Project (SATORP) , Saudi Arabia (70 Atmospheric & Bullet Tanks)',
+    id: 'Saudi Aramco / Total Refinery Project (SATORP) , Saudi Arabia (70 Atmospheric & Bullet Tanks)',
   },
   {
-    en: 'Jurong Port (formerly Universal Terminal), Singapore: 65 Atmospheric Tanks; largest single tank terminal in Asia Pacific',
-    id: 'Jurong Port (sebelumnya Universal Terminal), Singapura: 65 Tangki Atmosferik; terminal tangki tunggal terbesar di Asia Pasifik',
+    en: 'Jurong Port (formerly Universal Terminal) , Singapore (65 Atmospheric Tanks; Largest single tank terminal in Asia Pacific)',
+    id: 'Jurong Port (formerly Universal Terminal) , Singapore (65 Atmospheric Tanks; Largest single tank terminal in Asia Pacific)',
   },
-  { en: 'Advario Helios Terminal', id: 'Terminal Advario Helios' },
-  { en: 'Merak Tank Farm', id: 'Tank Farm Merak' },
+  { en: 'Advario Helios Terminal', id: 'Advario Helios Terminal' },
+  { en: 'Merak Tank Farm', id: 'Merak Tank Farm' },
   {
-    en: 'Map Tha Put Olefins Company, Thailand: 30 Atmospheric & Spherical Tanks',
-    id: 'Map Tha Put Olefins Company, Thailand: 30 Tangki Atmosferik & Sferis',
+    en: 'Map Tha Put Olefins Company , Thailand (30 Atmospheric & Spherical Tanks)',
+    id: 'Map Tha Put Olefins Company , Thailand (30 Atmospheric & Spherical Tanks)',
   },
-  { en: 'Asia Petroleum Hub, Malaysia', id: 'Asia Petroleum Hub, Malaysia' },
+  { en: 'Asia Petroleum Hub , Malaysia', id: 'Asia Petroleum Hub , Malaysia' },
 ]
+
+/** Document links published under the FCO pricing table. */
+export const pricingDocs = [
+  { label: 'SALES KIT STS 2026', href: '/assets/Petrotwo-Sales-Kit-RED-with-STS-V1-10.pdf' },
+  { label: 'CIF STANDARD PROCEDURE', href: '/assets/CIF-SOP-V.2.2.pdf' },
+  { label: 'FOB STANDARD PROCEDURE', href: '/assets/FOB-web-v2.2.pdf' },
+]
+
+export const pricingOrigin = 'Kazakhstan/Indonesia/Dubai/Afrika/Oman/Nigeria'
 
 export const tankFarms = [
   { name: 'Tank Farm Oman', region: 'Middle East' },
@@ -1008,7 +1577,7 @@ export const newsItems: NewsItem[] = [
     },
     category: { en: 'Corporate', id: 'Korporasi' },
     date: { en: 'March 2026', id: 'Maret 2026' },
-    image: '/assets/master/news-signing.jpeg',
+    image: '/assets/news/signing.jpg',
     excerpt: {
       en: 'PetroTwo and partners formalize strategic cooperation for petroleum factory, storage facilities, and MRO.',
       id: 'PetroTwo dan para mitra meresmikan kerja sama strategis untuk pabrik petroleum, fasilitas penyimpanan, dan MRO.',
@@ -1022,7 +1591,7 @@ export const newsItems: NewsItem[] = [
     },
     category: { en: 'Partnership', id: 'Kemitraan' },
     date: { en: 'February 2026', id: 'Februari 2026' },
-    image: '/assets/master/news-meeting-2.jpeg',
+    image: '/assets/news/dialogue.jpg',
     excerpt: {
       en: 'Executive discussions on LNG infrastructure cooperation and regional gas distribution.',
       id: 'Diskusi eksekutif mengenai kerja sama infrastruktur LNG dan distribusi gas regional.',
@@ -1036,7 +1605,7 @@ export const newsItems: NewsItem[] = [
     },
     category: { en: 'Operations', id: 'Operasional' },
     date: { en: 'January 2026', id: 'Januari 2026' },
-    image: '/assets/master/news-meeting-1.jpeg',
+    image: '/assets/news/forum.jpg',
     excerpt: {
       en: 'Cross-border coordination with producers, traders, and infrastructure operators.',
       id: 'Koordinasi lintas negara bersama produsen, pedagang, dan operator infrastruktur.',
@@ -1050,7 +1619,7 @@ export const newsItems: NewsItem[] = [
     },
     category: { en: 'Infrastructure', id: 'Infrastruktur' },
     date: { en: 'December 2025', id: 'Desember 2025' },
-    image: '/assets/master/news-meeting-3.jpeg',
+    image: '/assets/news/briefing.jpg',
     excerpt: {
       en: 'Multi-location tank farm strategy across Indonesia to support energy security.',
       id: 'Strategi tank farm multi-lokasi di Indonesia untuk mendukung ketahanan energi.',
@@ -1061,7 +1630,7 @@ export const newsItems: NewsItem[] = [
     title: { en: 'Partner Appreciation Gathering', id: 'Temu Apresiasi Mitra' },
     category: { en: 'Corporate', id: 'Korporasi' },
     date: { en: 'November 2025', id: 'November 2025' },
-    image: '/assets/master/news-gathering.jpeg',
+    image: '/assets/news/gathering.jpg',
     excerpt: {
       en: 'Strengthening long-term relationships across the PetroTwo partner network.',
       id: 'Mempererat hubungan jangka panjang di seluruh jaringan mitra PetroTwo.',
@@ -1072,7 +1641,7 @@ export const newsItems: NewsItem[] = [
     title: { en: 'Vision 2040 Progress Review', id: 'Tinjauan Kemajuan Visi 2040' },
     category: { en: 'Vision', id: 'Visi' },
     date: { en: 'October 2025', id: 'Oktober 2025' },
-    image: '/assets/master/energy-refinery.jpeg',
+    image: '/assets/news/vision.jpg',
     excerpt: {
       en: 'Long-term roadmap for asset-backed energy trading and strategic infrastructure growth.',
       id: 'Peta jalan jangka panjang untuk perdagangan energi berbasis aset dan pertumbuhan infrastruktur strategis.',
@@ -1091,122 +1660,149 @@ export type PriceRow = {
   cif: string
   fob: string
   note: string
+  /** Second line of the Note cell, shown under `note`. */
+  contract: string
 }
+
+/* Transcribed character-for-character from the FCO table on
+   petrotwogroup.com, including its irregular spacing. */
+const CONTRACT = '*Contract of at least 2 years.'
+const MT_LIMIT = 'Minimum 100,000 MT Trial Shipment / Maximum 500,000 MT Monthly.'
+const KZ = 'KAZAKHSTAN/ DUBAI/ OMAN/ IRAN/ INDONESIA/ US/ RUSIA'
 
 export const pricingRows: PriceRow[] = [
   {
     item: 'PETROLEUM COKE',
     cif: '$205 Gross / $195 Net',
     fob: '$120 Gross / $110 Net',
-    note: 'Min 100,000 MT trial / Max 500,000 MT monthly. Contract ≥ 2 years.',
+    note: MT_LIMIT,
+    contract: CONTRACT,
   },
   {
     item: 'UREA',
     cif: '$245 Gross / $235 Net',
     fob: '$220 Gross / $210 Net',
-    note: 'Min 100,000 MT trial / Max 500,000 MT monthly. Contract ≥ 2 years.',
+    note: 'Minimum 100,000 MT Trial Shipment / Maximum 500,000 MT Monthly',
+    contract: CONTRACT,
   },
   {
-    item: 'AGO (AUTOMOTIVE GAS OIL)',
+    item: 'AGO-AUTOMOTIVE GAS OIL',
     cif: '$300 Gross / $290 Net',
     fob: '$245 Gross / $235 Net',
-    note: 'Min 100,000 MT trial / Max 500,000 MT monthly. Contract ≥ 2 years.',
+    note: MT_LIMIT,
+    contract: CONTRACT,
   },
   {
     item: 'GASOLINE 91-92-95 OCTANES',
     cif: '$355 Gross / $345 Net',
     fob: '$250 Gross / $240 Net',
-    note: 'Min 100,000 MT trial / Max 500,000 MT monthly. Contract ≥ 2 years.',
+    note: `-${MT_LIMIT}`,
+    contract: CONTRACT,
   },
   {
-    item: 'GAS OIL 0.2/26 GOST 305-82',
+    item: `${KZ} GAS L0.2/26 GHOST 305-82`,
     cif: '$365 Gross / $355 Net',
     fob: '$245 Gross / $240 Net',
-    note: 'Min 100,000 MT trial / Max 500,000 MT monthly. Contract ≥ 2 years.',
+    note: MT_LIMIT,
+    contract: CONTRACT,
   },
   {
-    item: 'MAZUT M100',
+    item: `${KZ} MAZUT M100 10585/75`,
     cif: '$365 Gross / $355 Net',
     fob: '$325 Gross / $315 Net',
-    note: 'Min 100,000 MT trial / Max 500,000 MT monthly. Contract ≥ 2 years.',
+    note: MT_LIMIT,
+    contract: CONTRACT,
   },
   {
-    item: 'LPG',
+    item: `${KZ} LPG`,
     cif: '$345 Gross / $335 Net',
     fob: '$255 Gross / $245 Net',
-    note: 'Min 100,000 MT trial / Max 500,000 MT monthly. Contract ≥ 2 years.',
+    note: MT_LIMIT,
+    contract: CONTRACT,
   },
   {
     item: 'LIGHT CYCLE OIL (LCO)',
     cif: '$375 Gross / $365 Net',
     fob: '$335 Gross / $325 Net',
-    note: 'Min 100,000 MT trial / Max 500,000 MT monthly. Contract ≥ 2 years.',
+    note: MT_LIMIT,
+    contract: CONTRACT,
   },
   {
     item: 'BONNY LIGHT CRUDE OIL (BLCO)',
     cif: '$73 Gross / $72 Net',
-    fob: '$71 Gross / $70 Net',
-    note: 'Min 1,000,000 bbl trial / Max 5,000,000 bbl monthly. Contract ≥ 2 years.',
+    fob: '$71 Gross / $70Net',
+    note: 'Minimum 1,000,000 Barrel Trial Shipment / Maximum 5,000,000 Barrel Monthly.',
+    contract: CONTRACT,
   },
   {
-    item: 'ESPO',
+    item: 'East-Siberia-Pacific-Ocean (ESPO)',
     cif: '$84.5 Gross / $82.5 Net',
     fob: '$71.5 Gross / $67.5 Net',
-    note: 'Min 500,000 bbl trial / 2,000,000 bbl monthly × 12 months.',
+    note: 'Minimum 500,000 Barrels Trial Shipment and 2,000,000 Barrels Monthly x 12 Months.',
+    contract: CONTRACT,
   },
   {
     item: 'VIRGIN D6 FUEL OIL',
     cif: '$5.15 Gross / $5.13 Net',
-    fob: '$4.80 Gross / $4.78 Net',
-    note: 'Min 10,000,000 gal trial / 30,000,000 gal monthly × 12 months.',
+    fob: '$4.80 Gross / $4.78  Net',
+    note: 'Minimum 10,000,000 Gallons Trial Shipment and 30,000,000 Gallons Monthly x 12 Months.',
+    contract: CONTRACT,
   },
   {
-    item: 'LIQUEFIED NATURAL GAS',
+    item: 'LIQUIFIED NATURAL GAS',
     cif: '$345 Gross / $335 Net',
     fob: '$325 Gross / $315 Net',
-    note: 'Min 100,000 MT trial / Max 500,000 MT monthly. Contract ≥ 2 years.',
+    note: MT_LIMIT,
+    contract: CONTRACT,
   },
   {
     item: 'VIRGIN D2 FUEL OIL',
-    cif: '$335 Gross / $325 Net',
+    cif: '$335 Gross / $325 Per MT',
     fob: '$295 Gross / $285 Net',
-    note: 'Min 100,000 MT trial / Max 500,000 MT monthly. Contract ≥ 2 years.',
+    note: MT_LIMIT,
+    contract: CONTRACT,
   },
   {
     item: 'EN590 GOST 52368-2005',
     cif: '$375 Gross / $365 Net',
     fob: '$335 Gross / $325 Net',
-    note: 'Min 100,000 MT trial / Max 500,000 MT monthly. Contract ≥ 2 years.',
+    note: MT_LIMIT,
+    contract: CONTRACT,
   },
   {
     item: 'LIGHT CRUDE OIL',
     cif: '$375 Gross / $365 Net',
     fob: '$335 Gross / $325 Net',
-    note: 'Min 100,000 MT trial / Max 500,000 MT monthly. Contract ≥ 2 years.',
+    note: MT_LIMIT,
+    contract: CONTRACT,
   },
   {
-    item: 'EURO-5',
+    item: `${KZ} EURO-5`,
     cif: '$375 Gross / $365 Net',
     fob: '$335 Gross / $325 Net',
-    note: 'Min 100,000 MT trial / Max 500,000 MT monthly. Contract ≥ 2 years.',
+    note: MT_LIMIT,
+    contract: CONTRACT,
   },
   {
-    item: 'JP54',
+    item: `${KZ} JP54`,
     cif: '$132 Gross / $129 Net',
     fob: '$92 Gross / $88 Net',
-    note: 'Min 100,000 MT trial / Max 500,000 MT monthly. Contract ≥ 2 years.',
+    note: MT_LIMIT,
+    contract: CONTRACT,
   },
   {
-    item: 'PHOSPHATE',
+    item: `${KZ} PHOSPHATE`,
     cif: '$295 Gross / $285 Net',
     fob: '$235 Gross / $225 Net',
-    note: 'Min 100,000 MT trial / Max 500,000 MT monthly. Contract ≥ 2 years.',
+    note: MT_LIMIT,
+    contract: CONTRACT,
   },
   {
-    item: 'BITUMEN',
+    item: `${KZ} BITUMEN`,
     cif: '$375 Gross / $365 Net',
     fob: '$335 Gross / $325 Net',
-    note: 'Min 100,000 MT trial / Max 500,000 MT monthly. Contract ≥ 2 years.',
+    note: MT_LIMIT,
+    contract: CONTRACT,
   },
 ]
 
