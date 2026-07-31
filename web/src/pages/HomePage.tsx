@@ -185,10 +185,14 @@ export function HomePage() {
     <div ref={pageRef} key={lang}>
       {/* 1 — HERO */}
       <section className="hero">
-        {/* Upstream extraction rather than a vessel — the hero should lead
-            with what the group produces, not how it ships. */}
+        {/* Extraction and processing rather than a vessel. Three frames
+            crossfade on a loop (see .hero-media in global.css). All three are
+            1920x1080 — the smaller stock in /assets/master tops out around
+            800px wide and visibly softens across a full-height hero. */}
         <div className="hero-media" aria-hidden>
           <img src="/assets/div/energy-cover.jpg" alt="" fetchPriority="high" />
+          <img src="/assets/div/energy-photo.jpg" alt="" loading="lazy" />
+          <img src="/assets/div/storage-cover.jpg" alt="" loading="lazy" />
         </div>
         <div className="hero-content">
           <ul className="hero-badges reveal">

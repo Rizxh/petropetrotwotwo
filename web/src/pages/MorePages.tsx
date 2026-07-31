@@ -22,18 +22,17 @@ export function ContactPage() {
   return (
     <>
       <section className="page-hero" data-hero="contact">
-        <div className="container">
+        <div className="container page-hero-inner">
           <Breadcrumb trail={[{ label: t('navContact') }]} />
-          <div className="eyebrow">We're Here</div>
-          <h1 style={{ maxWidth: '28ch' }}>Get in Touch With PetroTwo Group</h1>
-          <p>
-            Partner with us to explore collaboration opportunities and learn how our divisions can
-            support your goals.
-          </p>
-          <p>
-            Reach out to our team for inquiries, partnerships, or tailored solutions that move
-            your business forward.
-          </p>
+          <div className="page-hero-copy">
+            <p className="page-hero-label">We&rsquo;re Here</p>
+            <h1>Get in Touch With PetroTwo Group</h1>
+            <p className="page-hero-lead">
+              Partner with us to explore collaboration opportunities and learn how our divisions
+              can support your goals. Reach out to our team for inquiries, partnerships, or
+              tailored solutions that move your business forward.
+            </p>
+          </div>
         </div>
       </section>
 

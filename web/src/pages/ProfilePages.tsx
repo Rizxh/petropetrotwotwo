@@ -1,12 +1,15 @@
+import { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { Breadcrumb } from '../components/Layout'
 import {
   companyDocs,
   companyProfilePdf,
   globalBizPage,
+  profileClosingSlide,
   profilePagesAfter,
   profilePagesBefore,
   tankFarmStrategy,
+  tankFarmStrategyImage,
   terminalProjects,
 } from '../data/content'
 import { useLang, useT } from '../i18n'
@@ -50,8 +53,7 @@ export function CompanyProfilePage() {
 
   return (
     <>
-      <section className="profile-cover">
-        <img src="/assets/master/capital-city.jpeg" alt="" fetchPriority="high" />
+      <section className="profile-cover" data-cover="group">
         <div className="container profile-cover-inner">
           <Breadcrumb
             trail={[
@@ -64,34 +66,29 @@ export function CompanyProfilePage() {
         </div>
       </section>
 
+      {/* One continuous deck: every board butts against the next, with the
+          tank farm heading and terminal titles running inline rather than
+          splitting the page into separate blocks. */}
       <section className="section">
         <div className="container">
           <DocSwitcher active="petrotwo-group" />
-          <div className="deck-stack">
+
+          <div className="profile-deck">
             {profilePagesBefore.map((src, i) => (
               <DeckSlide key={src} src={src} alt={`Company profile page ${i + 1}`} />
             ))}
-          </div>
-        </div>
-      </section>
 
-      <section className="section section-surface">
-        <div className="container">
-          <h2 className="section-title">{tankFarmStrategy}</h2>
+            <h2 className="profile-deck-heading">{tankFarmStrategy}</h2>
+            <DeckSlide src={tankFarmStrategyImage} alt={tankFarmStrategy} />
 
-          <div className="deck-stack" style={{ marginTop: 'var(--space-5)' }}>
             {terminalProjects.map((project) => (
-              <div className="terminal-deck" key={project.name}>
-                <h3 className="terminal-deck-title">{project.name}</h3>
-                {project.sheets.length > 0 ? (
-                  project.sheets.map((sheet) => (
-                    <DeckSlide key={sheet} src={sheet} alt={project.name} />
-                  ))
-                ) : (
-                  <DeckSlide src={project.image} alt={project.name} />
-                )}
+              <Fragment key={project.name}>
+                <h3 className="profile-deck-subheading">{project.name}</h3>
+                {(project.sheets.length > 0 ? project.sheets : [project.image]).map((sheet) => (
+                  <DeckSlide key={sheet} src={sheet} alt={project.name} />
+                ))}
                 {project.cta && (
-                  <div className="btn-row" style={{ marginTop: 'var(--space-3)' }}>
+                  <div className="profile-deck-cta">
                     <a
                       className="btn btn-primary"
                       href={companyProfilePdf}
@@ -102,18 +99,14 @@ export function CompanyProfilePage() {
                     </a>
                   </div>
                 )}
-              </div>
+              </Fragment>
             ))}
-          </div>
-        </div>
-      </section>
 
-      <section className="section">
-        <div className="container">
-          <div className="deck-stack">
             {profilePagesAfter.map((src, i) => (
               <DeckSlide key={src} src={src} alt={`Company profile page ${i + 8}`} />
             ))}
+            {/* Network and contact board closes the deck. */}
+            <DeckSlide src={profileClosingSlide} alt="PetroTwo Group network and collaborations" />
           </div>
 
           <div className="btn-row profile-actions">
@@ -139,19 +132,22 @@ export function CompanyProfilePdfPage() {
   return (
     <>
       <section className="page-hero" data-hero="profile">
-        <div className="container">
+        <div className="container page-hero-inner">
           <Breadcrumb
             trail={[
               { label: t('overviewEyebrow'), to: '/about' },
               { label: 'PetroTwo Group Company Profile (PDF)' },
             ]}
           />
-          <h1>PetroTwo Group Company Profile (PDF)</h1>
-          <p>
-            {id
-              ? 'Dokumen profil perusahaan lengkap, ditampilkan langsung di halaman ini.'
-              : 'The full company profile document, rendered in-page.'}
-          </p>
+          <div className="page-hero-copy">
+            <p className="page-hero-label">{id ? 'Dokumen' : 'Document'}</p>
+            <h1>PetroTwo Group Company Profile (PDF)</h1>
+            <p className="page-hero-lead">
+              {id
+                ? 'Dokumen profil perusahaan lengkap, ditampilkan langsung di halaman ini.'
+                : 'The full company profile document, rendered in-page.'}
+            </p>
+          </div>
         </div>
       </section>
 
@@ -202,10 +198,13 @@ export function GlobalBizPage() {
   const g = globalBizPage
   const t = useT()
 
+  /* The full board order, cover first. The letter sits between the cover
+     and the rest, so the two are split here. */
+  const [deckCover, ...deckRest] = [...g.capitalPanels, ...g.deck]
+
   return (
     <>
-      <section className="profile-cover">
-        <img src="/assets/master/marine-lng.jpeg" alt="" fetchPriority="high" />
+      <section className="profile-cover" data-cover="globalbiz">
         <div className="container profile-cover-inner">
           <Breadcrumb
             trail={[{ label: t('overviewEyebrow'), to: '/about' }, { label: 'PetroTwo GlobalBiz' }]}
@@ -297,35 +296,26 @@ export function GlobalBizPage() {
         </div>
       </section>
 
-      {/* PetroTwo Capital — cover (graphic centered, text below) + letter */}
-      <section className="section gb-capital-section">
-        <div className="container">
-          <div className="gb-capital-hero">
-            <figure className="gb-capital-graphic">
-              <img src={g.capitalGraphic} alt="" loading="lazy" />
-            </figure>
-            <h2>{g.capitalHeading}</h2>
-            <p className="gb-capital-copyright">{g.capitalCopyright}</p>
-          </div>
-
-          <div className="gb-capital-letter">
-            {g.capitalBody.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-            <p className="gb-signoff">
-              {g.signOff.map((line) => (
-                <span key={line}>{line}</span>
-              ))}
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Presentation deck — one continuous stack, no section breaks */}
+      {/* One continuous deck, same structure as /petrotwo-group: every board
+          full width, one per row. The CEO letter breaks the run directly
+          after the cover board. */}
       <section className="section gb-deck-section">
         <div className="container">
-          <div className="deck-stack deck-stack-flush">
-            {[...g.capitalPanels, ...g.deck].map((slide) => (
+          <div className="profile-deck">
+            <DeckSlide src={deckCover.image} alt={deckCover.title} />
+
+            <div className="profile-deck-letter">
+              {g.capitalBody.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+              <p className="gb-signoff">
+                {g.signOff.map((line) => (
+                  <span key={line}>{line}</span>
+                ))}
+              </p>
+            </div>
+
+            {deckRest.map((slide) => (
               <DeckSlide key={slide.image} src={slide.image} alt={slide.title} />
             ))}
           </div>

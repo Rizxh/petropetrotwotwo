@@ -35,3 +35,11 @@ Thumbs.db
 # Local reference dumps (not for deploy)
 web/File/
 
+
+# Static HTML export — regenerate with: cd web && npm run export:html
+/html-export/
+
+# Source drops for the profile decks. Byte-identical copies already live in
+# web/public/assets/, which is what the site actually serves.
+/web/petrotwo-group/
+/web/globalbiz/

@@ -7,6 +7,7 @@ import { pick, useLang } from '../i18n'
 
 export function AboutPage() {
   const { lang } = useLang()
+  const id = lang === 'id'
   const p = aboutPage
 
   return (

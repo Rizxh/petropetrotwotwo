@@ -34,7 +34,9 @@ export const divisions: DivisionPage[] = [
       en: 'Oil & Gas Supply, Trading & Market Solutions',
       id: 'Pasokan, Perdagangan & Solusi Pasar Minyak & Gas',
     },
-    cover: '/assets/div/energy-cover.jpg',
+    /* energy-cover / energy-photo now run in the homepage hero, so this
+       cover uses a different upstream shot to keep the two distinct. */
+    cover: '/assets/svc/trading-detail.jpg',
     photo: '/assets/div/energy-photo.jpg',
     description: {
       en: 'Through PT Motiolabs Energi Indonesia, PetroTwo Group provides full-spectrum oil and refined petroleum product trading services. Supported by global suppliers, refinery partners, and logistics operators, we ensure transparent, compliant, and timely delivery.',

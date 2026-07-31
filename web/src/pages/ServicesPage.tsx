@@ -9,10 +9,13 @@ export function ServicesPage() {
   return (
     <>
       <section className="page-hero" data-hero="services">
-        <div className="container">
+        <div className="container page-hero-inner">
           <Breadcrumb trail={[{ label: p.title }]} />
-          <h1>{p.title}</h1>
-          <p>{p.tagline}</p>
+          <div className="page-hero-copy">
+            <p className="page-hero-label">Services</p>
+            <h1>{p.title}</h1>
+            <p className="page-hero-lead">{p.tagline}</p>
+          </div>
         </div>
       </section>
 
@@ -99,10 +102,13 @@ export function PricingPage() {
   return (
     <>
       <section className="page-hero" data-hero="pricing">
-        <div className="container">
+        <div className="container page-hero-inner">
           <Breadcrumb trail={[{ label: 'Oil & Gas Price' }]} />
-          <h1>Oil &amp; Gas Price</h1>
-          <p>Stay informed with PetroTwo oil and gas prices.</p>
+          <div className="page-hero-copy">
+            <p className="page-hero-label">Market</p>
+            <h1>Oil &amp; Gas Price</h1>
+            <p className="page-hero-lead">Stay informed with PetroTwo oil and gas prices.</p>
+          </div>
         </div>
       </section>
 

@@ -385,7 +385,9 @@ export const servicesPage = {
     {
       eyebrow: 'Investment, Financing & Project Structuring Services',
       heading: 'Investment, Financing & Strategic Project Structuring',
-      image: '/assets/master/capital-city.jpeg',
+      /* Financial-district skyline, matching the sibling detail sections
+         which all pair with their own svc/*-detail image. */
+      image: '/assets/svc/invest-detail.jpg',
       body: 'PetroTwo Capital leads our investment and funding initiatives across energy, infrastructure, and strategic commodity projects. The division partners with global investors to support multi-million-dollar ventures and provide structured financial solutions.',
       lists: [
         {
@@ -541,6 +543,65 @@ export const aboutPage = {
 }
 
 /* ------------------------------------------------------------------ */
+/* /petrotwo-group — the corporate profile deck                          */
+/*                                                                      */
+/* Slide order below is the running order supplied for the page. Note   */
+/* page 06 deliberately precedes page 05, and pages 03 / 12 / 19 ship   */
+/* as re-exports (…-1-1) — the filenames are kept verbatim so they      */
+/* stay traceable back to the source deck.                              */
+/* ------------------------------------------------------------------ */
+
+const DECK = '/assets/petrotwo-group'
+
+/** Opening run of the deck, shown above the tank farm section. */
+export const profilePagesBefore = [
+  `${DECK}/PetroTwo_page-0001-1.jpg`,
+  `${DECK}/PetroTwo_page-0002.jpg`,
+  `${DECK}/PetroTwo_page-0004-.jpg`,
+  `${DECK}/PetroTwo_page-0006.jpg`,
+  `${DECK}/PetroTwo_page-0005.jpg`,
+  `${DECK}/PetroTwo_page-0007.jpg`,
+]
+
+/** Closing run of the deck, shown below the tank farm section. */
+export const profilePagesAfter = [
+  `${DECK}/PetroTwo_page-0008.jpg`,
+  `${DECK}/PetroTwo_page-0009.jpg`,
+  `${DECK}/PetroTwo_page-0010.jpg`,
+  `${DECK}/PetroTwo_page-0011.jpg`,
+  `${DECK}/PetroTwo_page-0012-1-1.jpg`,
+  `${DECK}/PetroTwo_page-0013.jpg`,
+  `${DECK}/PetroTwo_page-0014.jpg`,
+  `${DECK}/PetroTwo_page-0015.jpg`,
+  `${DECK}/PetroTwo_page-0016.jpg`,
+  `${DECK}/PetroTwo_page-0017.jpg`,
+  `${DECK}/PetroTwo_page-0018.jpg`,
+  `${DECK}/PetroTwo_page-0019-1-1.jpg`,
+  `${DECK}/PetroTwo_page-0020.jpg`,
+  `${DECK}/PetroTwo_page-0021.jpg`,
+  `${DECK}/PetroTwo_page-0022.jpg`,
+  `${DECK}/PetroTwo_page-0023.jpg`,
+  `${DECK}/PetroTwo_page-0024.jpg`,
+  `${DECK}/PetroTwo_page-0025.jpg`,
+  `${DECK}/PetroTwo_page-0026.jpg`,
+  `${DECK}/PetroTwo_page-0027.jpg`,
+  `${DECK}/PetroTwo_page-0028.jpg`,
+  `${DECK}/PetroTwo_page-0029.jpg`,
+  `${DECK}/PetroTwo_page-0030.jpg`,
+  `${DECK}/PetroTwo_page-0031.jpg`,
+  `${DECK}/PetroTwo_page-0032.jpg`,
+]
+
+/** Heading above the terminal gallery on /petrotwo-group. */
+export const tankFarmStrategy = 'Indonesia Tank Farm Strategy'
+
+/** Overview board that opens the tank farm section. */
+export const tankFarmStrategyImage = `${DECK}/Indonesia-Tank-Farm-Strategy-x.jpg`
+
+/** Network / contact board that closes the page. */
+export const profileClosingSlide = `${DECK}/network-collaborations.png`
+
+/* ------------------------------------------------------------------ */
 /* Terminal projects shown on petrotwogroup.com/petrotwo-group          */
 /* ------------------------------------------------------------------ */
 
@@ -548,58 +609,47 @@ export const terminalProjects: { name: string; cta?: string; image: string; shee
   {
     name: 'PetroTwo Aceh Terminal Project',
     cta: 'More About PetroTwo Aceh Terminal Project',
-    image: '/assets/profile/terminals/PT2-Energi-Aceh-Terminal-Project-Brief-x.jpg',
+    image: `${DECK}/aceh-terminal-cover.png`,
     sheets: [
-      '/assets/profile/terminals/PT2-Energi-Aceh-Terminal-Project-Brief-x.jpg',
-      '/assets/profile/terminals/PT2-Energi-Aceh-Terminal-Project-Brief-Sept-2025_page-0002-x.jpg',
-      '/assets/profile/terminals/PT2-Energi-Aceh-Terminal-Conclusion.jpg',
+      `${DECK}/aceh-terminal-cover.png`,
+      `${DECK}/PT2-Energi-Aceh-Terminal-Project-Brief-x.jpg`,
+      `${DECK}/PT2-Energi-Aceh-Terminal-Project-Brief-Sept-2025_page-0002-x.jpg`,
+      `${DECK}/PT2-Energi-Aceh-Terminal-Conclusion.jpg`,
     ],
   },
   {
     name: 'PetroTwo Pidie Terminal Energi',
-    image: '/assets/profile/terminals/Petrotwo-Pidie-Terminal-Energi.jpg',
+    image: `${DECK}/Petrotwo-Pidie-Terminal-Energi.jpg`,
     sheets: [
-      '/assets/profile/terminals/Petrotwo-Pidie-Terminal-Energi.jpg',
-      '/assets/profile/terminals/BPT-Terminal-Concept-x.jpg',
-      '/assets/profile/terminals/Pidie-Terminal-Energi-Loc-x.jpg',
-      '/assets/profile/terminals/Pidie-Terminal-Energi-LocB-x.jpg',
+      `${DECK}/Petrotwo-Pidie-Terminal-Energi.jpg`,
+      `${DECK}/BPT-Terminal-Concept-x.jpg`,
+      `${DECK}/Pidie-Terminal-Energi-Loc-x.jpg`,
+      `${DECK}/Pidie-Terminal-Energi-LocB-x.jpg`,
     ],
   },
   {
     name: 'PetroTwo Karimun Terminal',
-    image: '/assets/profile/terminals/PetroTwo-Karimun-Terminal.jpg',
+    image: `${DECK}/PetroTwo-Karimun-Terminal.jpg`,
     sheets: [
-      '/assets/profile/terminals/PetroTwo-Karimun-Terminal.jpg',
-      '/assets/profile/terminals/Land-Allocation-Karimun-Terminal.jpg',
-      '/assets/profile/terminals/Land-Proposal-ALL-2_page-0005-scaled.jpg',
-      '/assets/profile/terminals/Land-Proposal-ALL-2_page-0006-scaled.jpg',
-      '/assets/profile/terminals/Land-Proposal-ALL-2_page-0007-scaled.jpg',
-      '/assets/profile/terminals/Land-Proposal-ALL-2_page-0011-scaled.jpg',
-      '/assets/profile/terminals/Land-Proposal-ALL-2_page-0012-scaled.jpg',
-      '/assets/profile/terminals/Land-Proposal-ALL-2_page-0013-scaled.jpg',
-      '/assets/profile/terminals/Land-Proposal-ALL-2_page-0014-scaled.jpg',
-      '/assets/profile/terminals/Land-Proposal-ALL-2_page-0015-scaled.jpg',
+      `${DECK}/PetroTwo-Karimun-Terminal.jpg`,
+      `${DECK}/Land-Allocation-Karimun-Terminal.jpg`,
+      `${DECK}/Land-Proposal-ALL-2_page-0005-2048x1152.jpg`,
+      `${DECK}/Land-Proposal-ALL-2_page-0006-2048x1152.jpg`,
+      `${DECK}/Land-Proposal-ALL-2_page-0007-2048x1152.jpg`,
+      `${DECK}/Land-Proposal-ALL-2_page-0011-2048x1152.jpg`,
+      `${DECK}/Land-Proposal-ALL-2_page-0012-2048x1152.jpg`,
+      `${DECK}/Land-Proposal-ALL-2_page-0013-2048x1152.jpg`,
+      `${DECK}/Land-Proposal-ALL-2_page-0014-2048x1152.jpg`,
+      `${DECK}/Land-Proposal-ALL-2_page-0015-2048x1152.jpg`,
     ],
   },
   {
     name: 'PetroTwo Karawang Oil Terminal',
     cta: 'More About PetroTwo Karawang Terminal Project',
-    image: '/assets/cta-tanks.jpeg',
-    sheets: [],
+    image: `${DECK}/karawang-terminal-cover.png`,
+    sheets: [`${DECK}/karawang-terminal-cover.png`],
   },
 ]
-
-/** Heading above the terminal gallery on /petrotwo-group. */
-export const tankFarmStrategy = 'Indonesia Tank Farm Strategy'
-
-/* The reference page publishes the profile deck as page images either side of
-   the terminal section. The deck is rendered locally from the source PDF. */
-export const profilePages = Array.from(
-  { length: 38 },
-  (_, i) => `/assets/profile/page-${String(i + 1).padStart(2, '0')}.jpg`,
-)
-export const profilePagesBefore = profilePages.slice(0, 7)
-export const profilePagesAfter = profilePages.slice(7)
 
 /* ------------------------------------------------------------------ */
 /* Tax — handled by the group's tax consultancy                         */
@@ -1173,6 +1223,7 @@ export const globalBizPage = {
      images sit behind the site's bot protection, so each panel carries the
      original filename to make swapping in the real artwork unambiguous. */
   capitalPanels: [
+    { title: 'PetroTwo Capital', image: '/assets/globalbiz/PetroTwoCapital-Cover.png' },
     { title: 'Our Services', image: '/assets/globalbiz/PetroTwoCapital-Services.jpg' },
     { title: 'Company Experiences', image: '/assets/globalbiz/PetroTwoCapital-Experience.jpg' },
     { title: 'Company Value', image: '/assets/globalbiz/Company-Value.jpg' },

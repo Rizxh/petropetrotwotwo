@@ -15,10 +15,13 @@ export function DivisionsIndexPage() {
   return (
     <>
       <section className="page-hero" data-hero="divisions">
-        <div className="container">
+        <div className="container page-hero-inner">
           <Breadcrumb trail={[{ label: p.title }]} />
-          <h1>{p.title}</h1>
-          <p>{p.tagline}</p>
+          <div className="page-hero-copy">
+            <p className="page-hero-label">{lang === 'id' ? 'Unit Bisnis' : 'Business Divisions'}</p>
+            <h1>{p.title}</h1>
+            <p className="page-hero-lead">{p.tagline}</p>
+          </div>
         </div>
       </section>
 

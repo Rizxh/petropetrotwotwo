@@ -768,6 +768,52 @@ ul {
   object-fit: cover;
 }
 
+/* Three frames crossfade on a 6s loop — roughly 2s of hold each, with a
+   short dissolve between. The first frame is opaque by default so the
+   hero is never blank before the animation starts. */
+.hero-media img {
+  opacity: 0;
+  animation: heroSlideshow 6s linear infinite;
+}
+
+.hero-media img:nth-child(1) {
+  opacity: 1;
+  animation-delay: 0s;
+}
+
+.hero-media img:nth-child(2) {
+  animation-delay: 2s;
+}
+
+.hero-media img:nth-child(3) {
+  animation-delay: 4s;
+}
+
+@keyframes heroSlideshow {
+  0% {
+    opacity: 0;
+  }
+  4%,
+  33% {
+    opacity: 1;
+  }
+  38%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Holding still is the accessible default — show frame one only. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-media img {
+    animation: none;
+  }
+
+  .hero-media img:not(:first-child) {
+    display: none;
+  }
+}
+
 .hero-media::after {
   content: '';
   position: absolute;
@@ -4026,11 +4072,15 @@ tbody tr:hover {
   content: '';
   position: absolute;
   inset: 0;
+  /* Airy through the top and middle, but ramping hard from ~65% down so the
+     breadcrumb and title always sit on a solid base — covers stay legible
+     even when the photo is bright (e.g. the daylight shot on /energy). */
   background: linear-gradient(
     180deg,
     color-mix(in srgb, var(--div-from) 62%, transparent) 0%,
-    color-mix(in srgb, var(--div-from) 24%, transparent) 45%,
-    color-mix(in srgb, var(--div-from) 92%, transparent) 100%
+    color-mix(in srgb, var(--div-from) 24%, transparent) 40%,
+    color-mix(in srgb, var(--div-from) 72%, transparent) 72%,
+    color-mix(in srgb, var(--div-from) 96%, transparent) 100%
   );
 }
 
@@ -4041,7 +4091,7 @@ tbody tr:hover {
 
 .division-cover-inner .breadcrumb {
   margin-bottom: var(--space-3);
-  color: rgba(255, 255, 255, 0.68);
+  color: rgba(255, 255, 255, 0.82);
 }
 
 .division-cover-inner .breadcrumb a {
@@ -4121,24 +4171,39 @@ tbody tr:hover {
   align-items: flex-end;
   min-height: min(64svh, 540px);
   padding: calc(var(--header-h) + var(--space-8)) 0 var(--space-8);
-  background: var(--color-navy);
+  /* Colour-led, one hue per document — see [data-cover] below. */
+  background: linear-gradient(150deg, var(--cover-a, #241a0c) 0%, var(--cover-b, #4a3413) 100%);
   overflow: hidden;
 }
 
-.profile-cover > img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.5;
-}
-
+/* Soft glow plus a fine weave, matching the treatment on .page-hero. */
 .profile-cover::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(13, 34, 63, 0.6), rgba(13, 34, 63, 0.92));
+  z-index: -1;
+  background-image:
+    radial-gradient(
+      120% 90% at 80% 6%,
+      rgb(var(--cover-glow) / 0.3) 0%,
+      rgb(var(--cover-glow) / 0) 62%
+    ),
+    repeating-linear-gradient(118deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 9px);
+  pointer-events: none;
+}
+
+/* Bronze for the group profile deck. */
+.profile-cover[data-cover='group'] {
+  --cover-a: #241a0c;
+  --cover-b: #553d16;
+  --cover-glow: 201 164 76;
+}
+
+/* Emerald for GlobalBiz, so the two documents never read alike. */
+.profile-cover[data-cover='globalbiz'] {
+  --cover-a: #06241d;
+  --cover-b: #10513e;
+  --cover-glow: 110 231 168;
 }
 
 .profile-cover-inner {
@@ -4188,12 +4253,6 @@ tbody tr:hover {
 /* -- Terminal project cards ------------------------------------ */
 
 /* Full-width presentation slides (company profile + GlobalBiz decks). */
-.deck-stack {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
 .deck-slide {
   margin: 0;
   border-radius: var(--radius);
@@ -4209,13 +4268,17 @@ tbody tr:hover {
   height: auto;
 }
 
-/* GlobalBiz: slides read as one continuous presentation, not separate blocks. */
+/* Continuous deck, shared by /petrotwo-group and /globalbiz.
+   Boards run full width, one per row, butted directly against each other so
+   the page reads as one document rather than a series of blocks. Only the
+   outer container carries a frame. */
 .gb-deck-section {
   padding-top: var(--space-6);
 }
 
-.deck-stack-flush {
-  gap: 0;
+.profile-deck {
+  display: flex;
+  flex-direction: column;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius);
   overflow: hidden;
@@ -4223,26 +4286,77 @@ tbody tr:hover {
   box-shadow: var(--shadow-xs);
 }
 
-.deck-stack-flush .deck-slide {
+.profile-deck .deck-slide {
   border: 0;
   border-radius: 0;
   box-shadow: none;
 }
 
-.deck-stack-flush .deck-slide + .deck-slide {
+.profile-deck .deck-slide img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Headings and calls to action sit inline in the run, on their own bands. */
+.profile-deck-heading,
+.profile-deck-subheading {
+  margin: 0;
+  padding: clamp(var(--space-4), 4vw, var(--space-6)) clamp(var(--space-3), 4vw, var(--space-5));
+  font-family: var(--font-display);
+  color: var(--text-heading);
+  background: var(--color-surface);
   border-top: 1px solid var(--border-subtle);
 }
 
-.terminal-deck {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
+.profile-deck > .profile-deck-heading:first-child,
+.profile-deck > .profile-deck-subheading:first-child {
+  border-top: 0;
 }
 
-.terminal-deck-title {
-  font-family: var(--font-display);
-  font-size: clamp(1.25rem, 2.2vw, 1.625rem);
-  color: var(--text-heading);
+.profile-deck-heading {
+  font-size: clamp(1.375rem, 2.8vw, 2rem);
+  letter-spacing: -0.02em;
+}
+
+.profile-deck-subheading {
+  font-size: clamp(1.0625rem, 2vw, 1.375rem);
+  color: var(--color-gold-600);
+}
+
+.profile-deck-cta {
+  padding: clamp(var(--space-3), 3vw, var(--space-5));
+  background: var(--color-surface);
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* The CEO letter breaks the GlobalBiz deck between the cover board and the
+   rest. It needs real air above and below, otherwise it reads as though it
+   were printed on the boards it sits between. */
+.profile-deck-letter {
+  padding: clamp(var(--space-8), 8vw, var(--space-12)) clamp(var(--space-4), 6vw, var(--space-10));
+  background: var(--color-surface);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+/* One centred column, set for continuous reading. */
+.profile-deck-letter > p {
+  max-width: 66ch;
+  margin-inline: auto;
+  font-size: clamp(1rem, 1.3vw, 1.0625rem);
+  line-height: 1.85;
+  color: var(--text-body);
+}
+
+.profile-deck-letter > p + p {
+  margin-top: var(--space-4);
+}
+
+.profile-deck-letter .gb-signoff {
+  max-width: 66ch;
+  margin-inline: auto;
+  line-height: 1.6;
 }
 
 .terminal-list {
