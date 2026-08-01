@@ -120,7 +120,9 @@ export function PricingPage() {
             <p className="section-lead" style={{ color: '#c62828' }}>Expired December 2026</p>
           </div>
 
-          <div className="table-wrap">
+          {/* data-label feeds the stacked-card layout the table collapses
+              into below 640px — see .table-stack in global.css. */}
+          <div className="table-wrap table-stack">
             <table>
               <thead>
                 <tr>
@@ -133,12 +135,12 @@ export function PricingPage() {
               <tbody>
                 {pricingRows.map((row) => (
                   <tr key={row.item}>
-                    <td>
+                    <td data-label="Items">
                       <strong>{row.item}</strong>
                     </td>
-                    <td>{row.cif}</td>
-                    <td>{row.fob}</td>
-                    <td>
+                    <td data-label="CIF Price">{row.cif}</td>
+                    <td data-label="FOB Price">{row.fob}</td>
+                    <td data-label="Note">
                       <span className="muted">
                         {row.note}
                         <br />

@@ -86,6 +86,209 @@
 }
 
 /* ============================================================
+   PAGE THEMES
+   Every destination in the nav gets its own colour family, so the
+   inner pages stop reading as one identical navy slab. App.tsx maps
+   the route to a key and puts it on <main data-theme="…">; a hero
+   can also opt in on its own with data-hero="…" (the `hero` prop on
+   <PageHero>), which is what the pre-render export relies on.
+
+   A theme sets:
+     --band-a / --band-b   gradient stops for .page-hero + .section-navy
+     --band-glow           "r g b" for the hero glow and hairline ring
+     --surface-tint        background for .section-surface
+     --accent-light        accent sitting ON a band — needs to stay
+                           legible against --band-a/-b
+     --color-gold*         the accent trio, standing in for the brand
+                           gold. Mid-tone, because these read on white
+                           (rules, numbers, buttons) as often as on the
+                           bands. Scoped to page content only, so the
+                           header and footer keep the real brand gold
+                           and the site still reads as one.
+   ------------------------------------------------------------------ */
+
+.main-content[data-theme],
+.page-hero[data-hero] {
+  --band-a: #0d223f;
+  --band-b: #1c3f6b;
+  --band-glow: 201 164 76;
+  --surface-tint: #f8f9fb;
+  --accent-light: var(--color-gold);
+}
+
+/* Home keeps the house navy + gold; it is the brand baseline. */
+
+/* About — ember. The one the brief called out: it was navy like every
+   other page, and now it is the warmest thing on the site. */
+.main-content[data-theme='about'],
+.page-hero[data-hero='about'] {
+  --band-a: #4a1206;
+  --band-b: #a63a10;
+  --band-glow: 255 150 90;
+  --surface-tint: #fdf5f0;
+  --accent-light: #ffb083;
+  --color-gold: #ef7f3c;
+  --color-gold-600: #b3400f;
+  --color-gold-100: #fdeadd;
+}
+
+.main-content[data-theme='divisions'],
+.page-hero[data-hero='divisions'] {
+  --band-a: #062730;
+  --band-b: #0e5a62;
+  --band-glow: 95 211 196;
+  --surface-tint: #f1f8f7;
+  --accent-light: #5fd3c4;
+  --color-gold: #17a294;
+  --color-gold-600: #0f6f66;
+  --color-gold-100: #dff3f0;
+}
+
+.main-content[data-theme='services'],
+.page-hero[data-hero='services'] {
+  --band-a: #131b3d;
+  --band-b: #2f3f86;
+  --band-glow: 143 176 247;
+  --surface-tint: #f3f5fd;
+  --accent-light: #8fb0f7;
+  --color-gold: #5573d8;
+  --color-gold-600: #3d54ad;
+  --color-gold-100: #e5eafb;
+}
+
+.main-content[data-theme='pricing'],
+.page-hero[data-hero='pricing'] {
+  --band-a: #241906;
+  --band-b: #6d4a12;
+  --band-glow: 232 173 66;
+  --surface-tint: #fbf7ee;
+  --accent-light: #e8ad42;
+  --color-gold: #c98f24;
+  --color-gold-600: #8f6410;
+  --color-gold-100: #f8eed6;
+}
+
+.main-content[data-theme='contact'],
+.page-hero[data-hero='contact'] {
+  --band-a: #062a3f;
+  --band-b: #0e5f84;
+  --band-glow: 127 208 255;
+  --surface-tint: #f0f7fb;
+  --accent-light: #7fd0ff;
+  --color-gold: #1f97cf;
+  --color-gold-600: #0e6d99;
+  --color-gold-100: #ddf1fc;
+}
+
+.main-content[data-theme='storage'],
+.page-hero[data-hero='storage'] {
+  --band-a: #141d26;
+  --band-b: #3c5566;
+  --band-glow: 164 201 221;
+  --surface-tint: #f3f6f8;
+  --accent-light: #a4c9dd;
+  --color-gold: #5f8ba5;
+  --color-gold-600: #42657a;
+  --color-gold-100: #e7eff4;
+}
+
+.main-content[data-theme='international'],
+.page-hero[data-hero='international'] {
+  --band-a: #0a1f47;
+  --band-b: #1c4fa0;
+  --band-glow: 108 180 236;
+  --surface-tint: #f1f5fc;
+  --accent-light: #7fbcf2;
+  --color-gold: #2f77d4;
+  --color-gold-600: #1d55a8;
+  --color-gold-100: #e0ecfa;
+}
+
+.main-content[data-theme='capital'],
+.page-hero[data-hero='capital'] {
+  --band-a: #1b1030;
+  --band-b: #4b2a86;
+  --band-glow: 194 170 232;
+  --surface-tint: #f6f3fc;
+  --accent-light: #c2aae8;
+  --color-gold: #8560cc;
+  --color-gold-600: #5c3b9c;
+  --color-gold-100: #ece4f9;
+}
+
+.main-content[data-theme='investor'],
+.page-hero[data-hero='investor'] {
+  --band-a: #101a2a;
+  --band-b: #33405e;
+  --band-glow: 201 164 76;
+  --surface-tint: #f6f6f9;
+  --accent-light: #d9b768;
+  --color-gold: #b7953f;
+  --color-gold-600: #8a6c22;
+  --color-gold-100: #f6efdd;
+}
+
+.main-content[data-theme='sustainability'],
+.page-hero[data-hero='sustainability'] {
+  --band-a: #05231a;
+  --band-b: #14663f;
+  --band-glow: 121 232 174;
+  --surface-tint: #f0f8f3;
+  --accent-light: #79e8ae;
+  --color-gold: #1a9c63;
+  --color-gold-600: #10714a;
+  --color-gold-100: #ddf4e8;
+}
+
+.main-content[data-theme='stories'],
+.page-hero[data-hero='stories'] {
+  --band-a: #26102a;
+  --band-b: #6a2a55;
+  --band-glow: 234 169 200;
+  --surface-tint: #fbf2f7;
+  --accent-light: #eaa9c8;
+  --color-gold: #c75792;
+  --color-gold-600: #a03068;
+  --color-gold-100: #f9e5ef;
+}
+
+.main-content[data-theme='news'],
+.page-hero[data-hero='news'] {
+  --band-a: #101b2d;
+  --band-b: #2b4670;
+  --band-glow: 170 196 228;
+  --surface-tint: #f4f6fa;
+  --accent-light: #aac4e4;
+  --color-gold: #557bb5;
+  --color-gold-600: #3a5b8c;
+  --color-gold-100: #e7eef7;
+}
+
+.main-content[data-theme='subholding'],
+.page-hero[data-hero='subholding'] {
+  --band-a: #062a2c;
+  --band-b: #0e5f5c;
+  --band-glow: 108 204 209;
+  --surface-tint: #f0f8f8;
+  --accent-light: #6cccd1;
+  --color-gold: #159a9a;
+  --color-gold-600: #0f6b6b;
+  --color-gold-100: #dff3f3;
+}
+
+.main-content[data-theme='profile'],
+.page-hero[data-hero='profile'] {
+  --band-a: #1a1a22;
+  --band-b: #3d3d4c;
+  --band-glow: 201 164 76;
+  --surface-tint: #f7f7f8;
+  --accent-light: #d9b768;
+  --color-gold: #b7953f;
+  --color-gold-600: #8a6c22;
+  --color-gold-100: #f6efdd;
+}
+
+/* ============================================================
    BASE
    ============================================================ */
 
@@ -97,6 +300,9 @@
 
 html {
   scroll-behavior: smooth;
+  /* Guard against sideways scrolling on phones. `clip` rather than `hidden` so
+     sticky elements keep sticking to the viewport. */
+  overflow-x: clip;
 }
 
 body {
@@ -143,6 +349,18 @@ p {
   margin: 0;
 }
 
+/* Slash-joined lists, URLs and emails count as a single word, so without this
+   they widen the whole page on narrow screens instead of wrapping. */
+h1,
+h2,
+h3,
+h4,
+p,
+li,
+a {
+  overflow-wrap: break-word;
+}
+
 ul {
   margin: 0;
   padding: 0;
@@ -173,12 +391,18 @@ ul {
   padding: clamp(var(--space-10), 10vw, var(--space-15)) 0;
 }
 
+/* Both read the page theme (see PAGE THEMES) and fall back to the
+   house navy/grey when no theme is in scope. */
 .section-surface {
-  background: var(--color-surface);
+  background: var(--surface-tint, var(--color-surface));
 }
 
+/* Runs the theme gradient the opposite way to the hero, plus a hairline in
+   the page accent — where a band sits directly under a hero the two would
+   otherwise meet at an invisible seam. */
 .section-navy {
-  background: var(--color-navy);
+  background: linear-gradient(200deg, var(--band-b, #1c3f6b) 0%, var(--band-a, #0d223f) 100%);
+  border-top: 1px solid rgb(var(--band-glow, 201 164 76) / 0.28);
 }
 
 .section-head {
@@ -224,7 +448,7 @@ ul {
 /* Decorative dash intentionally removed per brand direction. */
 
 .section-navy .eyebrow {
-  color: var(--color-gold);
+  color: var(--accent-light, var(--color-gold));
 }
 
 .section-title {
@@ -274,7 +498,7 @@ ul {
 /* Decorative dash intentionally removed per brand direction. */
 
 .section-label-light {
-  color: var(--color-gold);
+  color: var(--accent-light, var(--color-gold));
 }
 
 .split-2 {
@@ -362,13 +586,16 @@ ul {
   box-shadow: var(--shadow-md);
 }
 
+/* The one accent that does NOT follow the page theme: the primary call to
+   action stays brand gold everywhere, so "the button you press" looks the
+   same on every page and its contrast is never at the mercy of a palette. */
 .btn-gold {
-  background: var(--color-gold);
+  background: #c9a44c;
   color: var(--color-navy);
 }
 
 .btn-gold:hover {
-  background: var(--color-gold-600);
+  background: #b08d3b;
   color: #fff;
   box-shadow: var(--shadow-gold);
 }
@@ -503,8 +730,10 @@ ul {
   border-bottom: 1px solid transparent;
 }
 
+/* Opaque enough that the coloured page hero underneath never tints the
+   chrome — the header stays neutral white whatever theme the page runs. */
 .site-header.is-solid {
-  background: var(--glass-bg);
+  background: rgba(255, 255, 255, 0.94);
   -webkit-backdrop-filter: var(--glass-blur);
   backdrop-filter: var(--glass-blur);
   border-bottom-color: var(--border-subtle);
@@ -1121,7 +1350,7 @@ ul {
   display: grid;
   place-items: center;
   margin-bottom: var(--space-2);
-  color: var(--color-gold);
+  color: var(--accent-light, var(--color-gold));
 }
 
 .biz-card-icon svg {
@@ -2070,7 +2299,7 @@ thead th {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #fff;
-  background: var(--color-navy);
+  background: var(--band-a, var(--color-navy));
   padding: 16px 20px;
   white-space: nowrap;
 }
@@ -2088,6 +2317,107 @@ tbody tr:nth-child(even) {
 
 tbody tr:hover {
   background: var(--color-gold-100);
+}
+
+/* -- Stacked cards on phones ---------------------------------------
+   A four-column price table inside a 350px viewport either scrolls
+   sideways or wraps every cell into a tower of ragged rows. Below
+   640px each row becomes its own card with the column name as an
+   inline label, pulled from the data-label on each cell.
+   ------------------------------------------------------------------ */
+
+@media (max-width: 640px) {
+  .table-stack {
+    overflow-x: visible;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .table-stack table {
+    display: block;
+    min-width: 0;
+    font-size: 0.9375rem;
+  }
+
+  /* Column names move into the cells, so the header row is redundant —
+     kept in the DOM for assistive tech, hidden visually. */
+  .table-stack thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .table-stack tbody {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .table-stack tbody tr,
+  .table-stack tbody tr:nth-child(even),
+  .table-stack tbody tr:hover {
+    display: block;
+    padding: var(--space-2) var(--space-3);
+    background: #fff;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-xs);
+  }
+
+  .table-stack tbody td {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: 10px 0;
+    border-top: 0;
+    text-align: right;
+  }
+
+  .table-stack tbody td + td {
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .table-stack tbody td::before {
+    content: attr(data-label);
+    flex: 0 0 auto;
+    font-family: var(--font-display);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-align: left;
+  }
+
+  /* The item name is the card's heading — full width, no label. */
+  .table-stack tbody td:first-child {
+    display: block;
+    padding-top: 0;
+    text-align: left;
+    color: var(--text-heading);
+  }
+
+  .table-stack tbody td:first-child::before {
+    content: none;
+  }
+
+  /* The last column is a sentence, not a figure — right-aligning it
+     leaves a ragged left edge, so give it its own line. */
+  .table-stack tbody td:last-child {
+    display: block;
+    text-align: left;
+  }
+
+  .table-stack tbody td:last-child::before {
+    display: block;
+    margin-bottom: 4px;
+  }
 }
 
 .breadcrumb {
@@ -2275,10 +2605,32 @@ tbody tr:hover {
    ============================================================ */
 
 .page-hero {
-  background: var(--color-navy);
+  isolation: isolate;
+  background: linear-gradient(148deg, var(--band-a, #0d223f) 0%, var(--band-b, #1c3f6b) 100%);
   padding: calc(var(--header-h) + var(--space-4)) 0 clamp(var(--space-8), 8vw, var(--space-10));
   position: relative;
   overflow: hidden;
+}
+
+/* Depth: a soft off-centre glow plus a fine diagonal weave, so the
+   panel has some life without competing with the headline. */
+.page-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    radial-gradient(
+      120% 90% at 82% 8%,
+      rgb(var(--band-glow, 201 164 76) / 0.34) 0%,
+      rgb(var(--band-glow, 201 164 76) / 0) 62%
+    ),
+    repeating-linear-gradient(
+      118deg,
+      rgba(255, 255, 255, 0.028) 0 1px,
+      transparent 1px 9px
+    );
+  pointer-events: none;
 }
 
 .page-hero::after {
@@ -2289,148 +2641,8 @@ tbody tr:hover {
   width: 520px;
   height: 520px;
   border-radius: 50%;
-  border: 1px solid rgba(201, 164, 76, 0.25);
+  border: 1px solid rgb(var(--band-glow, 201 164 76) / 0.34);
   pointer-events: none;
-}
-
-/* -- Colour variants ---------------------------------------------
-   Every destination in the nav gets its own background colour so
-   the inner pages stop reading as one identical navy slab. Opt in
-   with data-hero="<key>" on the section, or the `hero` prop on
-   <PageHero>. A variant sets three things:
-     --hero-a       top-left of the diagonal wash
-     --hero-b       bottom-right of the wash
-     --hero-accent  eyebrow, rule and breadcrumb highlight
-   ------------------------------------------------------------------ */
-
-.page-hero[data-hero] {
-  isolation: isolate;
-  background: linear-gradient(148deg, var(--hero-a) 0%, var(--hero-b) 100%);
-}
-
-/* Depth: a soft off-centre glow plus a fine diagonal weave, so the
-   panel has some life without competing with the headline. */
-.page-hero[data-hero]::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background-image:
-    radial-gradient(
-      120% 90% at 82% 8%,
-      rgb(var(--hero-glow) / 0.34) 0%,
-      rgb(var(--hero-glow) / 0) 62%
-    ),
-    repeating-linear-gradient(
-      118deg,
-      rgba(255, 255, 255, 0.028) 0 1px,
-      transparent 1px 9px
-    );
-  pointer-events: none;
-}
-
-.page-hero[data-hero]::after {
-  border-color: rgb(var(--hero-glow) / 0.34);
-}
-
-/* --- The variants, one per nav destination --- */
-
-.page-hero[data-hero='about'] {
-  --hero-a: #0d223f;
-  --hero-b: #1c3f6b;
-  --hero-accent: #d9b768;
-  --hero-glow: 201 164 76;
-}
-
-.page-hero[data-hero='divisions'] {
-  --hero-a: #062730;
-  --hero-b: #0e4a54;
-  --hero-accent: #5fd3c4;
-  --hero-glow: 95 211 196;
-}
-
-.page-hero[data-hero='services'] {
-  --hero-a: #101a35;
-  --hero-b: #26356a;
-  --hero-accent: #8fb0f7;
-  --hero-glow: 143 176 247;
-}
-
-.page-hero[data-hero='pricing'] {
-  --hero-a: #1e1508;
-  --hero-b: #4a3210;
-  --hero-accent: #e8ad42;
-  --hero-glow: 232 173 66;
-}
-
-.page-hero[data-hero='contact'] {
-  --hero-a: #0b1f38;
-  --hero-b: #17456d;
-  --hero-accent: #7fd0ff;
-  --hero-glow: 127 208 255;
-}
-
-.page-hero[data-hero='storage'] {
-  --hero-a: #111f2a;
-  --hero-b: #274554;
-  --hero-accent: #a4c9dd;
-  --hero-glow: 164 201 221;
-}
-
-.page-hero[data-hero='international'] {
-  --hero-a: #071d38;
-  --hero-b: #10416f;
-  --hero-accent: #6cb4ec;
-  --hero-glow: 108 180 236;
-}
-
-.page-hero[data-hero='capital'] {
-  --hero-a: #14102a;
-  --hero-b: #322357;
-  --hero-accent: #c2aae8;
-  --hero-glow: 194 170 232;
-}
-
-.page-hero[data-hero='investor'] {
-  --hero-a: #0c1b2b;
-  --hero-b: #1e4152;
-  --hero-accent: #d9b768;
-  --hero-glow: 201 164 76;
-}
-
-.page-hero[data-hero='sustainability'] {
-  --hero-a: #05231a;
-  --hero-b: #12513a;
-  --hero-accent: #79e8ae;
-  --hero-glow: 121 232 174;
-}
-
-.page-hero[data-hero='stories'] {
-  --hero-a: #1d1024;
-  --hero-b: #452446;
-  --hero-accent: #eaa9c8;
-  --hero-glow: 234 169 200;
-}
-
-.page-hero[data-hero='news'] {
-  --hero-a: #0f1b2d;
-  --hero-b: #223a5b;
-  --hero-accent: #aac4e4;
-  --hero-glow: 170 196 228;
-}
-
-.page-hero[data-hero='subholding'] {
-  --hero-a: #08202e;
-  --hero-b: #114654;
-  --hero-accent: #6cccd1;
-  --hero-glow: 108 204 209;
-}
-
-.page-hero[data-hero='profile'] {
-  --hero-a: #1a1a22;
-  --hero-b: #383845;
-  --hero-accent: #d9b768;
-  --hero-glow: 201 164 76;
 }
 
 /* -- Layout of the hero copy -------------------------------------
@@ -2458,7 +2670,7 @@ tbody tr:hover {
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--hero-accent, var(--color-gold));
+  color: var(--accent-light, var(--color-gold));
 }
 
 /* Short rule trailing the eyebrow, tying it to the page colour. */
@@ -2484,10 +2696,6 @@ tbody tr:hover {
   color: var(--text-inverse-soft);
 }
 
-.page-hero[data-hero] .breadcrumb [aria-current] {
-  color: var(--hero-accent, var(--color-gold));
-}
-
 @media (max-width: 560px) {
   .page-hero-copy h1 {
     max-width: none;
@@ -2501,7 +2709,7 @@ tbody tr:hover {
 .page-hero .section-label,
 .page-hero .section-label-light,
 .page-hero .eyebrow {
-  color: var(--color-gold);
+  color: var(--accent-light, var(--color-gold));
 }
 
 .page-hero .eyebrow {
@@ -2524,7 +2732,7 @@ tbody tr:hover {
 }
 
 .page-hero .breadcrumb [aria-current] {
-  color: var(--color-gold);
+  color: var(--accent-light, var(--color-gold));
   font-weight: 600;
 }
 
@@ -3099,6 +3307,19 @@ tbody tr:hover {
 .location-card h3 {
   color: #fff;
   font-size: 1.0625rem;
+}
+
+/* The region label sits on the dark band, so it needs the light accent —
+   without this it inherits the body colour and all but disappears. */
+.storage-card span,
+.location-card span {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-light, var(--color-gold));
 }
 
 .storage-card p,
@@ -3852,7 +4073,7 @@ tbody tr:hover {
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--color-gold);
+  color: var(--accent-light, var(--color-gold));
 }
 
 .ab-vision {
@@ -3875,12 +4096,36 @@ tbody tr:hover {
   max-width: 72ch;
 }
 
-/* Two across, so each pillar photo reads at a usable size. */
+/* Two across, so each pillar photo reads at a usable size. Held at two
+   right down to phone width — one across turns each photo into a
+   half-screen slab. */
 .ab-pillars {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-4);
   margin-top: var(--space-6);
+}
+
+@media (max-width: 768px) {
+  .ab-pillars {
+    gap: var(--space-2);
+  }
+
+  .ab-pillars h3 {
+    font-size: 1rem;
+    padding: var(--space-3) var(--space-3) 0;
+  }
+
+  .ab-pillars p {
+    font-size: 0.875rem;
+    padding: 0 var(--space-3) var(--space-3);
+  }
+}
+
+@media (max-width: 480px) {
+  .ab-pillars {
+    grid-template-columns: 1fr;
+  }
 }
 
 .ab-pillars article {
@@ -3926,11 +4171,32 @@ tbody tr:hover {
   color: var(--text-inverse-soft);
 }
 
+/* Explicit column counts rather than auto-fit: with five values, auto-fit
+   lands on four-across at tablet and leaves a lone card stranded on its
+   own row. */
 .ab-values {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
-  gap: var(--space-3);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--space-3) var(--space-4);
   margin-top: var(--space-5);
+}
+
+@media (max-width: 1200px) {
+  .ab-values {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .ab-values {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .ab-values {
+    grid-template-columns: 1fr;
+  }
 }
 
 .ab-values article {
@@ -3951,11 +4217,25 @@ tbody tr:hover {
   color: var(--text-body);
 }
 
+/* Four entries in both places this is used, so drop straight to 2×2 at
+   tablet — auto-fit would go three-across and orphan the fourth. */
 .ab-numbered {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--space-3);
   margin-top: var(--space-5);
+}
+
+@media (max-width: 1200px) {
+  .ab-numbered {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .ab-numbered {
+    grid-template-columns: 1fr;
+  }
 }
 
 .ab-numbered article {
@@ -4221,7 +4501,7 @@ tbody tr:hover {
 }
 
 .profile-cover-inner .breadcrumb [aria-current] {
-  color: var(--color-gold);
+  color: var(--accent-light, var(--color-gold));
 }
 
 .profile-eyebrow {
@@ -4330,6 +4610,15 @@ tbody tr:hover {
   border-top: 1px solid var(--border-subtle);
 }
 
+/* Project titles are long, so the button must wrap instead of running past
+   the deck edge on narrow screens. */
+.profile-deck-cta .btn {
+  max-width: 100%;
+  white-space: normal;
+  line-height: 1.35;
+  text-align: center;
+}
+
 /* The CEO letter breaks the GlobalBiz deck between the cover board and the
    rest. It needs real air above and below, otherwise it reads as though it
    were printed on the boards it sits between. */
@@ -4424,7 +4713,7 @@ tbody tr:hover {
 }
 
 .gb-counter strong span {
-  color: var(--color-gold);
+  color: var(--accent-light, var(--color-gold));
 }
 
 .gb-counter > span {
@@ -5354,7 +5643,6 @@ tbody tr:hover {
     aspect-ratio: 16 / 9;
   }
 
-  .ab-pillars,
   .division-about-grid,
   .gb-capital,
   .terminal-card,
@@ -5371,6 +5659,17 @@ tbody tr:hover {
   .svc-detail.reverse .svc-detail-media,
   .bd-entry.reverse .bd-entry-media {
     order: 0;
+  }
+
+  /* Once a media + copy row stacks, a full-width 4:3 photo becomes a
+     screen-and-a-half of image. Cap it and centre it instead. */
+  .svc-overview-media,
+  .svc-detail-media,
+  .ab-intro-media,
+  .bd-entry-media {
+    width: 100%;
+    max-width: 560px;
+    margin-inline: auto;
   }
 
   .tax-contact-card,
@@ -5521,9 +5820,7 @@ tbody tr:hover {
     width: min(100% - 2.5rem, var(--layout-content));
   }
 
-  .biz-grid,
   .news-grid,
-  .team-grid,
   .storage-grid,
   .locations-grid,
   .services-grid,
@@ -5534,8 +5831,59 @@ tbody tr:hover {
     grid-template-columns: 1fr;
   }
 
+  /* Eleven divisions one-per-row is a very long scroll of near-identical
+     cards; two compact tiles per row keeps the set scannable. */
+  .biz-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .biz-card {
-    aspect-ratio: 16 / 11;
+    aspect-ratio: 4 / 5;
+  }
+
+  .biz-card-body {
+    padding: var(--space-2);
+  }
+
+  .biz-card h3 {
+    font-size: 0.9375rem;
+  }
+
+  .biz-card-icon {
+    width: 34px;
+    height: 34px;
+    margin-bottom: 10px;
+  }
+
+  .biz-card-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* The blurb and the pill do not fit a half-width tile — the card title
+     and photo carry it, and the whole card is the link. */
+  .biz-card p,
+  .biz-card .biz-card-arrow {
+    display: none;
+  }
+
+  /* Portraits stay two-up: full width makes each one a 3:4 slab. */
+  .team-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2);
+  }
+
+  .team-card-body {
+    padding: var(--space-2);
+  }
+
+  .team-card-body h3 {
+    font-size: 0.9375rem;
+  }
+
+  .team-card-body span {
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
   }
 
   .hero-badges li {
@@ -5573,7 +5921,18 @@ tbody tr:hover {
     margin-top: var(--space-4);
   }
 
+  /* Long labels ("Open the full company profile (PDF)") cannot stay on one
+     line at this width — let them wrap and give every action the full
+     column, which also lines the buttons up instead of leaving ragged ends. */
+  .btn {
+    white-space: normal;
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  .btn-row .btn,
   .hero-actions .btn {
+    flex: 1 1 100%;
     width: 100%;
   }
 

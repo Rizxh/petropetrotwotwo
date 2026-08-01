@@ -48,6 +48,34 @@ function ScrollManager() {
   return null
 }
 
+/**
+ * Route → colour theme. The key lands on <main data-theme> and drives the
+ * palette in global.css (see PAGE THEMES), so every nav destination reads as
+ * its own place instead of one continuous navy. Keys match the `data-hero`
+ * values on the page heroes.
+ */
+function themeFor(pathname: string) {
+  const p = pathname.toLowerCase()
+  const at = (...prefixes: string[]) => prefixes.some((s) => p === s || p.startsWith(`${s}/`))
+
+  if (at('/about')) return 'about'
+  if (at('/business-divisions', '/divisions', '/sectors')) return 'divisions'
+  if (at('/services')) return 'services'
+  if (at('/pricing', '/oil-gas-price')) return 'pricing'
+  if (at('/contact')) return 'contact'
+  if (at('/storage')) return 'storage'
+  if (at('/international')) return 'international'
+  if (at('/capital')) return 'capital'
+  if (at('/investor-relations')) return 'investor'
+  if (at('/sustainability')) return 'sustainability'
+  if (at('/stories')) return 'stories'
+  if (at('/news')) return 'news'
+  if (at('/subholding')) return 'subholding'
+  if (at('/petrotwo-group', '/company-profile-pdf', '/globalbiz')) return 'profile'
+  // Home, /tax and the legal pages ship their own colour treatment.
+  return 'home'
+}
+
 function DivisionRoute() {
   const { slug = 'energy' } = useParams()
   return <DivisionPage slug={slug} />
@@ -59,11 +87,13 @@ function NewsDetailRoute() {
 }
 
 export default function App() {
+  const { pathname } = useLocation()
+
   return (
     <div className="app-shell">
       <ScrollManager />
       <Header />
-      <main className="main-content">
+      <main className="main-content" data-theme={themeFor(pathname)}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
