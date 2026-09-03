@@ -50,8 +50,8 @@ export function ContactPage() {
           <div className="contact-block">
             <h2>Official Website</h2>
             <p>
-              <a href="https://www.petrotwogroup.com" target="_blank" rel="noreferrer">
-                www.petrotwogroup.com
+              <a href="https://www.petrotwoenergy.com" target="_blank" rel="noreferrer">
+                www.petrotwoenergy.com
               </a>
             </p>
           </div>

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.petrotwogroup.com/sitemap.xml
+Sitemap: https://www.petrotwoenergy.com/sitemap.xml

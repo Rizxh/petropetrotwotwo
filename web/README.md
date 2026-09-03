@@ -47,13 +47,13 @@ Alternatif tanpa Git: `npm i -g vercel`, lalu jalankan `vercel` di folder `web`.
 
 ### 4. Setelah domain final — WAJIB disesuaikan
 
-URL produksi di-hardcode sebagai `https://www.petrotwogroup.com` di:
+URL produksi di-hardcode sebagai `https://www.petrotwoenergy.com` di:
 
 - `index.html` → `canonical`, `og:url`, `og:image`, `twitter:image`
 - `public/robots.txt` → baris `Sitemap:`
 - `public/sitemap.xml` → semua `<loc>`
 
-Kalau domain final berbeda, cari-ganti `www.petrotwogroup.com`, lalu deploy ulang.
+Kalau domain final berbeda, cari-ganti `www.petrotwoenergy.com`, lalu deploy ulang.
 
 ### 5. Checklist pasca-deploy
 

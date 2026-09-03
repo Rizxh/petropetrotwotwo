@@ -5,7 +5,7 @@ export const company = {
   vision2040: 'Legacy 2040 Vision',
   email: 'info@petrotwogroup.com',
   orderEmail: 'order@petrotwoenergy.com',
-  web: 'www.petrotwogroup.com',
+  web: 'www.petrotwoenergy.com',
   whatsapp: ['+62 816.60.9090', '+62 816.100.606'],
   address: {
     line1: 'Wisma BNI 46, 50th Floor (Konsorsium Hijau)',
