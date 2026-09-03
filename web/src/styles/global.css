@@ -2063,8 +2063,9 @@ ul {
   color: #fff;
 }
 
-/* Label above value, one channel per row — keeps long email addresses and
-   phone numbers readable at any column width without truncating or colliding. */
+/* Label on the left, value(s) on the right, one channel per row. The email
+   row shares a single label for a stacked list of addresses. Rows wrap to
+   label-above-value when the column gets too narrow to hold both. */
 .footer-contact-list {
   margin-top: var(--space-4);
   padding: 0;
@@ -2074,14 +2075,16 @@ ul {
 
 .footer-contact-list li {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 3px;
-  padding: 10px 0;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+  padding: 11px 0;
   border-bottom: 1px solid var(--border-inverse);
 }
 
 .footer-contact-list span {
+  flex: none;
   font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -2094,13 +2097,45 @@ ul {
   font-size: 0.875rem;
   font-weight: 600;
   color: #fff;
-  text-align: left;
+  text-align: right;
   overflow-wrap: anywhere;
   word-break: break-word;
 }
 
 .footer-contact-list a:hover {
   color: var(--color-gold);
+}
+
+/* The three email addresses stack under the one "Email" label. */
+.footer-contact-emails {
+  align-items: flex-start;
+}
+
+.footer-contact-emails-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  min-width: 0;
+}
+
+/* Once a row wraps (narrow column / phone), push the value block full width
+   and left-align it so it reads as "label, then values" instead of a ragged
+   right edge. */
+@media (max-width: 480px) {
+  .footer-contact-list li {
+    gap: 3px;
+  }
+
+  .footer-contact-list span {
+    flex-basis: 100%;
+  }
+
+  .footer-contact-list a,
+  .footer-contact-emails-list {
+    text-align: left;
+    align-items: flex-start;
+  }
 }
 
 .newsletter {
@@ -5748,16 +5783,10 @@ tbody tr:hover {
     grid-template-columns: 1fr 1fr;
   }
 
-  /* Give the contact block the full row and lay its channels out two-up so
-     long email addresses have room to breathe on tablet widths. */
+  /* Give the contact block the full row so the email addresses and phone
+     desks have room to breathe on tablet widths. */
   .footer-contact {
     grid-column: 1 / -1;
-  }
-
-  .footer-contact-list {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: var(--space-8);
   }
 
   .marquee-track {
@@ -5842,11 +5871,6 @@ tbody tr:hover {
   .ds-grid-2,
   .ds-grid-3,
   .footer-grid {
-    grid-template-columns: 1fr;
-  }
-
-  /* Back to a single stacked list once the whole footer is one column. */
-  .footer-contact-list {
     grid-template-columns: 1fr;
   }
 

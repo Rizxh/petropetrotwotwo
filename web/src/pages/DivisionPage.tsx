@@ -58,7 +58,7 @@ export function DivisionsIndexPage() {
         >
           <div className={`container bd-entry ${i % 2 === 1 ? 'reverse' : ''}`}>
             <figure className="bd-entry-media">
-              <img src={entry.image} alt="" loading="lazy" />
+              <img src={entry.image} alt="" loading="lazy" decoding="async" />
             </figure>
             <div>
               <div className="eyebrow">{entry.eyebrow}</div>
@@ -85,7 +85,7 @@ export function DivisionsIndexPage() {
           <div className="biz-grid">
             {businesses.map((b) => (
               <Link to={divisionPath(b.slug)} className="biz-card" key={b.slug}>
-                <img src={b.image} alt="" loading="lazy" />
+                <img src={b.image} alt="" loading="lazy" decoding="async" />
                 <div className="biz-card-body">
                   <h3>{pick(b.label, lang)}</h3>
                   <p>{pick(b.description, lang)}</p>
@@ -129,7 +129,7 @@ export function DivisionPage({ slug }: { slug: string }) {
     <div className="division-page" data-division={division.theme}>
       {/* Section 1 — full-bleed cover */}
       <section className="division-cover">
-        <img src={division.cover} alt="" fetchPriority="high" />
+        <img src={division.cover} alt="" fetchPriority="high" decoding="async" />
         <div className="container division-cover-inner">
           <Breadcrumb trail={[{ label: t('navDivisions'), to: '/business-divisions' }, { label }]} />
           <h1>{label}</h1>
@@ -144,7 +144,7 @@ export function DivisionPage({ slug }: { slug: string }) {
             <p>{pick(division.description, lang)}</p>
           </div>
           <figure className="division-about-photo">
-            <img src={division.photo} alt="" loading="lazy" />
+            <img src={division.photo} alt="" loading="lazy" decoding="async" />
           </figure>
         </div>
       </section>

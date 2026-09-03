@@ -263,17 +263,17 @@ export function Footer() {
               {t('footContactCta')}
             </Link>
 
-            {/* Each channel gets its own labelled row (label above value) so
-                long email addresses and phone numbers stay scannable and wrap
-                cleanly on narrow screens instead of running together. */}
+            {/* One labelled row per channel. The three email addresses share a
+                single "Email" label and stack on the right; the phone desks
+                follow. Everything wraps to label-above-value on narrow screens. */}
             <ul className="footer-contact-list">
-              <li>
-                <span>CEO</span>
-                <a href="mailto:ceo.yanvialex@gmail.com">ceo.yanvialex@gmail.com</a>
-              </li>
-              <li>
-                <span>Order</span>
-                <a href="mailto:order.petrotwoenergy@gmail.com">order.petrotwoenergy@gmail.com</a>
+              <li className="footer-contact-emails">
+                <span>Email</span>
+                <div className="footer-contact-emails-list">
+                  <a href={`mailto:${company.email}`}>{company.email}</a>
+                  <a href="mailto:ceo.yanvialex@gmail.com">ceo.yanvialex@gmail.com</a>
+                  <a href="mailto:order.petrotwoenergy@gmail.com">order.petrotwoenergy@gmail.com</a>
+                </div>
               </li>
               <li>
                 <span>Order Oil</span>
