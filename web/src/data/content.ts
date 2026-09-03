@@ -1,6 +1,6 @@
 export const company = {
   name: 'PetroTwo Group',
-  legalName: 'PT. PetroTwo Energy International',
+  legalName: 'PetroTwo Energy International',
   tagline: 'Empowering Global Business Through Energy, Investment & Strategic Resources',
   vision2040: 'Legacy 2040 Vision',
   email: 'info@petrotwogroup.com',
