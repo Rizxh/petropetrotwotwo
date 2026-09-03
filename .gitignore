@@ -43,3 +43,6 @@ web/File/
 # web/public/assets/, which is what the site actually serves.
 /web/petrotwo-group/
 /web/globalbiz/
+
+# Aswangga site — built here for handoff, but lives in its own repo.
+/aswangga/
