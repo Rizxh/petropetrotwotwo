@@ -293,8 +293,8 @@ export function Footer() {
 
         <div className="footer-bottom">
           <span>
-            © {new Date().getFullYear()} Petrotwoenergy | Group | International |
-            Bhunibol Capital. {t('footRights')}
+            © {new Date().getFullYear()} PetroTwo Energy | Group | International |
+            Bhumibol Capital. {t('footRights')}
           </span>
           <span>
             <Link to="/privacy">{t('footPrivacy')}</Link>
