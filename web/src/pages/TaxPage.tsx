@@ -276,6 +276,12 @@ export function TaxPage() {
               <strong>{company.legalName}</strong>
             </span>
           </div>
+          <p className="tax-hero-site">
+            {id ? 'Situs resmi Aswangga: ' : 'Aswangga official site: '}
+            <a href={taxFirm.website} target="_blank" rel="noreferrer">
+              {taxFirm.websiteLabel}
+            </a>
+          </p>
         </div>
       </section>
 
@@ -326,6 +332,12 @@ export function TaxPage() {
               </dd>
               <dt>{id ? 'Kantor' : 'Office'}</dt>
               <dd>{taxFirm.address}</dd>
+              <dt>Web</dt>
+              <dd>
+                <a href={taxFirm.website} target="_blank" rel="noreferrer">
+                  {taxFirm.websiteLabel}
+                </a>
+              </dd>
             </dl>
           </aside>
         </div>

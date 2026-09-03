@@ -129,15 +129,10 @@ export function Header() {
             {pick(b.label, lang)}
           </Link>
         ))}
-        {/* Tax is handled by Aswangga, which now runs on its own site. */}
-        <a
-          href="https://aswangga.id"
-          target="_blank"
-          rel="noreferrer"
-          className="biz-strip-tax"
-        >
+        {/* Tax opens its own in-app page, which previews Aswangga and links out. */}
+        <Link to="/tax" className="biz-strip-tax">
           {t('navTax')}
-        </a>
+        </Link>
       </nav>
 
       <div className={`mobile-nav ${mobileOpen ? 'open' : ''}`}>
@@ -157,14 +152,9 @@ export function Header() {
               {pick(b.label, lang)}
             </Link>
           ))}
-          <a
-            href="https://aswangga.id"
-            target="_blank"
-            rel="noreferrer"
-            onClick={() => setMobileOpen(false)}
-          >
+          <Link to="/tax" onClick={() => setMobileOpen(false)}>
             {t('navTax')}
-          </a>
+          </Link>
         </div>
 
         <p className="mobile-group-label">WhatsApp</p>
@@ -258,9 +248,7 @@ export function Footer() {
             <Link to="/business-divisions">{t('navDivisions')}</Link>
             <Link to="/pricing">{t('navPricing')}</Link>
             <Link to="/services">{t('footProjects')}</Link>
-            <a href="https://aswangga.id" target="_blank" rel="noreferrer">
-              {t('navTax')}
-            </a>
+            <Link to="/tax">{t('navTax')}</Link>
             <Link to="/news">{t('footNews')}</Link>
             <a href={waHref(waContacts.info, lang)} target="_blank" rel="noreferrer">
               {t('footContact')}
