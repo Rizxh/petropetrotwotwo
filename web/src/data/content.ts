@@ -3,7 +3,7 @@ export const company = {
   legalName: 'PetroTwo Energy International',
   tagline: 'Empowering Global Business Through Energy, Investment & Strategic Resources',
   vision2040: 'Legacy 2040 Vision',
-  email: 'info@petrotwogroup.com',
+  email: 'info@petrotwoenergy.com',
   orderEmail: 'order@petrotwoenergy.com',
   web: 'www.petrotwoenergy.com',
   whatsapp: ['+62 816.60.9090', '+62 816.100.606'],

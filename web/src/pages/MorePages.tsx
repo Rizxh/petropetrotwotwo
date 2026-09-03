@@ -59,7 +59,7 @@ export function ContactPage() {
           <div className="contact-block">
             <h2>Business Email</h2>
             <p>
-              <a href="mailto:info@petrotwogroup.com">info@petrotwogroup.com</a>
+              <a href="mailto:info@petrotwoenergy.com">info@petrotwoenergy.com</a>
             </p>
           </div>
         </div>
