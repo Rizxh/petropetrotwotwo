@@ -1,31 +1,42 @@
-import { useEffect } from 'react'
+import { Suspense, lazy, useEffect, type ComponentType } from 'react'
 import { Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom'
 import { Footer, Header, ScrollTopButton } from './components/Layout'
-import { AboutPage } from './pages/AboutPage'
-import { DesignSystemPage } from './pages/DesignSystemPage'
-import { DivisionPage, DivisionsIndexPage } from './pages/DivisionPage'
 import { HomePage } from './pages/HomePage'
-import { NotFoundPage } from './pages/NotFoundPage'
-import {
-  CompanyProfilePage,
-  CompanyProfilePdfPage,
-  GlobalBizPage,
-} from './pages/ProfilePages'
-import {
-  CapitalPage,
-  ContactPage,
-  InternationalPage,
-  InvestorPage,
-  LegalPage,
-  NewsDetailPage,
-  NewsPage,
-  StoragePage,
-  StoriesPage,
-  SubholdingPage,
-  SustainabilityPage,
-} from './pages/MorePages'
-import { PricingPage, ServicesPage } from './pages/ServicesPage'
-import { TaxPage } from './pages/TaxPage'
+
+/* Every page except Home is split into its own chunk, so a first visit only
+   downloads the code for the page being opened. */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyComponent = ComponentType<any>
+
+const page = <M extends Record<string, unknown>, K extends keyof M>(
+  load: () => Promise<M>,
+  name: K,
+) => lazy(() => load().then((m) => ({ default: m[name] as AnyComponent })))
+
+const AboutPage = page(() => import('./pages/AboutPage'), 'AboutPage')
+const DesignSystemPage = page(() => import('./pages/DesignSystemPage'), 'DesignSystemPage')
+const DivisionPage = page(() => import('./pages/DivisionPage'), 'DivisionPage')
+const DivisionsIndexPage = page(() => import('./pages/DivisionPage'), 'DivisionsIndexPage')
+const FoodPage = page(() => import('./pages/FoodPage'), 'FoodPage')
+const NotFoundPage = page(() => import('./pages/NotFoundPage'), 'NotFoundPage')
+const CompanyProfilePage = page(() => import('./pages/ProfilePages'), 'CompanyProfilePage')
+const CompanyProfilePdfPage = page(() => import('./pages/ProfilePages'), 'CompanyProfilePdfPage')
+const GlobalBizPage = page(() => import('./pages/ProfilePages'), 'GlobalBizPage')
+const CapitalPage = page(() => import('./pages/MorePages'), 'CapitalPage')
+const ContactPage = page(() => import('./pages/MorePages'), 'ContactPage')
+const InternationalPage = page(() => import('./pages/MorePages'), 'InternationalPage')
+const InvestorPage = page(() => import('./pages/MorePages'), 'InvestorPage')
+const LegalPage = page(() => import('./pages/MorePages'), 'LegalPage')
+const NewsDetailPage = page(() => import('./pages/MorePages'), 'NewsDetailPage')
+const NewsPage = page(() => import('./pages/MorePages'), 'NewsPage')
+const StoragePage = page(() => import('./pages/MorePages'), 'StoragePage')
+const StoriesPage = page(() => import('./pages/MorePages'), 'StoriesPage')
+const SubholdingPage = page(() => import('./pages/MorePages'), 'SubholdingPage')
+const SustainabilityPage = page(() => import('./pages/MorePages'), 'SustainabilityPage')
+const PricingPage = page(() => import('./pages/ServicesPage'), 'PricingPage')
+const ServicesPage = page(() => import('./pages/ServicesPage'), 'ServicesPage')
+const TaxPage = page(() => import('./pages/TaxPage'), 'TaxPage')
+const YanvoirPage = page(() => import('./pages/YanvoirPage'), 'YanvoirPage')
 
 /**
  * React Router doesn't scroll to #hash targets on navigation; the business
@@ -59,7 +70,7 @@ function themeFor(pathname: string) {
   const at = (...prefixes: string[]) => prefixes.some((s) => p === s || p.startsWith(`${s}/`))
 
   if (at('/about')) return 'about'
-  if (at('/business-divisions', '/divisions', '/sectors')) return 'divisions'
+  if (at('/business-divisions', '/divisions', '/sectors', '/food', '/yanvoir')) return 'divisions'
   if (at('/services')) return 'services'
   if (at('/pricing', '/oil-gas-price')) return 'pricing'
   if (at('/contact')) return 'contact'
@@ -78,6 +89,8 @@ function themeFor(pathname: string) {
 
 function DivisionRoute() {
   const { slug = 'energy' } = useParams()
+  // Food has its own page (same template plus gallery and document).
+  if (slug === 'food') return <Navigate to="/food" replace />
   return <DivisionPage slug={slug} />
 }
 
@@ -94,6 +107,7 @@ export default function App() {
       <ScrollManager />
       <Header />
       <main className="main-content" data-theme={themeFor(pathname)}>
+        <Suspense fallback={null}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
@@ -103,6 +117,8 @@ export default function App() {
           <Route path="/oil-gas-price" element={<Navigate to="/pricing" replace />} />
           <Route path="/tax" element={<TaxPage />} />
           <Route path="/taxation" element={<Navigate to="/tax" replace />} />
+          <Route path="/yanvoir" element={<YanvoirPage />} />
+          <Route path="/food" element={<FoodPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/storage" element={<StoragePage />} />
           <Route path="/international" element={<InternationalPage />} />
@@ -128,6 +144,7 @@ export default function App() {
           <Route path="/scam-alert" element={<LegalPage page="scam" />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
+        </Suspense>
       </main>
       <Footer />
       <ScrollTopButton />

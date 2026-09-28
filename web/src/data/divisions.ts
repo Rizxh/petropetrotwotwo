@@ -184,9 +184,29 @@ export const divisions: DivisionPage[] = [
       id: 'PetroTwo berpartisipasi di sektor kesehatan melalui jaringan FARMASI, berfokus pada distribusi farmasi yang andal dan pertumbuhan berbasis kemitraan.',
     },
   },
+  {
+    slug: 'yanvoir',
+    theme: 'yanvoir',
+    label: { en: 'Yanvoir', id: 'Yanvoir' },
+    /* Tagline printed on the Yanvoir logo. */
+    tagline: { en: 'Timeless Luxury • Endless Legacy', id: 'Timeless Luxury • Endless Legacy' },
+    /* No cover photo yet — the template falls back to the unit's colour. */
+    cover: '',
+    photo: '/assets/yanvoir/logo.jpeg',
+    description: {
+      en: 'Yanvoir is a new PetroTwo business unit.',
+      id: 'Yanvoir adalah unit bisnis baru PetroTwo.',
+    },
+  },
 ]
 
 export const divisionBySlug = (slug: string) => divisions.find((d) => d.slug === slug)
 
 /** Path for a division page. Kept in one place so nav and cards stay in sync. */
 export const divisionPath = (slug: string) => `/divisions/${slug}`
+
+/** Units that have their own standalone page instead of a /divisions/<slug> one. */
+const standalonePaths: Record<string, string> = { food: '/food' }
+
+/** Link target for a business unit — the standalone page when it has one. */
+export const businessPath = (slug: string) => standalonePaths[slug] ?? divisionPath(slug)

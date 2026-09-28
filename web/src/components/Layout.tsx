@@ -1,8 +1,8 @@
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { businesses, company, waContacts, waHref } from '../data/content'
-import { divisionPath } from '../data/divisions'
-import { pick, useLang, useT } from '../i18n'
+import { bagsContacts, businesses, company, waContacts, waHref } from '../data/content'
+import { businessPath } from '../data/divisions'
+import { pick, useLang, useT, useTr } from '../i18n'
 
 const LOGO = '/assets/master/logo-emblem.jpeg'
 
@@ -22,6 +22,7 @@ export function Header() {
   const isHome = location.pathname === '/'
   const { lang, setLang } = useLang()
   const t = useT()
+  const tr = useTr()
 
   const navLinks = [
     { label: t('navAbout'), to: '/about' },
@@ -125,13 +126,16 @@ export function Header() {
 
       <nav className="biz-strip" aria-label={t('navBusinesses')}>
         {businesses.map((b) => (
-          <Link key={b.slug} to={divisionPath(b.slug)}>
+          <Link key={b.slug} to={businessPath(b.slug)}>
             {pick(b.label, lang)}
           </Link>
         ))}
         {/* Tax opens its own in-app page, which previews Aswangga and links out. */}
         <Link to="/tax" className="biz-strip-tax">
           {t('navTax')}
+        </Link>
+        <Link to="/yanvoir" className="biz-strip-yanvoir">
+          Yanvoir
         </Link>
       </nav>
 
@@ -148,12 +152,15 @@ export function Header() {
         <p className="mobile-group-label">{t('navBusinesses')}</p>
         <div className="mobile-biz">
           {businesses.map((b) => (
-            <Link key={b.slug} to={divisionPath(b.slug)} onClick={() => setMobileOpen(false)}>
+            <Link key={b.slug} to={businessPath(b.slug)} onClick={() => setMobileOpen(false)}>
               {pick(b.label, lang)}
             </Link>
           ))}
           <Link to="/tax" onClick={() => setMobileOpen(false)}>
             {t('navTax')}
+          </Link>
+          <Link to="/yanvoir" onClick={() => setMobileOpen(false)}>
+            Yanvoir
           </Link>
         </div>
 
@@ -164,7 +171,7 @@ export function Header() {
           rel="noreferrer"
           onClick={() => setMobileOpen(false)}
         >
-          Order Oil · {waContacts.order.display}
+          {tr('Order Oil')} · {waContacts.order.display}
         </a>
         <a
           href={waHref(waContacts.info, lang)}
@@ -172,7 +179,23 @@ export function Header() {
           rel="noreferrer"
           onClick={() => setMobileOpen(false)}
         >
-          Info Oil · {waContacts.info.display}
+          {tr('Info Oil')} · {waContacts.info.display}
+        </a>
+        <a
+          href={waHref(bagsContacts.order, lang)}
+          target="_blank"
+          rel="noreferrer"
+          onClick={() => setMobileOpen(false)}
+        >
+          {pick(bagsContacts.order.label, lang)} · {bagsContacts.order.display}
+        </a>
+        <a
+          href={waHref(bagsContacts.info, lang)}
+          target="_blank"
+          rel="noreferrer"
+          onClick={() => setMobileOpen(false)}
+        >
+          {pick(bagsContacts.info.label, lang)} · {bagsContacts.info.display}
         </a>
       </div>
     </header>
@@ -208,6 +231,7 @@ const socials = [
 export function Footer() {
   const { lang } = useLang()
   const t = useT()
+  const tr = useTr()
   return (
     <footer className="site-footer">
       <div className="container">
@@ -236,7 +260,7 @@ export function Footer() {
           <div className="footer-col">
             <h4>{t('footBusinesses')}</h4>
             {businesses.slice(0, 6).map((b) => (
-              <Link key={b.slug} to={divisionPath(b.slug)}>
+              <Link key={b.slug} to={businessPath(b.slug)}>
                 {pick(b.label, lang)}
               </Link>
             ))}
@@ -249,6 +273,8 @@ export function Footer() {
             <Link to="/pricing">{t('navPricing')}</Link>
             <Link to="/services">{t('footProjects')}</Link>
             <Link to="/tax">{t('navTax')}</Link>
+            <Link to="/yanvoir">Yanvoir</Link>
+            <Link to="/food">{t('navFood')}</Link>
             <Link to="/news">{t('footNews')}</Link>
             <a href={waHref(waContacts.info, lang)} target="_blank" rel="noreferrer">
               {t('footContact')}
@@ -263,7 +289,7 @@ export function Footer() {
               {t('footContactCta')}
             </Link>
 
-            {/* One labelled row per channel. The three email addresses share a
+            {/* One labelled row per channel. The email addresses share a
                 single "Email" label and stack on the right; the phone desks
                 follow. Everything wraps to label-above-value on narrow screens. */}
             <ul className="footer-contact-list">
@@ -271,20 +297,31 @@ export function Footer() {
                 <span>Email</span>
                 <div className="footer-contact-emails-list">
                   <a href={`mailto:${company.email}`}>{company.email}</a>
-                  <a href="mailto:ceo.yanvialex@gmail.com">ceo.yanvialex@gmail.com</a>
                   <a href="mailto:order.petrotwoenergy@gmail.com">order.petrotwoenergy@gmail.com</a>
                 </div>
               </li>
               <li>
-                <span>Order Oil</span>
+                <span>{tr('Order Oil')}</span>
                 <a href={waHref(waContacts.info, lang)} target="_blank" rel="noreferrer">
                   {waContacts.info.display}
                 </a>
               </li>
               <li>
-                <span>Info Oil</span>
+                <span>{tr('Info Oil')}</span>
                 <a href={waHref(waContacts.order, lang)} target="_blank" rel="noreferrer">
                   {waContacts.order.display}
+                </a>
+              </li>
+              <li>
+                <span>{pick(bagsContacts.order.label, lang)}</span>
+                <a href={waHref(bagsContacts.order, lang)} target="_blank" rel="noreferrer">
+                  {bagsContacts.order.display}
+                </a>
+              </li>
+              <li>
+                <span>{pick(bagsContacts.info.label, lang)}</span>
+                <a href={waHref(bagsContacts.info, lang)} target="_blank" rel="noreferrer">
+                  {bagsContacts.info.display}
                 </a>
               </li>
             </ul>
@@ -423,6 +460,7 @@ export function ScrollTopButton() {
 export function CtaBand() {
   const { lang } = useLang()
   const t = useT()
+  const tr = useTr()
   return (
     <section className="cta-band">
       <img src="/assets/news/cta-band.jpg" alt="" loading="lazy" />
@@ -439,7 +477,7 @@ export function CtaBand() {
             rel="noreferrer"
             className="btn btn-wa btn-lg"
           >
-            <WaIcon /> Order Oil
+            <WaIcon /> {tr('Order Oil')}
           </a>
         </div>
       </div>

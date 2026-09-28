@@ -1,3 +1,4 @@
+import { idText } from './data/idText'
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 
 export type Lang = 'en' | 'id'
@@ -5,7 +6,9 @@ export type Lang = 'en' | 'id'
 /** Localized string: every translatable field carries both languages. */
 export type LS = { en: string; id: string }
 
-export const pick = (ls: LS, lang: Lang) => ls[lang]
+export const pick = (ls: LS, lang: Lang) =>
+  // Fields whose Indonesian is still the English original are translated in data/idText.ts.
+  lang === 'id' && ls.id === ls.en ? (idText[ls.id] ?? ls.id) : ls[lang]
 
 const LangContext = createContext<{ lang: Lang; setLang: (l: Lang) => void }>({
   lang: 'en',
@@ -46,6 +49,18 @@ const strings = {
   navInvestors: { en: 'Investors', id: 'Investor' },
   navNews: { en: 'News', id: 'Berita' },
   navTax: { en: 'Tax', id: 'Tax' },
+  navFood: { en: 'Food', id: 'Pangan' },
+  gsaTitle: { en: 'General Sales Agent', id: 'Agen Penjualan Umum' },
+  contactLocations: { en: 'Locations', id: 'Lokasi' },
+  comingSoon: { en: 'Coming Soon', id: 'Segera Hadir' },
+  lbClose: { en: 'Close', id: 'Tutup' },
+  lbPrev: { en: 'Previous photo', id: 'Foto sebelumnya' },
+  lbNext: { en: 'Next photo', id: 'Foto berikutnya' },
+  meetupPhoto: { en: 'Meetup photo', id: 'Foto meetup' },
+  enlargePhoto: { en: 'Enlarge photo', id: 'Perbesar foto' },
+  documentSoon: { en: 'Document coming soon.', id: 'Dokumen akan segera tersedia.' },
+  pageWord: { en: 'page', id: 'halaman' },
+  documentWord: { en: 'Document', id: 'Dokumen' },
   navBusinesses: { en: 'Businesses', id: 'Bisnis Kami' },
   contactUs: { en: 'Contact Us', id: 'Hubungi Kami' },
   featuredDivision: { en: 'Featured Division', id: 'Divisi Unggulan' },
@@ -183,5 +198,16 @@ export type StringKey = keyof typeof strings
 /** Hook returning a translate function bound to the active language. */
 export function useT() {
   const { lang } = useLang()
-  return (key: StringKey) => strings[key][lang]
+  return (key: StringKey) => {
+    const value = strings[key][lang]
+    // Entries whose Indonesian text is still the English original get their
+    // translation from data/idText.ts.
+    return lang === 'id' ? (idText[value] ?? value) : value
+  }
+}
+
+/** Translate a string that is stored in English only (see data/idText.ts). */
+export function useTr() {
+  const { lang } = useLang()
+  return (text: string) => (lang === 'id' ? (idText[text] ?? text) : text)
 }

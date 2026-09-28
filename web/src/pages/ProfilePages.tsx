@@ -12,13 +12,14 @@ import {
   tankFarmStrategyImage,
   terminalProjects,
 } from '../data/content'
-import { useLang, useT } from '../i18n'
+import { useLang, useT, useTr } from '../i18n'
 
 /* ------------------------------------------------------------------ */
 /* Shared switcher between the three company-profile documents          */
 /* ------------------------------------------------------------------ */
 
 function DocSwitcher({ active }: { active: string }) {
+  const tr = useTr()
   return (
     <div className="doc-switcher">
       {companyDocs.map((doc) => (
@@ -28,7 +29,7 @@ function DocSwitcher({ active }: { active: string }) {
           className={doc.slug === active ? 'is-active' : ''}
           aria-current={doc.slug === active ? 'page' : undefined}
         >
-          {doc.label}
+          {tr(doc.label)}
         </Link>
       ))}
     </div>
@@ -49,6 +50,7 @@ function DeckSlide({ src, alt }: { src: string; alt: string }) {
 /* ------------------------------------------------------------------ */
 
 export function CompanyProfilePage() {
+  const tr = useTr()
   const t = useT()
 
   return (
@@ -58,11 +60,11 @@ export function CompanyProfilePage() {
           <Breadcrumb
             trail={[
               { label: t('overviewEyebrow'), to: '/about' },
-              { label: 'PetroTwo Group Company Profile' },
+              { label: tr('PetroTwo Group Company Profile') },
             ]}
           />
           <h1>The Power Elite Global Biz</h1>
-          <p>INVESTMENTS/GOLD/ENERGY – OIL &amp; GAS/FOOD &amp; WATER SECURITY/DEVELOPMENT</p>
+          <p>{tr('INVESTMENTS/GOLD/ENERGY – OIL & GAS/FOOD & WATER SECURITY/DEVELOPMENT')}</p>
         </div>
       </section>
 
@@ -78,12 +80,12 @@ export function CompanyProfilePage() {
               <DeckSlide key={src} src={src} alt={`Company profile page ${i + 1}`} />
             ))}
 
-            <h2 className="profile-deck-heading">{tankFarmStrategy}</h2>
+            <h2 className="profile-deck-heading">{tr(tankFarmStrategy)}</h2>
             <DeckSlide src={tankFarmStrategyImage} alt={tankFarmStrategy} />
 
             {terminalProjects.map((project) => (
               <Fragment key={project.name}>
-                <h3 className="profile-deck-subheading">{project.name}</h3>
+                <h3 className="profile-deck-subheading">{tr(project.name)}</h3>
                 {(project.sheets.length > 0 ? project.sheets : [project.image]).map((sheet) => (
                   <DeckSlide key={sheet} src={sheet} alt={project.name} />
                 ))}
@@ -95,7 +97,7 @@ export function CompanyProfilePage() {
                       target="_blank"
                       rel="noreferrer"
                     >
-                      {project.cta}
+                      {tr(project.cta)}
                     </a>
                   </div>
                 )}
@@ -111,7 +113,7 @@ export function CompanyProfilePage() {
 
           <div className="btn-row profile-actions">
             <a className="btn btn-primary" href={companyProfilePdf} target="_blank" rel="noreferrer">
-              Open the full company profile (PDF)
+              {tr('Open the full company profile (PDF)')}
             </a>
           </div>
         </div>
@@ -125,6 +127,7 @@ export function CompanyProfilePage() {
 /* ------------------------------------------------------------------ */
 
 export function CompanyProfilePdfPage() {
+  const tr = useTr()
   const { lang } = useLang()
   const t = useT()
   const id = lang === 'id'
@@ -136,12 +139,12 @@ export function CompanyProfilePdfPage() {
           <Breadcrumb
             trail={[
               { label: t('overviewEyebrow'), to: '/about' },
-              { label: 'PetroTwo Group Company Profile (PDF)' },
+              { label: tr('PetroTwo Group Company Profile (PDF)') },
             ]}
           />
           <div className="page-hero-copy">
             <p className="page-hero-label">{id ? 'Dokumen' : 'Document'}</p>
-            <h1>PetroTwo Group Company Profile (PDF)</h1>
+            <h1>{tr('PetroTwo Group Company Profile (PDF)')}</h1>
             <p className="page-hero-lead">
               {id
                 ? 'Dokumen profil perusahaan lengkap, ditampilkan langsung di halaman ini.'
@@ -195,6 +198,7 @@ export function CompanyProfilePdfPage() {
 /* ------------------------------------------------------------------ */
 
 export function GlobalBizPage() {
+  const tr = useTr()
   const g = globalBizPage
   const t = useT()
 
@@ -209,9 +213,9 @@ export function GlobalBizPage() {
           <Breadcrumb
             trail={[{ label: t('overviewEyebrow'), to: '/about' }, { label: 'PetroTwo GlobalBiz' }]}
           />
-          <span className="profile-eyebrow">{g.eyebrow}</span>
-          <h1>{g.heading}</h1>
-          <p>{g.intro}</p>
+          <span className="profile-eyebrow">{tr(g.eyebrow)}</span>
+          <h1>{tr(g.heading)}</h1>
+          <p>{tr(g.intro)}</p>
         </div>
       </section>
 
@@ -223,25 +227,25 @@ export function GlobalBizPage() {
             {g.counters.map((c) => (
               <div className="gb-counter" key={c.label}>
                 <strong>
-                  {c.value}
-                  <span>{c.suffix}</span>
+                  {tr(c.value)}
+                  <span>{tr(c.suffix)}</span>
                 </strong>
-                <span>{c.label}</span>
+                <span>{tr(c.label)}</span>
               </div>
             ))}
-            <p className="gb-counter-note">{g.deliveryNote}</p>
+            <p className="gb-counter-note">{tr(g.deliveryNote)}</p>
           </div>
         </div>
       </section>
 
       <section className="section section-surface">
         <div className="container">
-          <h2 className="section-title">{g.expertiseHeading}</h2>
+          <h2 className="section-title">{tr(g.expertiseHeading)}</h2>
           <div className="gb-expertise">
             {g.expertise.map((e) => (
               <div key={e.label}>
-                <strong>{e.value}</strong>
-                <span>{e.label}</span>
+                <strong>{tr(e.value)}</strong>
+                <span>{tr(e.label)}</span>
               </div>
             ))}
           </div>
@@ -251,16 +255,16 @@ export function GlobalBizPage() {
       <section className="section">
         <div className="container">
           <div className="section-head">
-            <div className="eyebrow">{g.serviceEyebrow}</div>
-            <h2 className="section-title">{g.serviceHeading}</h2>
+            <div className="eyebrow">{tr(g.serviceEyebrow)}</div>
+            <h2 className="section-title">{tr(g.serviceHeading)}</h2>
           </div>
           <div className="gb-services">
             {g.services.map((s) => (
               <article key={s.title}>
                 <img src={s.image} alt="" loading="lazy" />
                 <div>
-                  <h3>{s.title}</h3>
-                  <p>{s.text}</p>
+                  <h3>{tr(s.title)}</h3>
+                  <p>{tr(s.text)}</p>
                 </div>
               </article>
             ))}
@@ -270,12 +274,12 @@ export function GlobalBizPage() {
 
       <section className="section section-surface">
         <div className="container">
-          <h2 className="section-title">{g.processHeading}</h2>
+          <h2 className="section-title">{tr(g.processHeading)}</h2>
           <div className="gb-process">
             {g.process.map((step) => (
               <article key={step.title}>
-                <h3>{step.title}</h3>
-                <p>{step.text}</p>
+                <h3>{tr(step.title)}</h3>
+                <p>{tr(step.text)}</p>
               </article>
             ))}
           </div>
@@ -285,12 +289,12 @@ export function GlobalBizPage() {
       <section className="section">
         <div className="container">
           <div className="section-head">
-            <div className="eyebrow">{g.whyEyebrow}</div>
-            <h2 className="section-title">{g.whyHeading}</h2>
+            <div className="eyebrow">{tr(g.whyEyebrow)}</div>
+            <h2 className="section-title">{tr(g.whyHeading)}</h2>
           </div>
           <ul className="gb-why">
             {g.why.map((item) => (
-              <li key={item}>{item}</li>
+              <li key={item}>{tr(item)}</li>
             ))}
           </ul>
         </div>
@@ -306,11 +310,11 @@ export function GlobalBizPage() {
 
             <div className="profile-deck-letter">
               {g.capitalBody.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
+                <p key={paragraph}>{tr(paragraph)}</p>
               ))}
               <p className="gb-signoff">
                 {g.signOff.map((line) => (
-                  <span key={line}>{line}</span>
+                  <span key={line}>{tr(line)}</span>
                 ))}
               </p>
             </div>

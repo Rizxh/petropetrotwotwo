@@ -1,9 +1,11 @@
 import { Breadcrumb } from '../components/Layout'
 import { pricingDocs, pricingOrigin, pricingRows, servicesPage } from '../data/content'
+import { useTr } from '../i18n'
 
 /* Copy on this page is transcribed from petrotwogroup.com/services/. */
 
 export function ServicesPage() {
+  const tr = useTr()
   const p = servicesPage
 
   return (
@@ -12,9 +14,9 @@ export function ServicesPage() {
         <div className="container page-hero-inner">
           <Breadcrumb trail={[{ label: p.title }]} />
           <div className="page-hero-copy">
-            <p className="page-hero-label">Services</p>
-            <h1>{p.title}</h1>
-            <p className="page-hero-lead">{p.tagline}</p>
+            <p className="page-hero-label">{tr('Services')}</p>
+            <h1>{tr(p.title)}</h1>
+            <p className="page-hero-lead">{tr(p.tagline)}</p>
           </div>
         </div>
       </section>
@@ -26,11 +28,11 @@ export function ServicesPage() {
             <img src={p.overviewImage} alt="" loading="lazy" />
           </figure>
           <div>
-            <div className="eyebrow">{p.overviewEyebrow}</div>
-            <h2 className="section-title">{p.overviewHeading}</h2>
+            <div className="eyebrow">{tr(p.overviewEyebrow)}</div>
+            <h2 className="section-title">{tr(p.overviewHeading)}</h2>
             {p.overviewBody.map((paragraph) => (
               <p className="svc-copy" key={paragraph}>
-                {paragraph}
+                {tr(paragraph)}
               </p>
             ))}
           </div>
@@ -41,9 +43,9 @@ export function ServicesPage() {
       <section className="section section-surface">
         <div className="container">
           <div className="section-head">
-            <div className="eyebrow">{p.listEyebrow}</div>
-            <h2 className="section-title">{p.listHeading}</h2>
-            <p className="section-lead">{p.listLead}</p>
+            <div className="eyebrow">{tr(p.listEyebrow)}</div>
+            <h2 className="section-title">{tr(p.listHeading)}</h2>
+            <p className="section-lead">{tr(p.listLead)}</p>
           </div>
 
           <div className="svc-summary-grid">
@@ -51,11 +53,11 @@ export function ServicesPage() {
               <article className="svc-summary" key={item.num}>
                 <figure className="svc-summary-media">
                   <img src={item.image} alt="" loading="lazy" />
-                  <figcaption>[{item.num}]</figcaption>
+                  <figcaption>[{tr(item.num)}]</figcaption>
                 </figure>
                 <div className="svc-summary-body">
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
+                  <h3>{tr(item.title)}</h3>
+                  <p>{tr(item.text)}</p>
                 </div>
               </article>
             ))}
@@ -72,16 +74,16 @@ export function ServicesPage() {
             </figure>
 
             <div>
-              <div className="eyebrow">{block.eyebrow}</div>
-              <h2 className="section-title">{block.heading}</h2>
-              <p className="svc-copy">{block.body}</p>
+              <div className="eyebrow">{tr(block.eyebrow)}</div>
+              <h2 className="section-title">{tr(block.heading)}</h2>
+              <p className="svc-copy">{tr(block.body)}</p>
 
               {block.lists.map((list) => (
                 <div className="svc-list" key={list.label}>
-                  <h4>{list.label}</h4>
+                  <h4>{tr(list.label)}</h4>
                   <ul>
                     {list.items.map((item) => (
-                      <li key={item}>{item}</li>
+                      <li key={item}>{tr(item)}</li>
                     ))}
                   </ul>
                 </div>
@@ -99,15 +101,16 @@ export function ServicesPage() {
 /* ------------------------------------------------------------------ */
 
 export function PricingPage() {
+  const tr = useTr()
   return (
     <>
       <section className="page-hero" data-hero="pricing">
         <div className="container page-hero-inner">
-          <Breadcrumb trail={[{ label: 'Oil & Gas Price' }]} />
+          <Breadcrumb trail={[{ label: tr('Oil & Gas Price') }]} />
           <div className="page-hero-copy">
-            <p className="page-hero-label">Market</p>
-            <h1>Oil &amp; Gas Price</h1>
-            <p className="page-hero-lead">Stay informed with PetroTwo oil and gas prices.</p>
+            <p className="page-hero-label">{tr('Market')}</p>
+            <h1>{tr('Oil & Gas Price')}</h1>
+            <p className="page-hero-lead">{tr('Stay informed with PetroTwo oil and gas prices.')}</p>
           </div>
         </div>
       </section>
@@ -115,9 +118,9 @@ export function PricingPage() {
       <section className="section pricing-section">
         <div className="container">
           <div className="section-head">
-            <h2 className="section-title">Market &amp; Pricing Snapshot</h2>
-            <p className="section-lead">Full Corporate Offer (FCO)</p>
-            <p className="section-lead" style={{ color: '#c62828' }}>Expired December 2026</p>
+            <h2 className="section-title">{tr('Market & Pricing Snapshot')}</h2>
+            <p className="section-lead">{tr('Full Corporate Offer (FCO)')}</p>
+            <p className="section-lead" style={{ color: '#c62828' }}>{tr('Expired December 2026')}</p>
           </div>
 
           {/* data-label feeds the stacked-card layout the table collapses
@@ -126,25 +129,25 @@ export function PricingPage() {
             <table>
               <thead>
                 <tr>
-                  <th>Items</th>
-                  <th>CIF Price</th>
-                  <th>FOB Price</th>
-                  <th>Note</th>
+                  <th>{tr('Items')}</th>
+                  <th>{tr('CIF Price')}</th>
+                  <th>{tr('FOB Price')}</th>
+                  <th>{tr('Note')}</th>
                 </tr>
               </thead>
               <tbody>
                 {pricingRows.map((row) => (
                   <tr key={row.item}>
-                    <td data-label="Items">
-                      <strong>{row.item}</strong>
+                    <td data-label={tr('Items')}>
+                      <strong>{tr(row.item)}</strong>
                     </td>
-                    <td data-label="CIF Price">{row.cif}</td>
-                    <td data-label="FOB Price">{row.fob}</td>
-                    <td data-label="Note">
+                    <td data-label={tr('CIF Price')}>{tr(row.cif)}</td>
+                    <td data-label={tr('FOB Price')}>{tr(row.fob)}</td>
+                    <td data-label={tr('Note')}>
                       <span className="muted">
-                        {row.note}
+                        {tr(row.note)}
                         <br />
-                        {row.contract}
+                        {tr(row.contract)}
                       </span>
                     </td>
                   </tr>
@@ -154,7 +157,7 @@ export function PricingPage() {
           </div>
 
           <p className="form-note" style={{ marginTop: 'var(--space-2)', fontSize: '1.125rem' }}>
-            Country of Origin: {pricingOrigin}
+            {tr('Country of Origin:')} {tr(pricingOrigin)}
           </p>
 
           <div className="btn-row profile-actions">
@@ -166,7 +169,7 @@ export function PricingPage() {
                 target="_blank"
                 rel="noreferrer"
               >
-                {doc.label}
+                {tr(doc.label)}
               </a>
             ))}
           </div>

@@ -12,8 +12,8 @@ import {
   team,
   type BusinessGroup,
 } from '../data/content'
-import { divisionPath } from '../data/divisions'
-import { pick, useLang, useT, type StringKey } from '../i18n'
+import { businessPath, divisionPath } from '../data/divisions'
+import { pick, useLang, useT, type StringKey, useTr } from '../i18n'
 
 /* ---------------------------------------------------------- */
 /* Scroll reveal                                               */
@@ -146,7 +146,7 @@ export function BusinessCards() {
               .filter((b) => b.group === group.key)
               .map((b, i) => (
                 <Link
-                  to={divisionPath(b.slug)}
+                  to={businessPath(b.slug)}
                   className={`biz-card reveal biz-theme-${b.slug}`}
                   key={b.slug}
                   style={{ ['--reveal-delay' as string]: `${(i % 4) * 80}ms` }}
@@ -176,6 +176,7 @@ export function BusinessCards() {
 /* ---------------------------------------------------------- */
 
 export function HomePage() {
+  const tr = useTr()
   const { lang } = useLang()
   const t = useT()
   const id = lang === 'id'
@@ -243,7 +244,7 @@ export function HomePage() {
             >
               {companyDocs.map((doc) => (
                 <Link key={doc.slug} to={`/${doc.slug}`} className="btn btn-primary btn-block">
-                  {doc.label}
+                  {tr(doc.label)}
                 </Link>
               ))}
             </div>
@@ -259,11 +260,11 @@ export function HomePage() {
               <div className="eyebrow reveal">{id ? 'Layanan Kami' : 'Our Services'}</div>
               <h2 className="section-title reveal">{id ? 'Apa yang Kami Lakukan' : 'What We Do'}</h2>
               <p className="section-lead reveal" style={{ ['--reveal-delay' as string]: '100ms' }}>
-                Integrated Energy, Logistics, and Strategic Investments for a Connected World
+                {tr('Integrated Energy, Logistics, and Strategic Investments for a Connected World')}
               </p>
             </div>
             <Link to="/services" className="btn btn-outline-navy reveal">
-              All Services
+              {tr('All Services')}
             </Link>
           </div>
 
@@ -277,10 +278,10 @@ export function HomePage() {
               >
                 <img src={service.image} alt="" loading="lazy" />
                 <div className="service-card-body">
-                  <div className="num">[{service.id}]</div>
-                  <h3>{service.title}</h3>
+                  <div className="num">[{tr(service.id)}]</div>
+                  <h3>{tr(service.title)}</h3>
                   <p style={{ marginTop: '0.45rem', color: 'rgba(255,255,255,0.72)' }}>
-                    {service.description}
+                    {tr(service.description)}
                   </p>
                 </div>
               </Link>
@@ -314,7 +315,7 @@ export function HomePage() {
         <div className="container">
           <div className="section-head">
             <div className="eyebrow reveal">{id ? 'Tim Kami' : 'Our Team'}</div>
-            <h2 className="section-title reveal">PetroTwo Energy International Team</h2>
+            <h2 className="section-title reveal">{tr('PetroTwo Energy International Team')}</h2>
           </div>
           <div className="team-grid">
             {team.map((member, i) => (
@@ -343,7 +344,7 @@ export function HomePage() {
       <section className="section" id="projects">
         <div className="container">
           <div className="section-head">
-            <h2 className="section-title reveal">Project Experiences</h2>
+            <h2 className="section-title reveal">{tr('Project Experiences')}</h2>
           </div>
           <ul className="projects-list">
             {projects.map((item, i) => (
@@ -363,9 +364,9 @@ export function HomePage() {
       <section className="section section-surface pricing-section" id="pricing">
         <div className="container">
           <div className="section-head">
-            <h2 className="section-title reveal">Market &amp; Pricing Snapshot</h2>
-            <p className="section-lead reveal">Full Corporate Offer (FCO)</p>
-            <p className="section-lead reveal" style={{ color: '#c62828' }}>Expired December 2026</p>
+            <h2 className="section-title reveal">{tr('Market & Pricing Snapshot')}</h2>
+            <p className="section-lead reveal">{tr('Full Corporate Offer (FCO)')}</p>
+            <p className="section-lead reveal" style={{ color: '#c62828' }}>{tr('Expired December 2026')}</p>
           </div>
 
           {/* data-label feeds the stacked-card layout the table collapses
@@ -374,25 +375,25 @@ export function HomePage() {
             <table>
               <thead>
                 <tr>
-                  <th>Items</th>
-                  <th>CIF Price</th>
-                  <th>FOB Price</th>
-                  <th>Note</th>
+                  <th>{tr('Items')}</th>
+                  <th>{tr('CIF Price')}</th>
+                  <th>{tr('FOB Price')}</th>
+                  <th>{tr('Note')}</th>
                 </tr>
               </thead>
               <tbody>
                 {pricingRows.map((row) => (
                   <tr key={row.item}>
                     <td data-label="Items">
-                      <strong>{row.item}</strong>
+                      <strong>{tr(row.item)}</strong>
                     </td>
-                    <td data-label="CIF Price">{row.cif}</td>
-                    <td data-label="FOB Price">{row.fob}</td>
+                    <td data-label={tr('CIF Price')}>{tr(row.cif)}</td>
+                    <td data-label={tr('FOB Price')}>{tr(row.fob)}</td>
                     <td data-label="Note">
                       <span className="muted">
-                        {row.note}
+                        {tr(row.note)}
                         <br />
-                        {row.contract}
+                        {tr(row.contract)}
                       </span>
                     </td>
                   </tr>
@@ -402,7 +403,7 @@ export function HomePage() {
           </div>
 
           <p className="form-note" style={{ marginTop: 'var(--space-2)', fontSize: '1.125rem' }}>
-            Country of Origin: {pricingOrigin}
+            {tr('Country of Origin:')} {tr(pricingOrigin)}
           </p>
 
           <div className="btn-row" style={{ marginTop: 'var(--space-3)' }}>
@@ -414,7 +415,7 @@ export function HomePage() {
                 target="_blank"
                 rel="noreferrer"
               >
-                {doc.label}
+                {tr(doc.label)}
               </a>
             ))}
           </div>

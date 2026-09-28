@@ -1,14 +1,15 @@
 import { Link } from 'react-router-dom'
 import { Breadcrumb } from '../components/Layout'
 import { businessDivisionsPage, businesses } from '../data/content'
-import { divisionBySlug, divisionPath } from '../data/divisions'
-import { pick, useLang, useT } from '../i18n'
+import { businessPath, divisionBySlug } from '../data/divisions'
+import { pick, useLang, useT, useTr } from '../i18n'
 
 /* ------------------------------------------------------------------ */
 /* Index — every division as a card                                     */
 /* ------------------------------------------------------------------ */
 
 export function DivisionsIndexPage() {
+  const tr = useTr()
   const { lang } = useLang()
   const p = businessDivisionsPage
 
@@ -16,11 +17,11 @@ export function DivisionsIndexPage() {
     <>
       <section className="page-hero" data-hero="divisions">
         <div className="container page-hero-inner">
-          <Breadcrumb trail={[{ label: p.title }]} />
+          <Breadcrumb trail={[{ label: tr(p.title) }]} />
           <div className="page-hero-copy">
             <p className="page-hero-label">{lang === 'id' ? 'Unit Bisnis' : 'Business Divisions'}</p>
-            <h1>{p.title}</h1>
-            <p className="page-hero-lead">{p.tagline}</p>
+            <h1>{tr(p.title)}</h1>
+            <p className="page-hero-lead">{tr(p.tagline)}</p>
           </div>
         </div>
       </section>
@@ -29,20 +30,20 @@ export function DivisionsIndexPage() {
       <section className="section">
         <div className="container bd-intro">
           <div>
-            <div className="eyebrow">{p.introEyebrow}</div>
-            <h2 className="section-title">{p.introHeading}</h2>
+            <div className="eyebrow">{tr(p.introEyebrow)}</div>
+            <h2 className="section-title">{tr(p.introHeading)}</h2>
             {p.introBody.map((paragraph) => (
               <p className="bd-intro-copy" key={paragraph}>
-                {paragraph}
+                {tr(paragraph)}
               </p>
             ))}
           </div>
 
           <aside className="bd-list">
-            <h3>{p.listHeading}</h3>
+            <h3>{tr(p.listHeading)}</h3>
             <ol>
               {p.list.map((item) => (
-                <li key={item}>{item}</li>
+                <li key={item}>{tr(item)}</li>
               ))}
             </ol>
           </aside>
@@ -61,17 +62,17 @@ export function DivisionsIndexPage() {
               <img src={entry.image} alt="" loading="lazy" decoding="async" />
             </figure>
             <div>
-              <div className="eyebrow">{entry.eyebrow}</div>
-              <h2 className="section-title">{entry.name}</h2>
+              <div className="eyebrow">{tr(entry.eyebrow)}</div>
+              <h2 className="section-title">{tr(entry.name)}</h2>
               {entry.body.map((paragraph) => (
                 <p className="bd-entry-copy" key={paragraph}>
-                  {paragraph}
+                  {tr(paragraph)}
                 </p>
               ))}
-              <h4 className="bd-entry-list-label">{entry.listLabel}</h4>
+              <h4 className="bd-entry-list-label">{tr(entry.listLabel)}</h4>
               <ul className="bd-entry-list">
                 {entry.items.map((item) => (
-                  <li key={item}>{item}</li>
+                  <li key={item}>{tr(item)}</li>
                 ))}
               </ul>
             </div>
@@ -84,7 +85,7 @@ export function DivisionsIndexPage() {
         <div className="container">
           <div className="biz-grid">
             {businesses.map((b) => (
-              <Link to={divisionPath(b.slug)} className="biz-card" key={b.slug}>
+              <Link to={businessPath(b.slug)} className="biz-card" key={b.slug}>
                 <img src={b.image} alt="" loading="lazy" decoding="async" />
                 <div className="biz-card-body">
                   <h3>{pick(b.label, lang)}</h3>
@@ -129,7 +130,9 @@ export function DivisionPage({ slug }: { slug: string }) {
     <div className="division-page" data-division={division.theme}>
       {/* Section 1 — full-bleed cover */}
       <section className="division-cover">
-        <img src={division.cover} alt="" fetchPriority="high" decoding="async" />
+        {division.cover && (
+          <img src={division.cover} alt="" fetchPriority="high" decoding="async" />
+        )}
         <div className="container division-cover-inner">
           <Breadcrumb trail={[{ label: t('navDivisions'), to: '/business-divisions' }, { label }]} />
           <h1>{label}</h1>
@@ -144,7 +147,12 @@ export function DivisionPage({ slug }: { slug: string }) {
             <p>{pick(division.description, lang)}</p>
           </div>
           <figure className="division-about-photo">
-            <img src={division.photo} alt="" loading="lazy" decoding="async" />
+            <img
+              src={division.photo}
+              alt={division.slug === 'yanvoir' ? 'Yanvoir Maison logo' : ''}
+              loading="lazy"
+              decoding="async"
+            />
           </figure>
         </div>
       </section>

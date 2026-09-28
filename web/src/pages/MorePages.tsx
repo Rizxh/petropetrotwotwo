@@ -1,23 +1,29 @@
+import { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { Breadcrumb, CtaBand, PageHero, SubPageIntro } from '../components/Layout'
 import {
+  bagsContacts,
   capitalUnits,
   company,
+  gsaInfo,
   locations,
+  offices,
   newsItems,
   subholdings,
   tankFarms,
   waContacts,
   waHref,
 } from '../data/content'
-import { pick, useLang, useT } from '../i18n'
+import { pick, useLang, useT, useTr } from '../i18n'
 
 /* ------------------------------------------------------------------ */
 /* Contact                                                              */
 /* ------------------------------------------------------------------ */
 
 export function ContactPage() {
+  const { lang } = useLang()
   const t = useT()
+  const tr = useTr()
 
   return (
     <>
@@ -26,29 +32,54 @@ export function ContactPage() {
           <Breadcrumb trail={[{ label: t('navContact') }]} />
           <div className="page-hero-copy">
             <p className="page-hero-label">We&rsquo;re Here</p>
-            <h1>Get in Touch With PetroTwo Group</h1>
+            <h1>{tr('Get in Touch With PetroTwo Group')}</h1>
             <p className="page-hero-lead">
-              Partner with us to explore collaboration opportunities and learn how our divisions
-              can support your goals. Reach out to our team for inquiries, partnerships, or
-              tailored solutions that move your business forward.
+              {tr(
+                'Partner with us to explore collaboration opportunities and learn how our divisions can support your goals. Reach out to our team for inquiries, partnerships, or tailored solutions that move your business forward.',
+              )}
             </p>
           </div>
         </div>
       </section>
 
       <section className="section">
-        <div className="container contact-info">
-          <div className="contact-block">
-            <h2>Head Office</h2>
-            <p>
-              Wisma BNI 50th Floor (Konsorsium Hijau) Jl. Karet Pasar Baru Timur III No.Kav. 1,
-              RT.1/RW.8, Karet Tengsin, Kecamatan Tanah Abang, Kota Jakarta Pusat, Daerah Khusus
-              Ibukota Jakarta 10220
-            </p>
+        <div className="container">
+          <h2 className="contact-locations-title">{t('contactLocations')}</h2>
+          <div className="contact-locations">
+            {offices.map((office) => (
+              <address className="contact-block" key={office.title}>
+                <h3>{office.title}</h3>
+                <p>
+                  {office.lines.map((line, i) => (
+                    <Fragment key={line}>
+                      {i > 0 && <br />}
+                      {line}
+                    </Fragment>
+                  ))}
+                </p>
+              </address>
+            ))}
           </div>
 
+          {/* GSA is a sales agent, not an office — kept apart and always last. */}
+          <div className="contact-gsa contact-block">
+            <h3>{t('gsaTitle')}</h3>
+            <p>
+              {gsaInfo.lines.map((line, i) => (
+                <Fragment key={line}>
+                  {i > 0 && <br />}
+                  {line}
+                </Fragment>
+              ))}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="section section-surface">
+        <div className="container contact-info">
           <div className="contact-block">
-            <h2>Official Website</h2>
+            <h2>{tr('Official Website')}</h2>
             <p>
               <a href="https://www.petrotwoenergy.com" target="_blank" rel="noreferrer">
                 www.petrotwoenergy.com
@@ -57,9 +88,24 @@ export function ContactPage() {
           </div>
 
           <div className="contact-block">
-            <h2>Business Email</h2>
+            <h2>{tr('Business Email')}</h2>
             <p>
               <a href="mailto:info@petrotwoenergy.com">info@petrotwoenergy.com</a>
+            </p>
+          </div>
+
+          <div className="contact-block">
+            <h2>Bags</h2>
+            <p>
+              {pick(bagsContacts.order.label, lang)}:{' '}
+              <a href={waHref(bagsContacts.order, lang)} target="_blank" rel="noreferrer">
+                {bagsContacts.order.display}
+              </a>
+              <br />
+              {pick(bagsContacts.info.label, lang)}:{' '}
+              <a href={waHref(bagsContacts.info, lang)} target="_blank" rel="noreferrer">
+                {bagsContacts.info.display}
+              </a>
             </p>
           </div>
         </div>
@@ -242,6 +288,7 @@ export function NewsPage() {
 /* ------------------------------------------------------------------ */
 
 export function SubholdingPage() {
+  const tr = useTr()
   const { lang } = useLang()
   const id = lang === 'id'
   return (
@@ -263,7 +310,7 @@ export function SubholdingPage() {
             {subholdings.map((item) => (
               <article className="location-card" key={item.name}>
                 <span>{pick(item.desc, lang)}</span>
-                <h3>{item.name}</h3>
+                <h3>{tr(item.name)}</h3>
               </article>
             ))}
           </div>

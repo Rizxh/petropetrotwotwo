@@ -1,6 +1,6 @@
 import { Breadcrumb, WaIcon } from '../components/Layout'
 import { company, taxFirm } from '../data/content'
-import { useLang, type LS } from '../i18n'
+import { useLang, type LS, useTr } from '../i18n'
 
 /* ------------------------------------------------------------------ */
 /* Tax                                                                  */
@@ -249,6 +249,7 @@ const taxServices: LS[] = [
 ]
 
 export function TaxPage() {
+  const tr = useTr()
   const { lang } = useLang()
   const id = lang === 'id'
   const t = (s: LS) => s[lang]
@@ -260,7 +261,7 @@ export function TaxPage() {
         <img className="tax-hero-bg" src="/assets/aswangga/hero-network.jpg" alt="" fetchPriority="high" />
         <div className="container tax-hero-inner">
           <Breadcrumb trail={[{ label: 'Tax' }]} />
-          <p className="tax-hero-quote">{taxFirm.tagline}</p>
+          <p className="tax-hero-quote">{tr(taxFirm.tagline)}</p>
           <h1>Tax</h1>
           <div className="tax-hero-marks">
             <img
@@ -313,7 +314,7 @@ export function TaxPage() {
             <img src={taxFirm.logo} alt="" width="120" height="120" />
             <h3>{id ? 'Hubungi kami' : 'Contact us'}</h3>
             <p className="tax-contact-name">{taxFirm.name}</p>
-            <p className="tax-contact-role">{taxFirm.tagline}</p>
+            <p className="tax-contact-role">{tr(taxFirm.tagline)}</p>
             <dl>
               <dt>Tel</dt>
               <dd>

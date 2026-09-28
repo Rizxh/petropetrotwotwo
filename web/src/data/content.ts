@@ -705,6 +705,93 @@ export const waContacts: Record<'order' | 'info', WaContact> = {
 export const waHref = (contact: WaContact, lang: Lang = 'id') =>
   `https://wa.me/${contact.number}?text=${encodeURIComponent(pick(contact.message, lang))}`
 
+/* ------------------------------------------------------------------ */
+/* Bags desks — same +62 display and WhatsApp link template as the Oil  */
+/* desks above.                                                         */
+/* ------------------------------------------------------------------ */
+
+export const bagsContacts: Record<'order' | 'info', WaContact> = {
+  order: {
+    label: { en: 'Order Bags', id: 'Order Bags' },
+    display: '+62 818.90.9002',
+    number: '62818909002',
+    message: {
+      en: 'Hello PetroTwo Group, I would like to place a bags order. Please assist me with the details.',
+      id: 'Halo PetroTwo Group, saya ingin melakukan order tas. Mohon dibantu untuk informasi selengkapnya.',
+    },
+  },
+  info: {
+    label: { en: 'Info Bags', id: 'Info Bags' },
+    display: '+62 819.76.000.90',
+    number: '628197600090',
+    message: {
+      en: 'Hello PetroTwo Group, I would like to ask for information about your bags.',
+      id: 'Halo PetroTwo Group, saya ingin bertanya mengenai informasi produk tas Anda.',
+    },
+  },
+}
+
+/* ------------------------------------------------------------------ */
+/* Offices — exactly five, in this order. Text is supplied verbatim by  */
+/* the client: do not reword, re-case or renumber.                      */
+/* ------------------------------------------------------------------ */
+
+export const offices: { title: string; lines: string[] }[] = [
+  {
+    title: 'Dubai',
+    lines: ['Golden Aladino', 'M Floor, Park Regis, by Prince Hotel', 'Dubai Islands B, Dubai, U.A.E'],
+  },
+  {
+    title: 'Malaysia',
+    lines: [
+      'NO. 169, JALAN 45,',
+      'KAMPUNG CHERAS BARU,',
+      '56100 KUALA LUMPUR',
+      'W.P. KUALA LUMPUR',
+      'MALAYSIA',
+    ],
+  },
+  {
+    title: 'Thailand',
+    lines: [
+      '12/36 SOI NUANCHAN 36,',
+      'NUANCHAN SUBDISTRICT,',
+      'BUENGKUM DISTRICT,',
+      'BANGKOK 10240',
+      'THAILAND',
+    ],
+  },
+  {
+    title: 'Indonesia',
+    lines: [
+      'Wisma BNI 46, 50th Floor (Konsorsium Hijau)',
+      'Jl. Karet Pasar Baru Timur III No. Kav. 1',
+      'Karet Tengsin, Tanah Abang, Jakarta Pusat 10220',
+    ],
+  },
+  {
+    title: 'Indonesia, Bandung',
+    lines: [
+      'HQuarters',
+      'Jl. Asia Afrika No. 158, Bandung, West Java',
+      '20th floor,',
+      'Bandung',
+      '40261',
+      'Indonesia',
+    ],
+  },
+]
+
+/** General Sales Agent — separate from the five offices, always listed after them. */
+export const gsaInfo = {
+  lines: [
+    'PIC GSA (general sales agent)',
+    'US - JVA Broadway Energy Inc',
+    'Cairo/Oman/Afrika/China/India/Saudi Arabia/Asia',
+    '100 Tec St. Ste A, Hicksville, NY 11801',
+  ],
+}
+
 /** General "Contact Us" target → Info Oil desk. */
 export const waLink = waHref(waContacts.info)
 /** Direct order target → Order Oil desk. */

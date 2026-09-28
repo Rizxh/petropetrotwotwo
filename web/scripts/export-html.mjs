@@ -48,6 +48,8 @@ const ROUTES = [
   '/international',
   '/capital',
   '/tax',
+  '/yanvoir',
+  '/food',
   '/subholding',
   '/investor-relations',
   '/sustainability',
