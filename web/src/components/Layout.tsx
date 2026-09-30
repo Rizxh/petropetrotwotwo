@@ -241,13 +241,11 @@ export function Footer() {
               <img src={LOGO} alt="PetroTwo Group logo" />
             </span>
             <strong>{company.legalName}</strong>
-            <p>
-              {company.address.line1}
-              <br />
-              {company.address.line2}
-              <br />
-              {company.address.line3}
-            </p>
+            <ul className="footer-entities">
+              {company.groupEntities.map((name) => (
+                <li key={name}>{name}</li>
+              ))}
+            </ul>
             <div className="footer-social" aria-label="Social media">
               {socials.map((s) => (
                 <a key={s.label} href={s.href} target="_blank" rel="noreferrer" aria-label={s.label}>

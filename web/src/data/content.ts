@@ -1,6 +1,15 @@
 export const company = {
   name: 'PetroTwo Group',
-  legalName: 'PetroTwo Energy International',
+  legalName: 'PetroTwo Energy Holding',
+  /** Group entities listed under the legal name in the footer. */
+  groupEntities: [
+    'BhumiBol Group',
+    'BhumiBol Capital',
+    'KingsFord Gold International',
+    'PetroTwo Energy International',
+    'PetroTwo Capital',
+    'PetroTwo Group',
+  ],
   tagline: 'Empowering Global Business Through Energy, Investment & Strategic Resources',
   vision2040: 'Legacy 2040 Vision',
   email: 'info@petrotwoenergy.com',
