@@ -6303,6 +6303,110 @@ address.contact-block {
   color: var(--text-muted);
 }
 
+/* Food videos: portrait clips in a uniform grid; landscape clips take their
+   own full row so nothing is letterboxed or stretched. */
+.food-videos {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.food-videos li {
+  min-width: 0;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: #000;
+  box-shadow: var(--shadow-sm);
+}
+
+.food-videos li.is-landscape {
+  grid-column: 1 / -1;
+  aspect-ratio: 16 / 9;
+  max-width: 720px;
+  width: 100%;
+  justify-self: center;
+}
+
+.food-videos video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+
+/* Document tabs (Plantation) */
+.doc-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-bottom: var(--space-4);
+}
+
+.doc-tab {
+  flex: 0 1 auto;
+  max-width: 100%;
+  padding: 0.7rem 1.1rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: #fff;
+  color: var(--text-heading);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--duration-base) var(--ease-out), color var(--duration-base) var(--ease-out);
+}
+
+.doc-tab:hover {
+  background: var(--color-gold-100);
+}
+
+.doc-tab[aria-selected='true'] {
+  background: var(--color-navy-700);
+  border-color: var(--color-navy-700);
+  color: #fff;
+}
+
+.doc-tab:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* Portrait documents (A4/Letter) stay at a readable width, centred. */
+.profile-deck.profile-deck-portrait {
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+@media (max-width: 1024px) {
+  .food-videos {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .food-videos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .doc-tabs {
+    flex-direction: column;
+  }
+
+  .doc-tab {
+    width: 100%;
+  }
+}
+
 @media (max-width: 1024px) {
   .food-gallery {
     grid-template-columns: repeat(2, minmax(0, 1fr));

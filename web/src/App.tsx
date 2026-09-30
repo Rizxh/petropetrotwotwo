@@ -17,6 +17,7 @@ const AboutPage = page(() => import('./pages/AboutPage'), 'AboutPage')
 const DesignSystemPage = page(() => import('./pages/DesignSystemPage'), 'DesignSystemPage')
 const DivisionPage = page(() => import('./pages/DivisionPage'), 'DivisionPage')
 const DivisionsIndexPage = page(() => import('./pages/DivisionPage'), 'DivisionsIndexPage')
+const PlantationPage = page(() => import('./pages/PlantationPage'), 'PlantationPage')
 const FoodPage = page(() => import('./pages/FoodPage'), 'FoodPage')
 const NotFoundPage = page(() => import('./pages/NotFoundPage'), 'NotFoundPage')
 const CompanyProfilePage = page(() => import('./pages/ProfilePages'), 'CompanyProfilePage')
@@ -91,6 +92,8 @@ function DivisionRoute() {
   const { slug = 'energy' } = useParams()
   // Food has its own page (same template plus gallery and document).
   if (slug === 'food') return <Navigate to="/food" replace />
+  // Plantation adds a tab per document under the same template.
+  if (slug === 'plantation') return <PlantationPage />
   return <DivisionPage slug={slug} />
 }
 
