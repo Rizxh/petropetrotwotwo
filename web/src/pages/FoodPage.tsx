@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { foodPhotos, foodVideos, topUpSlides, ujiCobaSlides } from '../data/food'
+import { foodPhotos, foodVideos, ncndaPhotos, topUpSlides, ujiCobaSlides } from '../data/food'
 import { useLang, useT } from '../i18n'
 import { useDocumentTitle } from '../useDocumentTitle'
 import { Lightbox } from '../components/Lightbox'
@@ -17,10 +17,41 @@ export function FoodPage() {
   const { lang } = useLang()
   const id = lang === 'id'
   const [open, setOpen] = useState<number | null>(null)
+  const [ncndaOpen, setNcndaOpen] = useState<number | null>(null)
 
   return (
     <>
       <DivisionPage slug="food" />
+
+      <section className="section food-gallery-section" aria-labelledby="food-ncnda-title">
+        <div className="container">
+          <h2 id="food-ncnda-title" className="food-heading">
+            {id
+              ? 'Penandatanganan NCNDA atas Investasi di Pertanian Padi di Provinsi Jawa Barat'
+              : 'NCNDA Signing for Rice Farming Investment in West Java Province'}
+          </h2>
+          <ul className="food-gallery">
+            {ncndaPhotos.map((src, i) => (
+              <li key={src}>
+                <button
+                  type="button"
+                  aria-label={`${t('enlargePhoto')} ${i + 1}`}
+                  onClick={() => setNcndaOpen(i)}
+                >
+                  <img
+                    src={src}
+                    alt={`NCNDA, ${t('pageWord')} ${i + 1}`}
+                    loading="lazy"
+                    decoding="async"
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
+                  />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
       <section className="section food-gallery-section" aria-labelledby="food-gallery-title">
         <div className="container">
@@ -123,6 +154,13 @@ export function FoodPage() {
         index={open}
         onChange={setOpen}
         label={(i) => `${t('meetupPhoto')} ${i + 1}`}
+      />
+
+      <Lightbox
+        images={ncndaPhotos}
+        index={ncndaOpen}
+        onChange={setNcndaOpen}
+        label={(i) => `NCNDA ${i + 1}`}
       />
     </>
   )

@@ -46,3 +46,10 @@ export const topUpSlides = Array.from(
   { length: topUpPages },
   (_, i) => `/assets/food/top-up-ppp/page-${String(i + 1).padStart(2, '0')}.jpg`,
 )
+
+/* "Penandatanganan NCNDA atas Investasi di Pertanian Padi di Provinsi Jawa
+   Barat" — event photos: public/assets/food/ncnda/ncnda-01.jpeg … ncnda-15.jpeg. */
+export const ncndaPhotos = Array.from(
+  { length: 15 },
+  (_, i) => `/assets/food/ncnda/ncnda-${String(i + 1).padStart(2, '0')}.jpeg`,
+)
