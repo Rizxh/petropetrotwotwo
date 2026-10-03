@@ -105,6 +105,9 @@ const iconPaths: Record<string, ReactNode> = {
       <path d="M8.5 15.5 15.5 8.5" />
     </>
   ),
+  Yanvoir: (
+    <path d="M12 3 4 9l8 12 8-12-8-6zM4 9h16M9 9l3 12 3-12" strokeLinecap="round" strokeLinejoin="round" />
+  ),
 }
 
 function BizIcon({ name }: { name: string }) {

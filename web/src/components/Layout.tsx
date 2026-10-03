@@ -134,9 +134,6 @@ export function Header() {
         <Link to="/tax" className="biz-strip-tax">
           {t('navTax')}
         </Link>
-        <Link to="/yanvoir" className="biz-strip-yanvoir">
-          Yanvoir
-        </Link>
       </nav>
 
       <div className={`mobile-nav ${mobileOpen ? 'open' : ''}`}>
@@ -158,9 +155,6 @@ export function Header() {
           ))}
           <Link to="/tax" onClick={() => setMobileOpen(false)}>
             {t('navTax')}
-          </Link>
-          <Link to="/yanvoir" onClick={() => setMobileOpen(false)}>
-            Yanvoir
           </Link>
         </div>
 

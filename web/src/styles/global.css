@@ -6233,19 +6233,6 @@ address.contact-block {
 }
 
 /* ============================================================
-   BIZ STRIP — Yanvoir entry (sits right after Tax)
-   ============================================================ */
-
-.biz-strip a.biz-strip-yanvoir {
-  color: var(--color-gold);
-  font-weight: 700;
-}
-
-.site-header.is-solid .biz-strip a.biz-strip-yanvoir {
-  color: var(--color-gold-600);
-}
-
-/* ============================================================
    FOOD PAGE — gallery, pop-up viewer, document deck
    ============================================================ */
 

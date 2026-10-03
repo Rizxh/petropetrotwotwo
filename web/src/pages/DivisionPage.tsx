@@ -80,7 +80,7 @@ export function DivisionsIndexPage() {
         </section>
       ))}
 
-      {/* The eleven operating units, each linking to its own page */}
+      {/* Every operating unit, each linking to its own page */}
       <section className="section">
         <div className="container">
           <div className="biz-grid">

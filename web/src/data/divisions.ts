@@ -206,7 +206,7 @@ export const divisionBySlug = (slug: string) => divisions.find((d) => d.slug ===
 export const divisionPath = (slug: string) => `/divisions/${slug}`
 
 /** Units that have their own standalone page instead of a /divisions/<slug> one. */
-const standalonePaths: Record<string, string> = { food: '/food' }
+const standalonePaths: Record<string, string> = { food: '/food', yanvoir: '/yanvoir' }
 
 /** Link target for a business unit — the standalone page when it has one. */
 export const businessPath = (slug: string) => standalonePaths[slug] ?? divisionPath(slug)

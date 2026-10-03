@@ -175,6 +175,16 @@ const businessList: Business[] = [
       id: 'Distribusi kesehatan dan farmasi melalui jaringan FARMASI.',
     },
   },
+  {
+    label: { en: 'Yanvoir', id: 'Yanvoir' },
+    to: '/sectors/yanvoir',
+    image: '/assets/yanvoir/logo.jpeg',
+    group: 'invest',
+    description: {
+      en: 'A new PetroTwo business unit — timeless luxury, endless legacy.',
+      id: 'Unit bisnis baru PetroTwo — timeless luxury, endless legacy.',
+    },
+  },
 ]
 
 /** Each business unit now has its own page, so carry the slug on the record. */
