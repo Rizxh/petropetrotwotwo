@@ -205,8 +205,5 @@ export const divisionBySlug = (slug: string) => divisions.find((d) => d.slug ===
 /** Path for a division page. Kept in one place so nav and cards stay in sync. */
 export const divisionPath = (slug: string) => `/divisions/${slug}`
 
-/** Units that have their own standalone page instead of a /divisions/<slug> one. */
-const standalonePaths: Record<string, string> = { food: '/food', yanvoir: '/yanvoir' }
-
-/** Link target for a business unit — the standalone page when it has one. */
-export const businessPath = (slug: string) => standalonePaths[slug] ?? divisionPath(slug)
+/** Link target for a business unit — every unit now lives under /divisions/<slug>. */
+export const businessPath = divisionPath

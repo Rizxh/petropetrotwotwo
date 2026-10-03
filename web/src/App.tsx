@@ -71,7 +71,9 @@ function themeFor(pathname: string) {
   const at = (...prefixes: string[]) => prefixes.some((s) => p === s || p.startsWith(`${s}/`))
 
   if (at('/about')) return 'about'
-  if (at('/business-divisions', '/divisions', '/sectors', '/food', '/yanvoir')) return 'divisions'
+  // Tax keeps its own colour treatment even though it now lives under /divisions.
+  if (at('/divisions/tax')) return 'home'
+  if (at('/business-divisions', '/divisions', '/sectors')) return 'divisions'
   if (at('/services')) return 'services'
   if (at('/pricing', '/oil-gas-price')) return 'pricing'
   if (at('/contact')) return 'contact'
@@ -84,16 +86,20 @@ function themeFor(pathname: string) {
   if (at('/news')) return 'news'
   if (at('/subholding')) return 'subholding'
   if (at('/petrotwo-group', '/company-profile-pdf', '/globalbiz')) return 'profile'
-  // Home, /tax and the legal pages ship their own colour treatment.
+  // Home and the legal pages ship their own colour treatment.
   return 'home'
 }
 
 function DivisionRoute() {
   const { slug = 'energy' } = useParams()
   // Food has its own page (same template plus gallery and document).
-  if (slug === 'food') return <Navigate to="/food" replace />
+  if (slug === 'food') return <FoodPage />
   // Plantation adds a tab per document under the same template.
   if (slug === 'plantation') return <PlantationPage />
+  // Yanvoir adds a "coming soon" preview under the same template.
+  if (slug === 'yanvoir') return <YanvoirPage />
+  // Tax is a service page (PT Aswangga), not a divisions-template page.
+  if (slug === 'tax') return <TaxPage />
   return <DivisionPage slug={slug} />
 }
 
@@ -118,10 +124,10 @@ export default function App() {
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/pricing" element={<PricingPage />} />
           <Route path="/oil-gas-price" element={<Navigate to="/pricing" replace />} />
-          <Route path="/tax" element={<TaxPage />} />
-          <Route path="/taxation" element={<Navigate to="/tax" replace />} />
-          <Route path="/yanvoir" element={<YanvoirPage />} />
-          <Route path="/food" element={<FoodPage />} />
+          <Route path="/tax" element={<Navigate to="/divisions/tax" replace />} />
+          <Route path="/taxation" element={<Navigate to="/divisions/tax" replace />} />
+          <Route path="/yanvoir" element={<Navigate to="/divisions/yanvoir" replace />} />
+          <Route path="/food" element={<Navigate to="/divisions/food" replace />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/storage" element={<StoragePage />} />
           <Route path="/international" element={<InternationalPage />} />

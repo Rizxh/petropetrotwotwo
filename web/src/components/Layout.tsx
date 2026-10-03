@@ -131,7 +131,7 @@ export function Header() {
           </Link>
         ))}
         {/* Tax opens its own in-app page, which previews Aswangga and links out. */}
-        <Link to="/tax" className="biz-strip-tax">
+        <Link to="/divisions/tax" className="biz-strip-tax">
           {t('navTax')}
         </Link>
       </nav>
@@ -153,7 +153,7 @@ export function Header() {
               {pick(b.label, lang)}
             </Link>
           ))}
-          <Link to="/tax" onClick={() => setMobileOpen(false)}>
+          <Link to="/divisions/tax" onClick={() => setMobileOpen(false)}>
             {t('navTax')}
           </Link>
         </div>
@@ -264,9 +264,9 @@ export function Footer() {
             <Link to="/business-divisions">{t('navDivisions')}</Link>
             <Link to="/pricing">{t('navPricing')}</Link>
             <Link to="/services">{t('footProjects')}</Link>
-            <Link to="/tax">{t('navTax')}</Link>
-            <Link to="/yanvoir">Yanvoir</Link>
-            <Link to="/food">{t('navFood')}</Link>
+            <Link to="/divisions/tax">{t('navTax')}</Link>
+            <Link to="/divisions/yanvoir">Yanvoir</Link>
+            <Link to="/divisions/food">{t('navFood')}</Link>
             <Link to="/news">{t('footNews')}</Link>
             <a href={waHref(waContacts.info, lang)} target="_blank" rel="noreferrer">
               {t('footContact')}
