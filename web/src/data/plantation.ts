@@ -37,4 +37,13 @@ export const plantationDocs: PlantationDoc[] = [
     portrait: false,
     slides: pages('penawaran-kerjasama', 9),
   },
+  {
+    id: 'executive-summary',
+    label: { en: 'Executive Summary', id: 'Ringkasan Eksekutif' },
+    portrait: true,
+    slides: [
+      '/assets/plantation/executive-summary/ringkasan-proyek.jpg',
+      ...pages('executive-summary', 3),
+    ],
+  },
 ]
